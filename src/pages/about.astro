@@ -1,17 +1,16 @@
 ---
 import Base from '../layouts/Base.astro';
-import { org } from '../data/site';
+import { org, values } from '../data/site';
 ---
 <Base title="About">
-  <div class="wrap page-head"><p class="label">About</p><h1>An esports organization built on performance</h1><p class="lede">{org.about}</p></div>
-  <section class="section"><div class="wrap cols three">
-    <div class="block"><span class="stat">{org.founded}</span><h3>Founded</h3><p>A young organization with a long-term plan.</p></div>
-    <div class="block"><span class="stat">2</span><h3>Titles</h3><p>Counter-Strike 2 and Fortnite.</p></div>
-    <div class="block"><span class="stat">4</span><h3>Teams</h3><p>Competing across regions and divisions.</p></div>
-  </div></section>
-  <section class="section"><div class="wrap cols three">
-    <div class="block"><h3>Presence</h3><p>A strong, recognisable brand on every stage.</p></div>
-    <div class="block"><h3>Player development</h3><p>Structure, coaching and support that help talent grow.</p></div>
-    <div class="block"><h3>Competition</h3><p>We play to win at the highest level.</p></div>
-  </div></section>
+  <div class="page-head"><span class="upper">About · Est. {org.founded}</span><h1>Building the next generation of esports</h1><p class="lede">Founded in {org.founded}, Imprerial Law is a multi-title esports organization built on ambition, professionalism, and long-term vision. We develop elite players, build competitive teams, and create an environment where talent can thrive both inside and outside the game.</p></div>
+  <div class="cols c2">
+    <div><span class="upper" style="color:var(--blue)">Our mission</span><h2>Building champions. Creating a legacy.</h2></div>
+    <div><p>At Imprerial Law, we believe success is built through discipline, opportunity, and long-term vision. We provide our players and staff with the structure, coaching, and support they need to focus on reaching their full potential.</p><p>From player development and competitive performance to branding and strategic partnerships, every decision we make is driven by one goal: building an organization that competes at the highest level while creating lasting value for our community and partners.</p></div>
+  </div>
+  <div class="section-head"><h2>What we stand for</h2></div>
+  <div class="cols c4">
+    {values.map((v, i) => <div><span class="n">{String(i + 1).padStart(2, '0')}</span><h3>{v.title}</h3><p>{v.text}</p></div>)}
+  </div>
+  <section class="cta"><h2>Be part of the journey</h2><div class="actions" style="margin:0"><a class="btn blue" href="/timeline">Our timeline ↗</a><a class="btn" style="border-color:#fff" href="/join">Join us</a></div></section>
 </Base>

@@ -1,0 +1,13 @@
+---
+import { teams } from '../data/site';
+interface Props { class?: string }
+---
+<div class={`grid ${Astro.props.class ?? ''}`}>
+  {teams.map((t) => (
+    <a class="card" href={`/team#${t.slug}`}>
+      <div class="thumb"><img src={t.image} alt="" loading="lazy" width="640" height="640" /><b>{t.name}</b></div>
+      <div class="name">{t.name}</div>
+      <div class="sub">{t.game}</div>
+    </a>
+  ))}
+</div>

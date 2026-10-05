@@ -1,20 +1,25 @@
 ---
 import Base from '../layouts/Base.astro';
-import { matches } from '../data/site';
+import { upcoming, results } from '../data/site';
 ---
 <Base title="Matches">
-  <div class="wrap page-head"><p class="label">Matches</p><h1>Matches</h1></div>
-  <section class="section" style="border-top:0"><div class="wrap">
-    {matches.length === 0 ? <p class="empty">No upcoming matches right now. Check back soon.</p> : (
-      <div class="rows">
-        {matches.map((m) => (
-          <div class="row" style="grid-template-columns:110px 1fr auto">
-            <span class="no">{m.date}</span>
-            <div><h3>{m.team} vs {m.opponent}</h3><p class="game">{m.event}</p></div>
-            <span class="accent">{m.result ?? ''}</span>
-          </div>
-        ))}
+  <div class="page-head"><span class="upper">Schedule</span><h1>Match Center</h1><p class="lede">All upcoming and past matches from our teams at a glance.</p></div>
+  <div class="sub-head"><h2>Scheduled</h2></div>
+  <div class="rows">
+    {upcoming.map((m) => (
+      <div class="row">
+        <div><h3>{m.team} <span style="color:var(--blue)">vs</span> {m.opponent}</h3><p>{m.event} · BO1 · Online</p></div>
+        <div class="when">{m.display}<br />Europe/Berlin</div>
       </div>
-    )}
-  </div></section>
+    ))}
+  </div>
+  <div class="sub-head"><h2>Completed</h2></div>
+  <div class="rows light">
+    {results.map((m) => (
+      <div class="row">
+        <div><h3>{m.team} <span>vs</span> {m.opponent}</h3><p>{m.event} · {m.display}</p></div>
+        <span class={`tag ${m.result ? m.result.toLowerCase() : 'na'}`} style={m.result === 'WIN' ? 'color:#0a8f3f' : m.result === 'LOSS' ? 'color:#d62020' : ''}>{m.result ?? '–'}</span>
+      </div>
+    ))}
+  </div>
 </Base>

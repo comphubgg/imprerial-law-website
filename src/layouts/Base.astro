@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
 import Logo from '../components/Logo.astro';
-import { org, nav, shopUrl, social } from '../data/site';
+import { org, nav, shopUrl, social, announcement } from '../data/site';
 
 interface Props { title?: string; description?: string; }
 const { title, description = org.intro } = Astro.props;
@@ -15,22 +15,25 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#0c0d0f" />
+    <meta name="theme-color" content="#121212" />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   </head>
   <body>
+    <div class="announce">{announcement}</div>
     <header class="site-header">
-      <div class="wrap bar">
-        <a class="brand" href="/" aria-label={`${org.name} – home`}>
-          <Logo /> <span>{org.name}</span>
-        </a>
+      <div class="bar">
+        <a class="brand" href="/" aria-label={`${org.name} – home`}><Logo /><span>Imprerial Law</span></a>
         <nav class="nav-desktop" aria-label="Main">
-          {nav.map((n) => <a href={n.href} aria-current={path === n.href ? 'page' : undefined}>{n.label}</a>)}
-          <a class="shop" href={shopUrl} target="_blank" rel="noopener">Shop ↗</a>
+          {nav.slice(0, 6).map((n) => <a href={n.href} aria-current={path === n.href ? 'page' : undefined}>{n.label}</a>)}
+          <a href={shopUrl} target="_blank" rel="noopener">Shop ↗</a>
         </nav>
+        <div class="icons">
+          <a class="pill" href="/join">Join</a>
+          <a class="pill" href="/contact">Contact</a>
+        </div>
         <details class="menu">
           <summary aria-label="Menu"><span></span></summary>
           <nav class="menu-panel" aria-label="Menu">
@@ -44,19 +47,23 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
     <main><slot /></main>
 
     <footer class="site-footer">
-      <div class="wrap">
+      <div class="big">Imprerial<br />Law</div>
+      <div class="foot-grid">
+        <p style="color:#bdbdbd;max-width:42ch">{org.descriptor} · Est. {org.founded}. {org.tagline}</p>
         <div>
-          <div class="big">{org.name}</div>
-          <p class="label" style="margin-top:14px">{org.descriptor} · Est. {org.founded}</p>
-        </div>
-        <div class="foot-links">
+          <h4>Explore</h4>
           {nav.map((n) => <a href={n.href}>{n.label}</a>)}
-          {social.map((s) => <a href={s.href} target="_blank" rel="noopener">{s.label}</a>)}
         </div>
-        <div class="legal">
-          <span>© {new Date().getFullYear()} {org.name}</span>
-          <span>All rights reserved</span>
+        <div>
+          <h4>Follow</h4>
+          {social.map((s) => <a href={s.href} target="_blank" rel="noopener">{s.label} ↗</a>)}
+          <a href={shopUrl} target="_blank" rel="noopener">Shop ↗</a>
+          <a href={`mailto:${org.email}`}>{org.email}</a>
         </div>
+      </div>
+      <div class="legal">
+        <span>© {new Date().getFullYear()} {org.name}. All rights reserved.</span>
+        <span>EU · Germany — Remote worldwide</span>
       </div>
     </footer>
   </body>

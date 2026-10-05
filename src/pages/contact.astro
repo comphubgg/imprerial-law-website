@@ -1,11 +1,21 @@
 ---
 import Base from '../layouts/Base.astro';
-import { social } from '../data/site';
+import { org, social } from '../data/site';
 ---
 <Base title="Contact">
-  <div class="wrap page-head"><p class="label">Contact</p><h1>Get in touch</h1></div>
-  <section class="section" style="border-top:0"><div class="wrap cols two">
-    <div class="block"><h3>Business & partnerships</h3><p>TODO: E-Mail-Adresse eintragen</p></div>
-    <div class="block"><h3>Social</h3><p>{social.map((s) => <a href={s.href} target="_blank" rel="noopener" style="margin-right:18px;color:var(--text)">{s.label} ↗</a>)}</p></div>
-  </div></section>
+  <div class="page-head"><span class="upper">Contact</span><h1>Get in touch</h1><p class="lede">Players, brands and press are all welcome. We reply within five days.</p></div>
+  <div class="cols c3">
+    <div><span class="upper" style="color:var(--blue)">Email</span><h3 style="font-size:1.2rem"><a href={`mailto:${org.email}`}>{org.email}</a></h3></div>
+    <div><span class="upper" style="color:var(--blue)">Location</span><h3 style="font-size:1.2rem">EU · Germany — Remote worldwide</h3></div>
+    <div><span class="upper" style="color:var(--blue)">Social</span><p>{social.map((s) => <a href={s.href} target="_blank" rel="noopener" style="margin-right:18px;font-weight:700">{s.label} ↗</a>)}</p></div>
+  </div>
+  <div class="section-head"><h2>Send a message</h2><p style="color:var(--muted)">Whether you're a player looking for representation, a brand seeking partnership, or press with questions — we want to hear from you.</p></div>
+  <!-- Hinweis: action="#" ist ein Platzhalter. Vor dem Livegang auf einen Formular-Dienst (z. B. Formspree) setzen. -->
+  <form class="form" action="#" method="post">
+    <label>Name<input name="name" required autocomplete="name" /></label>
+    <label>Email<input name="email" type="email" required autocomplete="email" /></label>
+    <label>I'm interested in<select name="topic"><option>Player representation</option><option>Brand partnership</option><option>Press / media</option><option>Careers</option><option>General inquiry</option></select></label>
+    <label>Message<textarea name="message"></textarea></label>
+    <button class="btn blue" type="submit">Send message</button>
+  </form>
 </Base>

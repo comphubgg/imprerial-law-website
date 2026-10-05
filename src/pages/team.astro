@@ -1,21 +1,20 @@
 ---
 import Base from '../layouts/Base.astro';
-import { teams, players } from '../data/site';
+import { teams } from '../data/site';
 ---
-<Base title="Team">
-  <div class="wrap page-head"><p class="label">Teams</p><h1>Our teams</h1><p class="lede">Rosters across Counter-Strike 2 and Fortnite.</p></div>
-  <section class="section" style="border-top:0">
-    <div class="wrap">
-      {teams.map((t, i) => (
-        <article id={t.slug} class="creator" style="grid-template-columns:56px 1fr">
-          <span class="label">{String(i + 1).padStart(2, '0')}</span>
-          <div><h3 style="text-transform:uppercase;font-size:1.6rem">{t.name}</h3><p class="meta" style="color:var(--muted)">{t.game}</p></div>
-        </article>
-      ))}
-      <div class="head" style="margin-top:72px"><p class="label">Players</p><h2>Roster</h2></div>
-      <div class="rows">
-        {players.map((p, i) => <div class="row" style="grid-template-columns:56px 1fr"><span class="no">{String(i + 1).padStart(2, '0')}</span><h3>{p}</h3></div>)}
+<Base title="Teams">
+  <div class="page-head"><span class="upper">Teams</span><h1>Our competitive squads</h1><p class="lede">Rosters across the biggest competitive titles. Each team is built around dedicated players with full management support.</p></div>
+  {teams.map((t, i) => (
+    <section class="team-block" id={t.slug}>
+      <div class="pic"><img src={t.image} alt={t.name} loading="lazy" width="640" height="640" /></div>
+      <div class="body">
+        <span class="no">{String(i + 1).padStart(2, '0')} · {t.game}</span>
+        <h2>{t.name}</h2>
+        <p>{t.text}</p>
+        <div class="facts"><span>Roster · <b>{t.players.length} players</b></span><span>Region · <b>{t.region}</b></span></div>
+        <div class="chips">{t.players.map((p) => <span>{p}</span>)}</div>
       </div>
-    </div>
-  </section>
+    </section>
+  ))}
+  <section class="cta"><h2>Want to join?</h2><p>Think you have what it takes?</p><div class="actions" style="margin:0"><a class="btn blue" href="/join">Apply now ↗</a></div></section>
 </Base>
