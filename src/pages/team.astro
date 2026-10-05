@@ -1,20 +1,4 @@
 ---
-import Base from '../layouts/Base.astro';
-import { teams } from '../data/site';
+import View from '../views/team.astro';
 ---
-<Base title="Teams">
-  <div class="page-head"><span class="upper">Teams</span><h1>Our competitive squads</h1><p class="lede">Rosters across the biggest competitive titles. Each team is built around dedicated players with full management support.</p></div>
-  {teams.map((t, i) => (
-    <section class="team-block" id={t.slug}>
-      <div class="pic"><img src={t.image} alt={t.name} loading="lazy" width="640" height="640" /></div>
-      <div class="body">
-        <span class="no">{String(i + 1).padStart(2, '0')} · {t.game}</span>
-        <h2>{t.name}</h2>
-        <p>{t.text}</p>
-        <div class="facts"><span>Roster · <b>{t.players.length} players</b></span><span>Region · <b>{t.region}</b></span></div>
-        <div class="chips">{t.players.map((p) => <span>{p}</span>)}</div>
-      </div>
-    </section>
-  ))}
-  <section class="cta"><h2>Want to join?</h2><p>Think you have what it takes?</p><div class="actions" style="margin:0"><a class="btn blue" href="/join">Apply now ↗</a></div></section>
-</Base>
+<View />

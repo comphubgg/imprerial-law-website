@@ -1,0 +1,24 @@
+---
+import { staff } from '../data/site';
+import Base from '../layouts/Base.astro';
+import { useT, href, defaultLang, type Lang, type Key } from '../i18n/ui';
+interface Props { lang?: Lang }
+const lang = Astro.props.lang ?? defaultLang;
+const t = useT(lang);
+const L = (p: string) => href(lang, p);
+---
+<Base title={t('nav_studio')} lang={lang}>
+  <div class="page-head"><span class="upper">{t('studio_kicker')}</span><h1>{t('studio_h1')}</h1><p class="lede">{t('studio_lede')}</p></div>
+  <div class="cols c2">
+    {staff.map((s) => (
+      <div class="person">
+        <span class="role">{s.role}</span>
+        <h3>{s.name}</h3>
+        <span class="ttl">{s.title}</span>
+        <p>{s.text}</p>
+        <span class="where">{s.where}</span>
+      </div>
+    ))}
+  </div>
+  <section class="cta"><h2>{t('studio_cta')}</h2><div class="actions" style="margin:0"><a class="btn blue" href={L('/contact')}>{t('get_in_touch')} ↗</a></div></section>
+</Base>

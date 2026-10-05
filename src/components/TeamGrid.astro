@@ -1,13 +1,15 @@
 ---
 import { teams } from '../data/site';
-interface Props { class?: string }
+import { href, defaultLang, type Lang } from '../i18n/ui';
+interface Props { class?: string; lang?: Lang }
+const lang = Astro.props.lang ?? defaultLang;
 ---
 <div class={`grid ${Astro.props.class ?? ''}`}>
-  {teams.map((t) => (
-    <a class="card" href={`/team#${t.slug}`}>
-      <div class="thumb"><img src={t.image} alt="" loading="lazy" width="640" height="640" /><b>{t.name}</b></div>
-      <div class="name">{t.name}</div>
-      <div class="sub">{t.game}</div>
+  {teams.map((x) => (
+    <a class="card" href={href(lang, '/team') + '#' + x.slug}>
+      <div class="thumb"><img src={x.image} alt="" loading="lazy" width="640" height="640" /><b>{x.name}</b></div>
+      <div class="name">{x.name}</div>
+      <div class="sub">{x.game}</div>
     </a>
   ))}
 </div>

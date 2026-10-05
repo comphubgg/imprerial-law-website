@@ -1,0 +1,24 @@
+---
+import { timeline } from '../data/site';
+import Base from '../layouts/Base.astro';
+import { useT, href, defaultLang, type Lang, type Key } from '../i18n/ui';
+interface Props { lang?: Lang }
+const lang = Astro.props.lang ?? defaultLang;
+const t = useT(lang);
+const L = (p: string) => href(lang, p);
+const tagKey = (g: string) => ('tag_' + g.toLowerCase()) as Key;
+---
+<Base title={t('nav_timeline')} lang={lang}>
+  <div class="page-head"><span class="upper">{t('nav_timeline')}</span><h1>{t('tl_h1')}</h1><p class="lede">{t('tl_lede')}</p></div>
+  <div class="tl">
+    {timeline.map((x) => (
+      <article>
+        <span class="badge">{t(tagKey(x.tag))}</span>
+        <div class="when">{x.year}<small>{x.month ?? ''}</small></div>
+        <h3>{x.title}</h3>
+        <p>{x.text}</p>
+      </article>
+    ))}
+  </div>
+  <section class="cta"><h2>{t('tl_next')}</h2><div class="actions" style="margin:0"><a class="btn blue" href={L('/join')}>{t('work_with_us')} ↗</a></div></section>
+</Base>

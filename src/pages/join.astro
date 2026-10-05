@@ -1,23 +1,4 @@
 ---
-import Base from '../layouts/Base.astro';
+import View from '../views/join.astro';
 ---
-<Base title="Join">
-  <div class="page-head"><span class="upper">Recruitment</span><h1>Join Imprerial Law</h1><p class="lede">We're always looking for ambitious players, coaches, creatives and staff. Browse open roles or submit a general application.</p></div>
-  <div class="section-head"><h2>Open roles</h2><p style="color:var(--muted)">No open roles right now — submit a general application below.</p></div>
-  <div class="section-head"><h2>Application</h2></div>
-  <!-- Hinweis: action="#" ist ein Platzhalter. Vor dem Livegang auf einen Formular-Dienst oder Discord-Webhook setzen. -->
-  <form class="form" action="#" method="post">
-    <label>Nickname / preferred name *<input name="nickname" required /></label>
-    <label>Email *<input name="email" type="email" required /></label>
-    <label>Discord username<input name="discord" /></label>
-    <label>Region / timezone<input name="region" /></label>
-    <label>Category<select name="category"><option>Player</option><option>Coach</option><option>Analyst</option><option>Team Manager</option><option>Content Creator / Streamer</option><option>Graphic Designer / Creative</option><option>Other Staff</option></select></label>
-    <label>Game (optional)<input name="game" /></label>
-    <label>Competitive profile URLs<input name="profiles" /></label>
-    <label>Relevant experience<textarea name="experience"></textarea></label>
-    <label>Availability<input name="availability" /></label>
-    <label>Motivation *<textarea name="motivation" required></textarea></label>
-    <label style="text-transform:none;letter-spacing:0;display:flex;gap:10px;font-weight:400"><input type="checkbox" required style="width:auto" /> I acknowledge that my data will be processed for recruitment purposes.</label>
-    <button class="btn blue" type="submit">Submit application</button>
-  </form>
-</Base>
+<View />

@@ -1,0 +1,24 @@
+---
+import { creators } from '../data/site';
+import Base from '../layouts/Base.astro';
+import { useT, href, defaultLang, type Lang, type Key } from '../i18n/ui';
+interface Props { lang?: Lang }
+const lang = Astro.props.lang ?? defaultLang;
+const t = useT(lang);
+const L = (p: string) => href(lang, p);
+---
+<Base title={t('nav_content')} lang={lang}>
+  <div class="page-head"><span class="upper">{t('live_content')}</span><h1>{t('content_h1')}</h1><p class="lede">{t('content_lede')}</p></div>
+  <div class="cols c2">
+    {creators.map((c) => (
+      <div class="person">
+        <img class="avatar" src={c.image} alt="" width="56" height="56" />
+        <span class="role">{c.game}</span>
+        <h3>{c.name}</h3>
+        <p>{c.text}</p>
+        <div class="actions" style="margin:6px 0 0">{c.links.map((l) => <a class="btn" href={l.href} target="_blank" rel="noopener">{l.label} ↗</a>)}</div>
+      </div>
+    ))}
+  </div>
+  <div class="section-head"><h2>{t('featured')}</h2><p style="color:var(--muted)">{t('no_featured')}</p></div>
+</Base>

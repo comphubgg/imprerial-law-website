@@ -1,0 +1,31 @@
+---
+import { upcoming, results } from '../data/site';
+import Base from '../layouts/Base.astro';
+import { useT, href, defaultLang, type Lang, type Key } from '../i18n/ui';
+interface Props { lang?: Lang }
+const lang = Astro.props.lang ?? defaultLang;
+const t = useT(lang);
+const L = (p: string) => href(lang, p);
+const res = (r?: string) => (r ? t(r.toLowerCase() as Key) : '–');
+---
+<Base title={t('nav_matches')} lang={lang}>
+  <div class="page-head"><span class="upper">{t('schedule')}</span><h1>{t('match_center')}</h1><p class="lede">{t('match_lede')}</p></div>
+  <div class="sub-head"><h2>{t('scheduled')}</h2></div>
+  <div class="rows">
+    {upcoming.map((m) => (
+      <div class="row">
+        <div><h3>{m.team} <span style="color:var(--blue)">vs</span> {m.opponent}</h3><p>{m.event} · BO1 · Online</p></div>
+        <div class="when">{m.display}<br />Europe/Berlin</div>
+      </div>
+    ))}
+  </div>
+  <div class="sub-head"><h2>{t('completed')}</h2></div>
+  <div class="rows light">
+    {results.map((m) => (
+      <div class="row">
+        <div><h3>{m.team} <span>vs</span> {m.opponent}</h3><p>{m.event} · {m.display}</p></div>
+        <span class={`tag ${m.result ? m.result.toLowerCase() : 'na'}`} style={m.result === 'WIN' ? 'color:#0a8f3f' : m.result === 'LOSS' ? 'color:#d62020' : ''}>{res(m.result)}</span>
+      </div>
+    ))}
+  </div>
+</Base>

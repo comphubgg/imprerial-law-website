@@ -1,4 +1,5 @@
 @import '@fontsource/anton';
+@import '@fontsource/oswald/cyrillic-700.css';
 @import '@fontsource-variable/geist';
 
 /* Stil angelehnt an bigclan.gg: helle Flächen, 1px-Linienraster, schwarze Header-/Match-Bereiche,
@@ -248,3 +249,26 @@ h3 { font-size: 1.35rem; }
   .match-split { grid-template-columns: 1fr 1fr; }
   .match-col + .match-col { border-top: 0; border-left: 1px solid var(--line-dark); }
 }
+
+/* Sprachwechsler */
+.lang { position: relative; }
+.lang summary { list-style: none; cursor: pointer; font-size: .78rem; font-weight: 600; border: 1px solid #fff; padding: 7px 12px; text-transform: uppercase; white-space: nowrap; }
+.lang summary::-webkit-details-marker { display: none; }
+.lang ul { position: absolute; right: 0; top: calc(100% + 8px); margin: 0; padding: 6px 0; list-style: none; background: var(--black-2); border: 1px solid var(--line-dark); min-width: 180px; z-index: 40; }
+.lang li a { display: flex; gap: 10px; padding: 10px 16px; font-size: .88rem; font-weight: 500; }
+.lang li a:hover, .lang li a[aria-current] { background: #2a2a2a; color: #7d9bff; }
+.lang-row { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 16px; }
+.menu-panel .lang-row a { font: 600 .85rem var(--body); text-transform: none; border: 1px solid var(--line-dark); padding: 8px 12px; }
+.menu-panel .lang-row a[aria-current] { border-color: #7d9bff; color: #7d9bff; }
+.bar .icons { gap: 8px; }
+
+/* Rechts-nach-links (Arabisch) */
+[dir='rtl'] { --display: 'Anton', 'Arial Narrow', Impact, sans-serif; }
+[dir='rtl'] .hero h1 { transform: none; font-style: normal; }
+[dir='rtl'] .hero-mark { right: auto; left: -4%; }
+[dir='rtl'] .rows .row .when { text-align: left; }
+[dir='rtl'] .lang ul { right: auto; left: 0; }
+[dir='rtl'] .more::after { content: '‹'; }
+[dir='rtl'] h1, [dir='rtl'] h2, [dir='rtl'] h3, [dir='rtl'] .menu-panel a { font-family: var(--body); font-weight: 800; letter-spacing: 0; text-transform: none; }
+/* Kyrillisch: Anton hat keine kyrillischen Glyphen → Fallback-Schrift */
+:lang(ru) h1, :lang(ru) h2, :lang(ru) h3, :lang(ru) .brand, :lang(ru) .menu-panel a, :lang(ru) .countdown, :lang(ru) .ticker span, :lang(ru) .card .thumb b { font-family: 'Oswald', 'Arial Narrow', sans-serif; font-weight: 700; }

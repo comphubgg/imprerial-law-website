@@ -1,0 +1,26 @@
+---
+import { org, social } from '../data/site';
+import Base from '../layouts/Base.astro';
+import { useT, href, defaultLang, type Lang, type Key } from '../i18n/ui';
+interface Props { lang?: Lang }
+const lang = Astro.props.lang ?? defaultLang;
+const t = useT(lang);
+const L = (p: string) => href(lang, p);
+---
+<Base title={t('nav_contact')} lang={lang}>
+  <div class="page-head"><span class="upper">{t('nav_contact')}</span><h1>{t('get_in_touch')}</h1><p class="lede">{t('contact_lede')}</p></div>
+  <div class="cols c3">
+    <div><span class="upper" style="color:var(--blue)">{t('email')}</span><h3 style="font-size:1.2rem" dir="ltr"><a href={`mailto:${org.email}`}>{org.email}</a></h3></div>
+    <div><span class="upper" style="color:var(--blue)">{t('location')}</span><h3 style="font-size:1.2rem">{t('location_val')}</h3></div>
+    <div><span class="upper" style="color:var(--blue)">{t('social')}</span><p>{social.map((s) => <a href={s.href} target="_blank" rel="noopener" style="margin-inline-end:18px;font-weight:700">{s.label} ↗</a>)}</p></div>
+  </div>
+  <div class="section-head"><h2>{t('send_msg')}</h2><p style="color:var(--muted)">{t('send_msg_p')}</p></div>
+  <!-- Hinweis: action="#" ist ein Platzhalter. Vor dem Livegang auf einen Formular-Dienst (z. B. Formspree) setzen. -->
+  <form class="form" action="#" method="post">
+    <label>{t('f_name')}<input name="name" required autocomplete="name" /></label>
+    <label>{t('email')}<input name="email" type="email" required autocomplete="email" /></label>
+    <label>{t('f_interest')}<select name="topic"><option>{t('o_player')}</option><option>{t('o_brand')}</option><option>{t('o_press')}</option><option>{t('o_careers')}</option><option>{t('o_general')}</option></select></label>
+    <label>{t('f_message')}<textarea name="message"></textarea></label>
+    <button class="btn blue" type="submit">{t('f_send')}</button>
+  </form>
+</Base>

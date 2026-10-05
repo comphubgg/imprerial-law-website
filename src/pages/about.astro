@@ -1,16 +1,4 @@
 ---
-import Base from '../layouts/Base.astro';
-import { org, values } from '../data/site';
+import View from '../views/about.astro';
 ---
-<Base title="About">
-  <div class="page-head"><span class="upper">About · Est. {org.founded}</span><h1>Building the next generation of esports</h1><p class="lede">Founded in {org.founded}, Imprerial Law is a multi-title esports organization built on ambition, professionalism, and long-term vision. We develop elite players, build competitive teams, and create an environment where talent can thrive both inside and outside the game.</p></div>
-  <div class="cols c2">
-    <div><span class="upper" style="color:var(--blue)">Our mission</span><h2>Building champions. Creating a legacy.</h2></div>
-    <div><p>At Imprerial Law, we believe success is built through discipline, opportunity, and long-term vision. We provide our players and staff with the structure, coaching, and support they need to focus on reaching their full potential.</p><p>From player development and competitive performance to branding and strategic partnerships, every decision we make is driven by one goal: building an organization that competes at the highest level while creating lasting value for our community and partners.</p></div>
-  </div>
-  <div class="section-head"><h2>What we stand for</h2></div>
-  <div class="cols c4">
-    {values.map((v, i) => <div><span class="n">{String(i + 1).padStart(2, '0')}</span><h3>{v.title}</h3><p>{v.text}</p></div>)}
-  </div>
-  <section class="cta"><h2>Be part of the journey</h2><div class="actions" style="margin:0"><a class="btn blue" href="/timeline">Our timeline ↗</a><a class="btn" style="border-color:#fff" href="/join">Join us</a></div></section>
-</Base>
+<View />

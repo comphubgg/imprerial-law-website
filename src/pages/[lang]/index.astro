@@ -1,0 +1,7 @@
+---
+import View from '../../views/index.astro';
+import { otherLangs } from '../../i18n/ui';
+export const getStaticPaths = () => otherLangs.map((lang) => ({ params: { lang }, props: { lang } }));
+const { lang } = Astro.props;
+---
+<View lang={lang} />

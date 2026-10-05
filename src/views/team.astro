@@ -1,0 +1,25 @@
+---
+import { teams } from '../data/site';
+import Base from '../layouts/Base.astro';
+import { useT, href, defaultLang, type Lang, type Key } from '../i18n/ui';
+interface Props { lang?: Lang }
+const lang = Astro.props.lang ?? defaultLang;
+const t = useT(lang);
+const L = (p: string) => href(lang, p);
+---
+<Base title={t('nav_teams')} lang={lang}>
+  <div class="page-head"><span class="upper">{t('nav_teams')}</span><h1>{t('team_h1')}</h1><p class="lede">{t('team_lede')}</p></div>
+  {teams.map((x, i) => (
+    <section class="team-block" id={x.slug}>
+      <div class="pic"><img src={x.image} alt={x.name} loading="lazy" width="640" height="640" /></div>
+      <div class="body">
+        <span class="no">{String(i + 1).padStart(2, '0')} · {x.game}</span>
+        <h2>{x.name}</h2>
+        <p>{x.text}</p>
+        <div class="facts"><span>{t('roster')} · <b>{x.players.length} {t('players_n')}</b></span><span>{t('region')} · <b>{x.region}</b></span></div>
+        <div class="chips">{x.players.map((p) => <span>{p}</span>)}</div>
+      </div>
+    </section>
+  ))}
+  <section class="cta"><h2>{t('want_join')}</h2><p>{t('think')}</p><div class="actions" style="margin:0"><a class="btn blue" href={L('/join')}>{t('apply_now')} ↗</a></div></section>
+</Base>

@@ -6,6 +6,7 @@ export const org = {
   descriptor: 'Multi-title esports organization',
   founded: 2025,
   email: 'business@imprerial-law.com',
+  site: 'https://imprerial-law.com',
   intro:
     'Imprerial Law is a multi-title esports organization built on strong presence, player development, branding and competition at the highest level.',
   about:

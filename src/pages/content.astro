@@ -1,19 +1,4 @@
 ---
-import Base from '../layouts/Base.astro';
-import { creators } from '../data/site';
+import View from '../views/content.astro';
 ---
-<Base title="Content">
-  <div class="page-head"><span class="upper">Live &amp; content</span><h1>Creators &amp; content</h1><p class="lede">Watch our creators, streams and selected content. Live status appears only when verified.</p></div>
-  <div class="cols c2">
-    {creators.map((c) => (
-      <div class="person">
-        <img class="avatar" src={c.image} alt="" width="56" height="56" />
-        <span class="role">{c.game}</span>
-        <h3>{c.name}</h3>
-        <p>{c.text}</p>
-        <div class="actions" style="margin:6px 0 0">{c.links.map((l) => <a class="btn" href={l.href} target="_blank" rel="noopener">{l.label} ↗</a>)}</div>
-      </div>
-    ))}
-  </div>
-  <div class="section-head"><h2>Featured content</h2><p style="color:var(--muted)">No featured content yet.</p></div>
-</Base>
+<View />

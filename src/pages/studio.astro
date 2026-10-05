@@ -1,19 +1,4 @@
 ---
-import Base from '../layouts/Base.astro';
-import { staff } from '../data/site';
+import View from '../views/studio.astro';
 ---
-<Base title="Studio">
-  <div class="page-head"><span class="upper">Studio / Staff</span><h1>The people behind the players</h1><p class="lede">A dedicated team of managers, coaches, creatives and legal experts. Every player gets hands-on, day-to-day support.</p></div>
-  <div class="cols c2">
-    {staff.map((s) => (
-      <div class="person">
-        <span class="role">{s.role}</span>
-        <h3>{s.name}</h3>
-        <span class="ttl">{s.title}</span>
-        <p>{s.text}</p>
-        <span class="where">{s.where}</span>
-      </div>
-    ))}
-  </div>
-  <section class="cta"><h2>Want to join the studio?</h2><div class="actions" style="margin:0"><a class="btn blue" href="/contact">Get in touch ↗</a></div></section>
-</Base>
+<View />

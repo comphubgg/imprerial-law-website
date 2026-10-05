@@ -1,0 +1,22 @@
+---
+import { org, values } from '../data/site';
+import Base from '../layouts/Base.astro';
+import { useT, href, defaultLang, type Lang, type Key } from '../i18n/ui';
+interface Props { lang?: Lang }
+const lang = Astro.props.lang ?? defaultLang;
+const t = useT(lang);
+const L = (p: string) => href(lang, p);
+const vk = ['v_excellence', 'v_ambition', 'v_integrity', 'v_legacy'] as const;
+---
+<Base title={t('nav_about')} lang={lang}>
+  <div class="page-head"><span class="upper">{t('nav_about')} · Est. {org.founded}</span><h1>{t('about_h1')}</h1><p class="lede">{t('about_lede')}</p></div>
+  <div class="cols c2">
+    <div><span class="upper" style="color:var(--blue)">{t('mission')}</span><h2>{t('mission_h')}</h2></div>
+    <div><p>{t('mission_p1')}</p><p>{t('mission_p2')}</p></div>
+  </div>
+  <div class="section-head"><h2>{t('stand_for')}</h2></div>
+  <div class="cols c4">
+    {vk.map((k, i) => <div><span class="n">{String(i + 1).padStart(2, '0')}</span><h3>{t(k)}</h3><p>{t((k + '_t') as Key)}</p></div>)}
+  </div>
+  <section class="cta"><h2>{t('be_part')}</h2><div class="actions" style="margin:0"><a class="btn blue" href={L('/timeline')}>{t('our_timeline')} ↗</a><a class="btn" style="border-color:#fff" href={L('/join')}>{t('join_us')}</a></div></section>
+</Base>

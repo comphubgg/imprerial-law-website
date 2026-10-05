@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro';
+import { useT, href, defaultLang, type Lang, type Key } from '../i18n/ui';
+interface Props { lang?: Lang }
+const lang = Astro.props.lang ?? defaultLang;
+const t = useT(lang);
+const L = (p: string) => href(lang, p);
+const cats = ['c_player', 'c_coach', 'c_analyst', 'c_manager', 'c_creator', 'c_design', 'c_other'] as const;
+---
+<Base title={t('nav_join')} lang={lang}>
+  <div class="page-head"><span class="upper">{t('recruitment')}</span><h1>{t('join_h1')}</h1><p class="lede">{t('join_lede')}</p></div>
+  <div class="section-head"><h2>{t('open_roles')}</h2><p style="color:var(--muted)">{t('no_roles')}</p></div>
+  <div class="section-head"><h2>{t('application')}</h2></div>
+  <!-- Hinweis: action="#" ist ein Platzhalter. Vor dem Livegang auf einen Formular-Dienst oder Discord-Webhook setzen. -->
+  <form class="form" action="#" method="post">
+    <label>{t('f_nick')}<input name="nickname" required /></label>
+    <label>{t('f_email')}<input name="email" type="email" required /></label>
+    <label>{t('f_discord')}<input name="discord" /></label>
+    <label>{t('f_region')}<input name="region" /></label>
+    <label>{t('f_category')}<select name="category">{cats.map((c) => <option>{t(c)}</option>)}</select></label>
+    <label>{t('f_game')}<input name="game" /></label>
+    <label>{t('f_profiles')}<input name="profiles" /></label>
+    <label>{t('f_experience')}<textarea name="experience"></textarea></label>
+    <label>{t('f_availability')}<input name="availability" /></label>
+    <label>{t('f_motivation')}<textarea name="motivation" required></textarea></label>
+    <label style="text-transform:none;letter-spacing:0;display:flex;gap:10px;font-weight:400"><input type="checkbox" required style="width:auto" /> {t('f_consent')}</label>
+    <button class="btn blue" type="submit">{t('f_submit')}</button>
+  </form>
+</Base>

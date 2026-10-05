@@ -1,0 +1,117 @@
+---
+import TeamGrid from '../components/TeamGrid.astro';
+import Logo from '../components/Logo.astro';
+import { ticker, upcoming, results, teams, timeline, creators } from '../data/site';
+import Base from '../layouts/Base.astro';
+import { useT, href, defaultLang, type Lang, type Key } from '../i18n/ui';
+interface Props { lang?: Lang }
+const lang = Astro.props.lang ?? defaultLang;
+const t = useT(lang);
+const L = (p: string) => href(lang, p);
+const loop = [...ticker, ...ticker];
+const next = upcoming[0];
+const nextTeam = teams.find((x) => x.name === next.team);
+const queue = upcoming.slice(0, 6);
+const latest = results.slice(0, 5);
+const news = timeline.slice(0, 3);
+const tagKey = (g: string) => ('tag_' + g.toLowerCase()) as Key;
+const res = (r?: string) => (r ? t(r.toLowerCase() as Key) : '–');
+---
+<Base lang={lang}>
+  <section class="hero">
+    <Logo class="hero-mark" />
+    <div class="hero-inner">
+      <span class="kicker upper">{t('descriptor')}</span>
+      <h1>{t('h1a')} <em>{t('h1b')}</em></h1>
+      <p class="lede">{t('intro')}</p>
+      <div class="actions">
+        <a class="btn blue" href={L('/join')}>{t('work_with_us')} ↗</a>
+        <a class="btn ghost" href={L('/team')}>{t('view_roster')} ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">{loop.map((p) => <span>{p}</span>)}</div>
+  </div>
+
+  <div class="section-head">
+    <h2>{t('our_teams')}</h2>
+    <a class="more" href={L('/team')}>{t('show_teams')}</a>
+  </div>
+  <TeamGrid lang={lang} />
+
+  <section class="match-split">
+    <div class="match-col">
+      <header><h2>{t('upcoming')}</h2><a class="more" href={L('/matches')} style="color:#7d9bff">{t('all_matches')}</a></header>
+      <div class="next">
+        <div class="meta"><span>{next.team}</span><span>{next.display}</span></div>
+        <div class="versus">
+          <div class="side"><div class="crest"><img src={nextTeam?.image} alt="" width="84" height="84" /></div>{next.team}</div>
+          <div><div class="vs">VS</div><div class="ev">{next.event}</div></div>
+          <div class="side"><div class="crest opp">{next.opponent[0]}</div>{next.opponent}</div>
+        </div>
+        <div class="countdown" dir="ltr" data-start={next.date} aria-live="off"></div>
+      </div>
+      <div class="queue">
+        {queue.map((m) => <div>{m.team.split(' ')[0]} · {m.display.slice(0, 6)}</div>)}
+      </div>
+    </div>
+    <div class="match-col">
+      <header><h2>{t('results')}</h2><a class="more" href={L('/matches')} style="color:#7d9bff">{t('all_results')}</a></header>
+      {latest.map((m) => (
+        <div class="result">
+          <div><h3>{m.team} vs {m.opponent}</h3><p>{m.event} · {m.display}</p></div>
+          <span class={`tag ${m.result ? m.result.toLowerCase() : 'na'}`}>{res(m.result)}</span>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <div class="section-head">
+    <h2>{t('latest_news')}</h2>
+    <a class="more" href={L('/timeline')}>{t('show_all')}</a>
+  </div>
+  <div class="news">
+    {news.map((n) => (
+      <article>
+        <div class="pic"><span class="t">{t(tagKey(n.tag))}</span><span class="y">{n.month ?? ''} {n.year}</span></div>
+        <h3>{n.title}</h3>
+        <p class="excerpt">{n.text.slice(0, 120)}…</p>
+      </article>
+    ))}
+  </div>
+
+  <div class="section-head">
+    <h2>{t('creators')}</h2>
+    <a class="more" href={L('/content')}>{t('live_content')}</a>
+  </div>
+  <div class="grid g3" style="grid-template-columns:repeat(auto-fit,minmax(200px,260px))">
+    {creators.map((c) => (
+      <a class="card" href={c.links[0].href} target="_blank" rel="noopener">
+        <div class="thumb" style="aspect-ratio:1"><img src={c.image} alt="" width="640" height="640" /><b>{c.name}</b></div>
+        <div class="name">{c.name}</div><div class="sub">{c.game} · {c.links.map((l) => l.label).join(' / ')}</div>
+      </a>
+    ))}
+  </div>
+
+  <section class="cta">
+    <h2>{t('cta_title')}</h2>
+    <p>{t('cta_text')}</p>
+    <div class="actions" style="margin:0"><a class="btn blue" href={L('/join')}>{t('apply_now')} ↗</a><a class="btn" style="border-color:#fff" href={L('/contact')}>{t('contact_us')}</a></div>
+  </section>
+</Base>
+
+<script>
+  const el = document.querySelector<HTMLElement>('.countdown');
+  if (el?.dataset.start) {
+    const target = new Date(el.dataset.start + ':00+02:00').getTime();
+    const pad = (n: number) => String(n).padStart(2, '0');
+    const tick = () => {
+      const d = Math.max(0, target - Date.now()) / 1000;
+      el.innerHTML = `<span>${pad(Math.floor(d / 86400))}<small>d</small></span><span>${pad(Math.floor(d / 3600) % 24)}<small>h</small></span><span>${pad(Math.floor(d / 60) % 60)}<small>m</small></span><span>${pad(Math.floor(d) % 60)}<small>s</small></span>`;
+    };
+    tick();
+    setInterval(tick, 1000);
+  }
+</script>

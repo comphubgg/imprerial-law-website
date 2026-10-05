@@ -1,45 +1,62 @@
 ---
 import '../styles/global.css';
 import Logo from '../components/Logo.astro';
-import { org, nav, shopUrl, social, announcement } from '../data/site';
+import { org, nav, shopUrl, social } from '../data/site';
+import { langs, useT, href, defaultLang, type Lang, type Key } from '../i18n/ui';
 
-interface Props { title?: string; description?: string; }
-const { title, description = org.intro } = Astro.props;
-const pageTitle = title ? `${title} — ${org.name}` : `${org.name} — ${org.descriptor}`;
-const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+interface Props { title?: string; description?: string; lang?: Lang; }
+const { title, description, lang = defaultLang } = Astro.props;
+const t = useT(lang);
+const meta = langs.find((l) => l.code === lang)!;
+const pageTitle = title ? `${title} — ${org.name}` : `${org.name} — ${t('descriptor')}`;
+const desc = description ?? t('intro');
+// Pfad ohne Sprachpräfix, für den Sprachwechsler
+let bare = Astro.url.pathname.replace(/\/$/, '') || '/';
+if (lang !== defaultLang) bare = bare.replace(new RegExp(`^/${lang}(?=/|$)`), '') || '/';
+const L = (p: string) => href(lang, p);
+const navKey = (label: string) => 'nav_' + label.toLowerCase() as Key;
 ---
 <!doctype html>
-<html lang="en">
+<html lang={lang} dir={meta.dir}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
-    <meta name="description" content={description} />
+    <meta name="description" content={desc} />
     <meta name="theme-color" content="#121212" />
     <meta property="og:title" content={pageTitle} />
-    <meta property="og:description" content={description} />
+    <meta property="og:description" content={desc} />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="/logo.png" />
     <link rel="icon" href="/favicon.png" type="image/png" />
+    {langs.map((l) => <link rel="alternate" hreflang={l.code} href={`${org.site}${href(l.code, bare)}`} />)}
   </head>
   <body>
-    <div class="announce">{announcement}</div>
+    <div class="announce">{t('announce')}</div>
     <header class="site-header">
       <div class="bar">
-        <a class="brand" href="/" aria-label={`${org.name} – home`}><Logo /><span>Imprerial Law</span></a>
+        <a class="brand" href={L('/')} aria-label={`${org.name} – home`}><Logo /><span>Imprerial Law</span></a>
         <nav class="nav-desktop" aria-label="Main">
-          {nav.slice(0, 6).map((n) => <a href={n.href} aria-current={path === n.href ? 'page' : undefined}>{n.label}</a>)}
-          <a href={shopUrl} target="_blank" rel="noopener">Shop ↗</a>
+          {nav.slice(0, 6).map((n) => <a href={L(n.href)} aria-current={bare === n.href ? 'page' : undefined}>{t(navKey(n.label))}</a>)}
+          <a href={shopUrl} target="_blank" rel="noopener">{t('nav_shop')} ↗</a>
         </nav>
         <div class="icons">
-          <a class="pill" href="/join">Join</a>
-          <a class="pill" href="/contact">Contact</a>
+          <a class="pill" href={L('/join')}>{t('nav_join')}</a>
+          <details class="lang">
+            <summary aria-label={t('language')}>🌐 {lang.toUpperCase()}</summary>
+            <ul>
+              {langs.map((l) => <li><a href={href(l.code, bare)} hreflang={l.code} aria-current={l.code === lang ? 'true' : undefined}><span>{l.flag}</span> {l.label}</a></li>)}
+            </ul>
+          </details>
         </div>
         <details class="menu">
           <summary aria-label="Menu"><span></span></summary>
           <nav class="menu-panel" aria-label="Menu">
-            {nav.map((n) => <a href={n.href}>{n.label}</a>)}
-            <a class="shop" href={shopUrl} target="_blank" rel="noopener">Shop ↗</a>
+            {nav.map((n) => <a href={L(n.href)}>{t(navKey(n.label))}</a>)}
+            <a class="shop" href={shopUrl} target="_blank" rel="noopener">{t('nav_shop')} ↗</a>
+            <div class="lang-row">
+              {langs.map((l) => <a href={href(l.code, bare)} hreflang={l.code} aria-current={l.code === lang ? 'true' : undefined}>{l.flag} {l.code.toUpperCase()}</a>)}
+            </div>
           </nav>
         </details>
       </div>
@@ -50,21 +67,21 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
     <footer class="site-footer">
       <div class="big">Imprerial<br />Law</div>
       <div class="foot-grid">
-        <p style="color:#bdbdbd;max-width:42ch">{org.descriptor} · Est. {org.founded}. {org.tagline}</p>
+        <p style="color:#bdbdbd;max-width:42ch">{t('descriptor')} · Est. {org.founded}. {t('tagline')}</p>
         <div>
-          <h4>Explore</h4>
-          {nav.map((n) => <a href={n.href}>{n.label}</a>)}
+          <h4>{t('explore')}</h4>
+          {nav.map((n) => <a href={L(n.href)}>{t(navKey(n.label))}</a>)}
         </div>
         <div>
-          <h4>Follow</h4>
+          <h4>{t('follow')}</h4>
           {social.map((s) => <a href={s.href} target="_blank" rel="noopener">{s.label} ↗</a>)}
-          <a href={shopUrl} target="_blank" rel="noopener">Shop ↗</a>
+          <a href={shopUrl} target="_blank" rel="noopener">{t('nav_shop')} ↗</a>
           <a href={`mailto:${org.email}`}>{org.email}</a>
         </div>
       </div>
       <div class="legal">
-        <span>© {new Date().getFullYear()} {org.name}. All rights reserved.</span>
-        <span>EU · Germany — Remote worldwide</span>
+        <span>© {new Date().getFullYear()} {org.name}. {t('rights')}</span>
+        <span>{t('location_val')}</span>
       </div>
     </footer>
   </body>
