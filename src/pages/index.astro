@@ -1,0 +1,59 @@
+---
+import Base from '../layouts/Base.astro';
+import TeamRows from '../components/TeamRows.astro';
+import { org, players, creators } from '../data/site';
+const loop = [...players, ...players, ...players, ...players];
+---
+<Base>
+  <section class="hero">
+    <div class="wrap">
+      <p class="label">{org.descriptor}</p>
+      <h1>Developing talent. <em>Winning together.</em></h1>
+      <p class="lede">{org.intro}</p>
+      <div class="actions">
+        <a class="btn primary" href="/join">Work with us ↗</a>
+        <a class="btn" href="/team">View roster ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="ticker" aria-label="Spieler">
+    <ul>
+      {loop.map((p, i) => <li><span>{String((i % players.length) + 1).padStart(2, '0')}</span><i></i>{p}</li>)}
+    </ul>
+  </div>
+
+  <section class="section">
+    <div class="wrap cols two">
+      <h2>An esports organization built on performance</h2>
+      <div style="display:grid;gap:24px;align-content:start">
+        <p class="lede">{org.about}</p>
+        <div><a class="btn" href="/about">Learn more ↗</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="head"><p class="label">Teams</p><h2>Our teams</h2></div>
+      <TeamRows />
+      <p style="margin-top:28px"><a class="btn" href="/team">All teams ↗</a></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="head"><p class="label">Creators</p><h2>Live on Twitch</h2></div>
+      {creators.map((c) => (
+        <div class="creator">
+          <div class="avatar" aria-hidden="true">{c.name[0]}</div>
+          <div><h3>{c.name}</h3><div class="meta"><span>{c.platform}</span><span>{c.game}</span></div></div>
+          <div class="links">
+            <a class="btn primary" href={c.url} target="_blank" rel="noopener">Watch stream</a>
+            <a class="btn" href={c.url} target="_blank" rel="noopener">Open channel ↗</a>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+</Base>

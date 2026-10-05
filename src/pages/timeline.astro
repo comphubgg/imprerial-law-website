@@ -1,0 +1,12 @@
+---
+import Base from '../layouts/Base.astro';
+import { timeline } from '../data/site';
+---
+<Base title="Timeline">
+  <div class="wrap page-head"><p class="label">Timeline</p><h1>Our story</h1></div>
+  <section class="section" style="border-top:0"><div class="wrap">
+    <ol class="tl" style="padding:0 0 0 0">
+      {timeline.map((t) => <li><span class="year">{t.year}</span><h3>{t.title}</h3><p>{t.text}</p></li>)}
+    </ol>
+  </div></section>
+</Base>

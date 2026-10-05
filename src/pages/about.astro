@@ -1,0 +1,17 @@
+---
+import Base from '../layouts/Base.astro';
+import { org } from '../data/site';
+---
+<Base title="About">
+  <div class="wrap page-head"><p class="label">About</p><h1>An esports organization built on performance</h1><p class="lede">{org.about}</p></div>
+  <section class="section"><div class="wrap cols three">
+    <div class="block"><span class="stat">{org.founded}</span><h3>Founded</h3><p>A young organization with a long-term plan.</p></div>
+    <div class="block"><span class="stat">2</span><h3>Titles</h3><p>Counter-Strike 2 and Fortnite.</p></div>
+    <div class="block"><span class="stat">4</span><h3>Teams</h3><p>Competing across regions and divisions.</p></div>
+  </div></section>
+  <section class="section"><div class="wrap cols three">
+    <div class="block"><h3>Presence</h3><p>A strong, recognisable brand on every stage.</p></div>
+    <div class="block"><h3>Player development</h3><p>Structure, coaching and support that help talent grow.</p></div>
+    <div class="block"><h3>Competition</h3><p>We play to win at the highest level.</p></div>
+  </div></section>
+</Base>

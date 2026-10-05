@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Join">
+  <div class="wrap page-head"><p class="label">Join</p><h1>Work with us</h1><p class="lede">Players, creators, staff and partners — tell us who you are.</p></div>
+  <section class="section" style="border-top:0"><div class="wrap">
+    <!-- TODO: action auf echten Formular-Dienst oder Discord-Webhook setzen -->
+    <form class="form" action="#" method="post">
+      <label>Name<input name="name" required autocomplete="name" /></label>
+      <label>Contact (Discord or e-mail)<input name="contact" required /></label>
+      <label>I am a<select name="role"><option>Player</option><option>Creator</option><option>Staff</option><option>Partner</option></select></label>
+      <label>About you<textarea name="message"></textarea></label>
+      <button class="btn primary" type="submit">Send application</button>
+    </form>
+  </div></section>
+</Base>

@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+import { teams, players } from '../data/site';
+---
+<Base title="Team">
+  <div class="wrap page-head"><p class="label">Teams</p><h1>Our teams</h1><p class="lede">Rosters across Counter-Strike 2 and Fortnite.</p></div>
+  <section class="section" style="border-top:0">
+    <div class="wrap">
+      {teams.map((t, i) => (
+        <article id={t.slug} class="creator" style="grid-template-columns:56px 1fr">
+          <span class="label">{String(i + 1).padStart(2, '0')}</span>
+          <div><h3 style="text-transform:uppercase;font-size:1.6rem">{t.name}</h3><p class="meta" style="color:var(--muted)">{t.game}</p></div>
+        </article>
+      ))}
+      <div class="head" style="margin-top:72px"><p class="label">Players</p><h2>Roster</h2></div>
+      <div class="rows">
+        {players.map((p, i) => <div class="row" style="grid-template-columns:56px 1fr"><span class="no">{String(i + 1).padStart(2, '0')}</span><h3>{p}</h3></div>)}
+      </div>
+    </div>
+  </section>
+</Base>
