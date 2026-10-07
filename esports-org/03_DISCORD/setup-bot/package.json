@@ -1,0 +1,1 @@
+{ "name": "discord-server-setup", "version": "1.0.0", "private": true, "description": "Baut einen Discord-Server aus server-blueprint.json", "scripts": { "plan": "node setup.js --dry-run", "setup": "node setup.js", "context": "node generate-bot-context.js" }, "dependencies": { "discord.js": "^14.16.3" }, "engines": { "node": ">=18" } }

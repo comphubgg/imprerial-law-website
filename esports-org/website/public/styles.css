@@ -217,3 +217,8 @@ select.lang{background:transparent;color:#fff;border:1px solid var(--dl);padding
  .pcard .nm{font-size:11px;padding:10px 10px 4px;flex-direction:column;align-items:flex-start;gap:2px}.pcard .rl,.pcard p,.pcard .sc{padding-left:10px;padding-right:10px}.pcard p{font-size:12px}
  .tcards .pc .in{padding:10px 12px 14px}
 }
+
+/* Link-in-Bio */
+.linkhub{min-height:100vh;padding:56px 20px;display:flex;flex-direction:column;align-items:center;text-align:center;color:#fff}.linkhub img{height:96px;width:auto;max-width:260px;object-fit:contain;margin-bottom:14px}
+.linkhub h1{font-size:clamp(40px,10vw,64px);margin-bottom:6px}.linkhub .ht{font:italic 400 28px var(--disp);color:var(--accent);margin:0 0 6px;transform:skewX(-9deg)}.linkhub .tg{color:var(--dmute);letter-spacing:.3em;font-size:12px;text-transform:uppercase;margin-bottom:26px}
+.linkhub .lk{display:grid;gap:12px;width:min(460px,100%)}.lkb{display:flex;align-items:center;justify-content:center;gap:12px;padding:16px;border:1px solid var(--dl);border-radius:12px;background:rgba(255,255,255,.04);font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:14px}.lkb:hover{background:#fff;color:#000}.lkb svg{width:20px;height:20px;fill:currentColor}.linkhub .lng{margin-top:28px}

@@ -1,0 +1,532 @@
+{
+  "_hinweis": "Maschinenlesbare Server-Vorlage. Der Setup-Bot (setup-bot/setup.js) baut daraus Rollen, Kategorien, Kanäle und Rechte. Namen/Texte hier ändern, dann Bot neu ausführen. Rollen stehen von oben (mächtigste) nach unten.",
+  "server": {
+    "name": "VALIOUX",
+    "description": "Official VALIOUX server: Fortnite Pro, Academy, creators, tournaments and community.",
+    "hashtag": "#VLXWIN",
+    "language": "en",
+    "tone": "confident, calm, welcoming; short sentences; max 1-2 emojis"
+  },
+  "roles": [
+    {
+      "key": "owner",
+      "name": "Owner",
+      "color": "#E4EAF2",
+      "hoist": true,
+      "permissions": [
+        "Administrator"
+      ],
+      "purpose": "Founders. Full access."
+    },
+    {
+      "key": "management",
+      "name": "Management",
+      "color": "#8FB8FF",
+      "hoist": true,
+      "permissions": [
+        "ManageChannels",
+        "ManageRoles",
+        "ManageMessages",
+        "KickMembers",
+        "BanMembers",
+        "ModerateMembers",
+        "MentionEveryone",
+        "ViewAuditLog"
+      ],
+      "purpose": "Runs the organisation day to day."
+    },
+    {
+      "key": "headcoach",
+      "name": "Head Coach",
+      "color": "#2F6BFF",
+      "hoist": true,
+      "permissions": [
+        "ManageMessages",
+        "MoveMembers",
+        "MuteMembers",
+        "ModerateMembers"
+      ],
+      "purpose": "Leads the Pro roster."
+    },
+    {
+      "key": "coach",
+      "name": "Coach",
+      "color": "#2F6BFF",
+      "hoist": false,
+      "permissions": [
+        "MoveMembers",
+        "MuteMembers"
+      ],
+      "purpose": "Coaches Pro/Academy."
+    },
+    {
+      "key": "pro",
+      "name": "Pro Player",
+      "color": "#D7DEE9",
+      "hoist": true,
+      "permissions": [
+        "PrioritySpeaker"
+      ],
+      "purpose": "Fortnite Pro roster."
+    },
+    {
+      "key": "academy",
+      "name": "Academy",
+      "color": "#7FD0FF",
+      "hoist": true,
+      "permissions": [],
+      "purpose": "Academy and talents."
+    },
+    {
+      "key": "creator",
+      "name": "Creator",
+      "color": "#F2C14E",
+      "hoist": true,
+      "permissions": [
+        "MentionEveryone",
+        "EmbedLinks",
+        "AttachFiles"
+      ],
+      "purpose": "Content creators and streamers."
+    },
+    {
+      "key": "staff",
+      "name": "Staff",
+      "color": "#AEB6C2",
+      "hoist": false,
+      "permissions": [
+        "ManageMessages"
+      ],
+      "purpose": "Social media, editors, admins."
+    },
+    {
+      "key": "mod",
+      "name": "Moderator",
+      "color": "#9AA3B2",
+      "hoist": false,
+      "permissions": [
+        "ManageMessages",
+        "ModerateMembers",
+        "KickMembers"
+      ],
+      "purpose": "Community moderation."
+    },
+    {
+      "key": "partner",
+      "name": "Partner",
+      "color": "#C9D2E0",
+      "hoist": false,
+      "permissions": [],
+      "purpose": "Sponsors and partners."
+    },
+    {
+      "key": "supporter",
+      "name": "Supporter",
+      "color": "#6F93FF",
+      "hoist": false,
+      "permissions": [],
+      "purpose": "Boosters and subscribers."
+    }
+  ],
+  "categories": [
+    {
+      "name": "START",
+      "channels": [
+        {
+          "name": "welcome",
+          "type": "text",
+          "topic": "Start here. Read the rules, grab your roles, say hi.",
+          "readOnly": true,
+          "message": "welcome"
+        },
+        {
+          "name": "rules",
+          "type": "text",
+          "topic": "Server rules. Be respectful.",
+          "readOnly": true,
+          "message": "rules"
+        },
+        {
+          "name": "announcements",
+          "type": "announcement",
+          "topic": "Official news: matches, signings, drops.",
+          "readOnly": true
+        },
+        {
+          "name": "socials",
+          "type": "text",
+          "topic": "Our social links and stream alerts.",
+          "readOnly": true,
+          "message": "links"
+        }
+      ]
+    },
+    {
+      "name": "COMMUNITY",
+      "channels": [
+        {
+          "name": "chat",
+          "type": "text",
+          "topic": "General chat. English first, other languages welcome."
+        },
+        {
+          "name": "clips",
+          "type": "text",
+          "topic": "Share your best Fortnite clips."
+        },
+        {
+          "name": "memes",
+          "type": "text",
+          "topic": "Memes only. Keep it friendly."
+        },
+        {
+          "name": "fortnite-talk",
+          "type": "text",
+          "topic": "Meta, loadouts, updates, tournaments."
+        },
+        {
+          "name": "looking-for-team",
+          "type": "text",
+          "topic": "Find duos, trios and scrims."
+        },
+        {
+          "name": "bot-commands",
+          "type": "text",
+          "topic": "Use bot commands here."
+        },
+        {
+          "name": "suggestions",
+          "type": "text",
+          "topic": "Ideas for the server and the organisation."
+        }
+      ]
+    },
+    {
+      "name": "ESPORTS",
+      "channels": [
+        {
+          "name": "match-results",
+          "type": "text",
+          "topic": "Scores and results of our teams.",
+          "readOnly": true,
+          "write": [
+            "management",
+            "staff",
+            "coach",
+            "headcoach"
+          ]
+        },
+        {
+          "name": "tournament-news",
+          "type": "text",
+          "topic": "FNCS, cups and qualifiers.",
+          "readOnly": true,
+          "write": [
+            "management",
+            "staff"
+          ]
+        },
+        {
+          "name": "pro-team",
+          "type": "text",
+          "topic": "Updates from the Pro roster.",
+          "readOnly": true,
+          "write": [
+            "management",
+            "staff",
+            "headcoach",
+            "pro"
+          ]
+        },
+        {
+          "name": "academy",
+          "type": "text",
+          "topic": "Updates from the Academy.",
+          "readOnly": true,
+          "write": [
+            "management",
+            "staff",
+            "coach",
+            "academy"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "CONTENT",
+      "channels": [
+        {
+          "name": "live-alerts",
+          "type": "text",
+          "topic": "Twitch/YouTube live notifications.",
+          "readOnly": true,
+          "write": [
+            "staff",
+            "management"
+          ]
+        },
+        {
+          "name": "creator-hub",
+          "type": "text",
+          "topic": "Creators share streams, videos and ideas.",
+          "visibleTo": [
+            "everyone"
+          ],
+          "write": [
+            "creator",
+            "management",
+            "staff"
+          ],
+          "readOnly": true
+        },
+        {
+          "name": "show-vlx-weekly",
+          "type": "text",
+          "topic": "Our weekly show: highlights, clips, interviews.",
+          "readOnly": true,
+          "write": [
+            "management",
+            "staff",
+            "creator"
+          ]
+        },
+        {
+          "name": "fan-art",
+          "type": "text",
+          "topic": "Fan art and edits."
+        }
+      ]
+    },
+    {
+      "name": "SUPPORT",
+      "channels": [
+        {
+          "name": "open-a-ticket",
+          "type": "text",
+          "topic": "Applications, partnerships and support. Use the ticket bot panel.",
+          "readOnly": true,
+          "message": "tickets"
+        },
+        {
+          "name": "application-info",
+          "type": "text",
+          "topic": "How to apply for Pro, Academy, Staff and Creator.",
+          "readOnly": true,
+          "message": "apply"
+        }
+      ]
+    },
+    {
+      "name": "VOICE",
+      "channels": [
+        {
+          "name": "Lobby",
+          "type": "voice"
+        },
+        {
+          "name": "Duo 1",
+          "type": "voice",
+          "limit": 2
+        },
+        {
+          "name": "Duo 2",
+          "type": "voice",
+          "limit": 2
+        },
+        {
+          "name": "Squad 1",
+          "type": "voice",
+          "limit": 4
+        },
+        {
+          "name": "Squad 2",
+          "type": "voice",
+          "limit": 4
+        },
+        {
+          "name": "Watch Party",
+          "type": "voice"
+        },
+        {
+          "name": "AFK",
+          "type": "voice"
+        }
+      ]
+    },
+    {
+      "name": "TEAM",
+      "visibleTo": [
+        "owner",
+        "management",
+        "headcoach",
+        "coach",
+        "pro",
+        "academy",
+        "creator",
+        "staff",
+        "mod"
+      ],
+      "channels": [
+        {
+          "name": "management",
+          "type": "text",
+          "topic": "Management only.",
+          "visibleTo": [
+            "owner",
+            "management"
+          ]
+        },
+        {
+          "name": "finance",
+          "type": "text",
+          "topic": "Budget, payouts, contracts. Owners and management only.",
+          "visibleTo": [
+            "owner",
+            "management"
+          ]
+        },
+        {
+          "name": "sponsors-internal",
+          "type": "text",
+          "topic": "Sponsor and partner pipeline.",
+          "visibleTo": [
+            "owner",
+            "management",
+            "staff"
+          ]
+        },
+        {
+          "name": "pro-internal",
+          "type": "text",
+          "topic": "Pro team internal.",
+          "visibleTo": [
+            "owner",
+            "management",
+            "headcoach",
+            "coach",
+            "pro"
+          ]
+        },
+        {
+          "name": "academy-internal",
+          "type": "text",
+          "topic": "Academy internal.",
+          "visibleTo": [
+            "owner",
+            "management",
+            "headcoach",
+            "coach",
+            "academy"
+          ]
+        },
+        {
+          "name": "content-planning",
+          "type": "text",
+          "topic": "Content calendar, edits, thumbnails.",
+          "visibleTo": [
+            "owner",
+            "management",
+            "staff",
+            "creator"
+          ]
+        },
+        {
+          "name": "staff",
+          "type": "text",
+          "topic": "Staff chat.",
+          "visibleTo": [
+            "owner",
+            "management",
+            "staff",
+            "mod"
+          ]
+        },
+        {
+          "name": "mod-log",
+          "type": "text",
+          "topic": "Moderation log (bot).",
+          "visibleTo": [
+            "owner",
+            "management",
+            "mod"
+          ]
+        },
+        {
+          "name": "bot-log",
+          "type": "text",
+          "topic": "Bot and system logs.",
+          "visibleTo": [
+            "owner",
+            "management"
+          ]
+        },
+        {
+          "name": "Pro Scrim",
+          "type": "voice",
+          "visibleTo": [
+            "owner",
+            "management",
+            "headcoach",
+            "coach",
+            "pro"
+          ]
+        },
+        {
+          "name": "Academy Scrim",
+          "type": "voice",
+          "visibleTo": [
+            "owner",
+            "management",
+            "coach",
+            "academy"
+          ]
+        },
+        {
+          "name": "Coaching",
+          "type": "voice",
+          "visibleTo": [
+            "owner",
+            "management",
+            "headcoach",
+            "coach"
+          ]
+        },
+        {
+          "name": "Meeting",
+          "type": "voice",
+          "visibleTo": [
+            "owner",
+            "management",
+            "staff",
+            "mod"
+          ]
+        }
+      ]
+    }
+  ],
+  "messages": {
+    "welcome": "**Welcome to VALIOUX** 🖤\nOfficial server of our Fortnite organisation: Pro team, Academy and creators.\n\n✅ Read the rules in #rules\n🎮 Chat with the community in #chat\n🎫 Apply or ask us anything in #open-a-ticket\n🌐 Website, shop and news: [your-domain]\n\n#VLXWIN",
+    "rules": "**Server rules**\n1. Be respectful. No racism, sexism, homophobia, bullying or hate speech.\n2. No spam, ads or unsolicited DMs.\n3. No cheats, account trading or illegal content.\n4. No NSFW. Use the right channel for each topic.\n5. Follow moderators. Questions about decisions: open a ticket.\n6. Discord ToS and Fortnite rules apply.\n\nBreaking the rules: warning → timeout → kick → ban.",
+    "links": "**Follow VALIOUX**\nX · Twitch · YouTube · Instagram · TikTok\n(Add the real links here.)\nHashtag: **#VLXWIN**",
+    "tickets": "**Need help or want to work with us?**\nUse the ticket panel below (ticket bot) and choose: Application · Partnership · Support.",
+    "apply": "**How to apply**\n**Pro / Academy:** Epic name, rank/PR, tournament results, availability, gameplay link.\n**Creator:** channel link, average viewers, content style.\n**Staff:** role, experience, portfolio.\nOpen a ticket and include these details."
+  },
+  "bots": [
+    {
+      "name": "Discord AutoMod",
+      "purpose": "Spam, invite links, mass mentions, bad words. Set up under Server Settings → Safety."
+    },
+    {
+      "name": "Carl-bot or MEE6",
+      "purpose": "Reaction roles, welcome message, moderation logs."
+    },
+    {
+      "name": "Ticket Tool",
+      "purpose": "Ticket panels: Application, Partnership, Support (channel #open-a-ticket)."
+    },
+    {
+      "name": "StreamElements / Streamcord",
+      "purpose": "Live alerts into #live-alerts."
+    }
+  ]
+}
