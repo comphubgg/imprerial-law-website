@@ -19,14 +19,14 @@ const SCHEMA = {
     ['name', 'Teamname', 'text', { required: 1 }], ['gameId', 'Spiel', 'ref:games'], ['tier', 'Stufe', 'select', { options: [['pro', 'Pro'], ['academy', 'Academy'], ['talent', 'Talent']] }], ['active', 'Anzeigen', 'check']] },
   players: { label: 'Spieler', title: 'handle', img: 'photo', sub: p => [p.role, nameOf('teams', p.teamId)].filter(Boolean).join(' · '), fields: [
     ['handle', 'Spielername / Handle', 'text', { required: 1 }], ['realName', 'Echter Name (optional)', 'text'], ['role', 'Rolle', 'text'], ['country', 'Land (Kürzel)', 'text'],
-    ['teamId', 'Team', 'ref:teams'], ['photo', 'Foto', 'image'], ['bio', 'Kurzbio', 'textarea'], ['socials', 'Socials', 'socials'], ['active', 'Anzeigen', 'check']] },
+    ['teamId', 'Team', 'ref:teams'], ['photo', 'Foto', 'image'], ['bio', 'Short bio (English)', 'textarea', { tr: 1 }], ['socials', 'Socials', 'socials'], ['active', 'Anzeigen', 'check']] },
   creators: { label: 'Creators', title: 'handle', img: 'photo', sub: c => c.platform, fields: [
     ['handle', 'Name', 'text', { required: 1 }], ['platform', 'Hauptplattform', 'select', { options: [['twitch', 'Twitch'], ['youtube', 'YouTube'], ['tiktok', 'TikTok'], ['instagram', 'Instagram']] }],
-    ['twitchChannel', 'Twitch-Kanal (für Live-Anzeige)', 'text'], ['photo', 'Foto', 'image'], ['bio', 'Kurzbio', 'textarea'], ['socials', 'Socials', 'socials'], ['active', 'Anzeigen', 'check']] },
+    ['twitchChannel', 'Twitch-Kanal (für Live-Anzeige)', 'text'], ['photo', 'Foto', 'image'], ['bio', 'Short bio (English)', 'textarea', { tr: 1 }], ['socials', 'Socials', 'socials'], ['active', 'Anzeigen', 'check']] },
   shows: { label: 'Shows', title: 'title', img: 'image', sub: s => s.schedule, fields: [
-    ['title', 'Titel', 'text', { required: 1 }], ['schedule', 'Sendezeit', 'text'], ['description', 'Beschreibung', 'textarea'], ['link', 'Link (YouTube/Twitch)', 'text'], ['image', 'Bild', 'image'], ['active', 'Anzeigen', 'check']] },
+    ['title', 'Title (English)', 'text', { required: 1, tr: 1 }], ['schedule', 'Schedule', 'text', { tr: 1 }], ['description', 'Description (English)', 'textarea', { tr: 1 }], ['link', 'Link (YouTube/Twitch)', 'text'], ['image', 'Bild', 'image'], ['active', 'Anzeigen', 'check']] },
   news: { label: 'News', title: 'title', img: 'image', sub: n => n.date, fields: [
-    ['title', 'Titel', 'text', { required: 1 }], ['date', 'Datum', 'date'], ['body', 'Text', 'textarea'], ['image', 'Bild', 'image']] },
+    ['title', 'Title (English)', 'text', { required: 1, tr: 1 }], ['date', 'Datum', 'date'], ['body', 'Text (English)', 'textarea', { tr: 1 }], ['image', 'Bild', 'image']] },
   matches: { label: 'Matches', title: 'event', sub: m => `${m.date || ''} · ${nameOf('teams', m.teamId)} · ${m.score || m.result || ''}`, fields: [
     ['event', 'Turnier / Event', 'text', { required: 1 }], ['date', 'Datum', 'date'], ['teamId', 'Team', 'ref:teams'], ['result', 'Ergebnis', 'select', { options: [['', '–'], ['win', 'Sieg'], ['loss', 'Niederlage']] }], ['score', 'Score / Platzierung (z. B. "Platz 3")', 'text']] },
   sponsors: { label: 'Partner', title: 'name', img: 'logo', sub: s => s.url, fields: [
@@ -63,10 +63,19 @@ function field(def, val, form) {
     wrap.append(h('div', { class: 'imgf' }, pv, fi, h('button', { type: 'button', class: 'btn ghost sm', onclick: () => { cur = ''; pv.src = '/logo.png'; } }, 'Entfernen')), h('div', { class: 'hint' }, 'PNG, JPG, WEBP oder GIF, max. 5 MB'));
     form.get[key] = () => cur; return wrap;
   } else el = h('input', { type: type === 'date' ? 'date' : 'text', value: val || '', required: opt.required ? true : null });
-  wrap.append(el); if (opt.hint) wrap.append(h('div', { class: 'hint' }, opt.hint)); form.get[key] = () => el.value; return wrap;
+  wrap.append(el); if (opt.hint) wrap.append(h('div', { class: 'hint' }, opt.hint)); form.get[key] = () => el.value;
+  if (opt.tr) { // Übersetzungen (Hauptsprache = Englisch)
+    const det = h('details', { class: 'trs' }, h('summary', {}, 'Translations (DE, ES, FR, IT, PT) – optional'));
+    for (const l of ['de', 'es', 'fr', 'it', 'pt']) {
+      const k = key + '_' + l, i2 = type === 'textarea' ? h('textarea', { value: form.data[k] || '' }) : h('input', { type: 'text', value: form.data[k] || '' });
+      form.get[k] = () => i2.value; det.append(h('div', { class: 'f' }, h('label', {}, l.toUpperCase()), i2));
+    }
+    wrap.append(det);
+  }
+  return wrap;
 }
 function makeForm(defs, data, onSave, onCancel, extra) {
-  const f = h('form', {}); f.get = {};
+  const f = h('form', {}); f.get = {}; f.data = data;
   f.append(...defs.map(d => field(d, data[d[0]], f)), extra || '');
   f.append(h('div', { class: 'bar' }, h('button', { class: 'btn', type: 'submit' }, 'Speichern'), onCancel ? h('button', { type: 'button', class: 'btn ghost', onclick: onCancel }, 'Abbrechen') : null));
   f.addEventListener('submit', async e => { e.preventDefault(); const out = {}; for (const k in f.get) out[k] = f.get[k](); try { await onSave(out); } catch (er) { toast(er.message, 1); } });
@@ -75,7 +84,7 @@ function makeForm(defs, data, onSave, onCancel, extra) {
 
 function viewOrg() {
   const o = DB.org;
-  const defs = [['name', 'Organisationsname', 'text', { required: 1 }], ['tagline', 'Claim / Slogan', 'text'], ['description', 'Beschreibung', 'textarea'],
+  const defs = [['name', 'Organisationsname', 'text', { required: 1 }], ['tagline', 'Tagline (English)', 'text', { tr: 1 }], ['description', 'Description (English)', 'textarea', { tr: 1 }],
     ['theme', 'Farbwelt (Saison-Theme)', 'theme'], ['logo', 'Logo (Standard)', 'image'], ['themeLogo', 'Spezial-Logo nur für die gewählte Farbwelt (optional)', 'image'], ['twitchChannel', 'Haupt-Twitch-Kanal (Live-Player im Hero)', 'text', { hint: 'Nur der Kanalname, z. B. viridian' }],
     ['contactEmail', 'Kontakt-E-Mail', 'text'], ['shopUrl', 'Shop-Link', 'text'], ['socials', 'Social-Media der Organisation', 'socials'],
     ['showAcademy', 'Academy-Bereich anzeigen', 'check'], ['showCreators', 'Creators-Bereich anzeigen', 'check'], ['showShows', 'Shows-Bereich anzeigen', 'check']];

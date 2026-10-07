@@ -81,3 +81,6 @@ footer .soc{justify-content:center;margin:14px 0}
  .table .hide-s{display:none}
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+.lang{background:var(--bg2);color:var(--text);border:1px solid var(--line);border-radius:999px;padding:6px 10px;font:600 12px system-ui;letter-spacing:.05em;cursor:pointer}
+.lang:focus{outline:2px solid var(--accent)}

@@ -2,7 +2,7 @@
   "org": {
     "name": "VALIOUX",
     "tagline": "FEARLESS. ELEVATED.",
-    "description": "VALIOUX ist eine Fortnite-Esports-Organisation mit Pro-Team, Academy und Content-Creators. Wir bauen Talente auf, gewinnen Turniere und bringen die Community mit Live-Streams und eigenen Shows näher an den Sport.",
+    "description": "VALIOUX is a Fortnite esports organisation with a Pro team, an Academy and a network of content creators. We develop talent, win tournaments and bring our community closer to the action with live streams and original shows.",
     "logo": "/logo.png",
     "heroImage": "",
     "twitchChannel": "",
@@ -20,7 +20,10 @@
     "showCreators": true,
     "showShows": true,
     "theme": "platin",
-    "themeLogos": {}
+    "themeLogos": {},
+    "description_de": "VALIOUX ist eine Fortnite-Esports-Organisation mit Pro-Team, Academy und Content-Creators. Wir bauen Talente auf, gewinnen Turniere und bringen die Community mit Live-Streams und eigenen Shows näher an den Sport.",
+    "description_es": "VALIOUX es una organización de esports de Fortnite con equipo Pro, Academia y una red de creadores de contenido. Formamos talento, ganamos torneos y acercamos a nuestra comunidad con streams y shows propios.",
+    "description_fr": "VALIOUX est une organisation esport Fortnite avec une équipe Pro, une Académie et un réseau de créateurs de contenu. Nous formons des talents, remportons des tournois et rapprochons la communauté grâce à des lives et des émissions originales."
   },
   "games": [
     {
@@ -55,7 +58,7 @@
       "country": "DE",
       "teamId": "t-pro",
       "photo": "",
-      "bio": "Platzhalter – im Admin-Panel ersetzen.",
+      "bio": "Placeholder – replace in the admin panel.",
       "socials": {
         "x": "",
         "twitch": "",
@@ -63,7 +66,8 @@
         "instagram": "",
         "tiktok": ""
       },
-      "active": true
+      "active": true,
+      "bio_de": "Platzhalter – im Admin-Panel ersetzen."
     },
     {
       "id": "p2",
@@ -73,7 +77,7 @@
       "country": "DE",
       "teamId": "t-pro",
       "photo": "",
-      "bio": "Platzhalter – im Admin-Panel ersetzen.",
+      "bio": "Placeholder – replace in the admin panel.",
       "socials": {
         "x": "",
         "twitch": "",
@@ -81,7 +85,8 @@
         "instagram": "",
         "tiktok": ""
       },
-      "active": true
+      "active": true,
+      "bio_de": "Platzhalter – im Admin-Panel ersetzen."
     },
     {
       "id": "p3",
@@ -91,7 +96,7 @@
       "country": "DE",
       "teamId": "t-acad",
       "photo": "",
-      "bio": "Platzhalter – im Admin-Panel ersetzen.",
+      "bio": "Placeholder – replace in the admin panel.",
       "socials": {
         "x": "",
         "twitch": "",
@@ -99,7 +104,8 @@
         "instagram": "",
         "tiktok": ""
       },
-      "active": true
+      "active": true,
+      "bio_de": "Platzhalter – im Admin-Panel ersetzen."
     }
   ],
   "creators": [
@@ -109,7 +115,7 @@
       "platform": "twitch",
       "twitchChannel": "",
       "photo": "",
-      "bio": "Platzhalter-Creator.",
+      "bio": "Placeholder creator.",
       "socials": {
         "x": "",
         "twitch": "",
@@ -117,27 +123,32 @@
         "instagram": "",
         "tiktok": ""
       },
-      "active": true
+      "active": true,
+      "bio_de": "Platzhalter-Creator."
     }
   ],
   "shows": [
     {
       "id": "s1",
       "title": "VALIOUX Weekly",
-      "description": "Der wöchentliche Rückblick: Highlights, Clips, Interviews.",
-      "schedule": "Sonntags 19:00",
+      "description": "The weekly recap: highlights, clips and interviews.",
+      "schedule": "Sundays 7 PM CET",
       "link": "",
       "image": "",
-      "active": true
+      "active": true,
+      "description_de": "Der wöchentliche Rückblick: Highlights, Clips, Interviews.",
+      "schedule_de": "Sonntags 19:00 Uhr"
     }
   ],
   "news": [
     {
       "id": "n1",
-      "title": "Willkommen bei VALIOUX",
-      "body": "Die Reise beginnt. Folge uns auf allen Kanälen und verpasse nichts.",
+      "title": "Welcome to VALIOUX",
+      "body": "The journey begins. Follow us on all channels and never miss a moment.",
       "date": "2026-10-07",
-      "image": ""
+      "image": "",
+      "title_de": "Willkommen bei VALIOUX",
+      "body_de": "Die Reise beginnt. Folge uns auf allen Kanälen und verpasse nichts."
     }
   ],
   "matches": [],
