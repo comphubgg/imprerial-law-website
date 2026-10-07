@@ -26,7 +26,7 @@ Echte Follow-/Sub-Alerts kommen von Streamlabs oder StreamElements; `alert.html`
 
 ## B) Fertige Dateien (Handy-Apps, Streamlabs Mobile, Prism, Twitch Studio Mobile)
 - **`scenes/`** PNG in 1920×1080. Dateien mit `_transparent` haben durchsichtigen Hintergrund (über das Spiel legen).
-- **`video/`** Schleifen für Pausen-Szenen: `starting-soon_loop.mp4`, `be-right-back_loop.mp4`, `ending_loop.mp4` (je 10 Sekunden, nahtlos, 1080p/30 fps). `game-overlay_ticker_transparent.webm` ist ein Overlay-Video mit durchsichtigem Hintergrund (20 s, wechselnde Ticker-Leiste); nicht jede App kann transparentes WebM (OBS kann es).
+- **`video/`** Schleifen für Pausen-Szenen: `starting-soon_loop.mp4`, `be-right-back_loop.mp4`, `ending_loop.mp4` (je 10 Sekunden, nahtlos, 1080p/30 fps). `game-overlay_ticker_transparent.webm` ist ein Overlay-Video mit durchsichtigem Hintergrund (20 s, wechselnde Ticker-Leiste); nicht jede App kann transparentes WebM (OBS kann es). Ein MP4 kann keine Transparenz: `game-overlay_ticker_greenscreen.mp4` hat einen grünen Hintergrund (in der App „Chroma Key / Greenscreen entfernen“ einstellen, Farbe Grün `#00FF00`), `game-overlay_ticker_preview.mp4` ist nur zum Ansehen.
 
 ## Neu erzeugen (nach Logo-/Namens-/Farbwechsel)
 ```
