@@ -1,0 +1,15 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>3D Kit Lab</title>
+<script type="importmap">{"imports":{"three":"/vendor/three/three.module.js"}}</script>
+<style>:root{color-scheme:dark}*{box-sizing:border-box}html,body{margin:0;height:100%;background:#07080b;color:#fff;font:14px Inter,system-ui,sans-serif}
+header{display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding:12px 18px;border-bottom:1px solid #23262d}h1{margin:0;font:24px Anton,Impact,sans-serif;letter-spacing:.04em;text-transform:uppercase}
+.grp{display:flex;gap:6px;flex-wrap:wrap}.grp button{background:#14161c;color:#cfd4dc;border:1px solid #2a2e37;border-radius:999px;padding:7px 14px;font:700 11px Inter;letter-spacing:.07em;text-transform:uppercase;cursor:pointer}.grp button.on{background:#fff;color:#000}
+#v{height:calc(100vh - 118px)}a{color:#8FB8FF}</style></head>
+<body><header><h1>3D Kit Lab</h1><div class="grp" id="kits"></div><div class="grp" id="items"></div></header><div id="v"></div>
+<script type="module">
+import { mountViewer, DEFAULT_KITS } from '/kit3d.js';
+const items = { jersey: 'Jersey', jacket: 'Tracksuit Jacket', jogger: 'Joggers', cap: 'Cap', bag: 'Bag', flag: 'Flag', scarf: 'Scarf' };
+const q = new URLSearchParams(location.search); let kitId = q.get('kit') || 'pro', kind = q.get('kind') || 'jersey', viewer;
+const mk = (box, map, cur, set) => { box.replaceChildren(); Object.entries(map).forEach(([k, n]) => { const b = document.createElement('button'); b.textContent = n.name || n; b.className = k === cur() ? 'on' : ''; b.onclick = () => { set(k); mk(box, map, cur, set); load(); }; box.append(b); }); };
+async function load() { if (viewer) viewer.dispose(); window.ready = false; viewer = await mountViewer(document.getElementById('v'), { ...DEFAULT_KITS[kitId], kind }, { preserve: true, autoRotate: q.get('rot') !== '0' }); window.viewer = viewer; window.ready = true; }
+mk(document.getElementById('kits'), DEFAULT_KITS, () => kitId, k => kitId = k); mk(document.getElementById('items'), items, () => kind, k => kind = k); await load();
+</script></body></html>

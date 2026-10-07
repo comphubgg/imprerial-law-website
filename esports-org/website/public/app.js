@@ -63,7 +63,7 @@ function teamMenuItems() {
 }
 function shopMenuItems() {
   const ps = act(D.products).sort(byOrder).slice(0, 4);
-  return [...ps.map(p => A(p.link || '/shop', {}, thumb(p.image, p.name), p.name)), A('/shop', {}, T('nav.allProducts'))];
+  return [...ps.map(p => A('/product/' + p.id, {}, thumb(p.image || p.viewFront, p.name), p.name)), A('/shop', {}, T('nav.allProducts'))];
 }
 function hasShop() { return act(D.products).length > 0 || !!D.org.shopUrl; }
 
@@ -150,7 +150,7 @@ function sectionHead(title, linkText, href) { return h('div', { class: 'hd' }, h
 function shopSection() {
   const ps = act(D.products).sort(byOrder).slice(0, 5); if (!ps.length) return null;
   return h('section', { class: 'sec' }, sectionHead(T('fromShop'), T('allProducts'), D.org.shopUrl && safeUrl(D.org.shopUrl) ? D.org.shopUrl : '/shop'),
-    h('div', { class: 'shop grid-line' }, ps.map(p => A(p.link || '/shop', { class: 'pc' }, h('div', { class: 'im' }, p.image && safeUrl(p.image) ? h('img', { src: safeUrl(p.image), alt: p.name, loading: 'lazy' }) : initials(p.name)), h('div', { class: 'in' }, p.name, h('b', {}, p.price || ''))))));
+    h('div', { class: 'shop grid-line' }, ps.map(p => A('/product/' + p.id, { class: 'pc' }, h('div', { class: 'im' }, (p.image || p.viewFront) && safeUrl(p.image || p.viewFront) ? h('img', { src: safeUrl(p.image || p.viewFront), alt: p.name, loading: 'lazy' }) : initials(p.name)), h('div', { class: 'in' }, p.name, h('b', {}, p.price || ''))))));
 }
 
 // Matches
@@ -221,7 +221,7 @@ function footer() {
   const pg = (slug, key) => D.pages.find(p => p.slug === slug) ? li('/page/' + slug, T(key)) : null;
   return h('footer', { class: 'ft noise' }, h('div', { class: 'cols' },
     h('div', {}, A('/', { class: 'logo' }, h('img', { src: logoImg(o), alt: o.name, style: { height: '56px' } })), h('p', { class: 'about' }, TR(o, 'footerText') || TR(o, 'description')), socials(o.socials), langSelect()),
-    h('div', {}, h('h4', {}, T('f.shop')), h('ul', {}, hasShop() ? [li('/shop', T('nav.allProducts')), ...act(D.products).sort(byOrder).slice(0, 5).map(p => li(p.link || '/shop', p.name))] : h('li', {}, T('shopEmpty')))),
+    h('div', {}, h('h4', {}, T('f.shop')), h('ul', {}, hasShop() ? [li('/shop', T('nav.allProducts')), ...act(D.products).sort(byOrder).slice(0, 5).map(p => li('/product/' + p.id, p.name))] : h('li', {}, T('shopEmpty')))),
     h('div', {}, h('h4', {}, T('f.explore')), h('ul', {}, li('/', T('nav.home')), li('/teams', T('nav.teams')), li('/creators', T('nav.creators')), li('/partners', T('nav.partners')), li('/news', T('nav.news')), li('/about', T('nav.about')))),
     h('div', {}, h('h4', {}, T('f.partners')), h('ul', {}, act(D.sponsors).sort(byOrder).map(s => s.url ? h('li', {}, A(s.url, {}, s.name)) : h('li', {}, s.name)))),
     h('div', {}, h('h4', {}, T('f.legal')), h('ul', {}, pg('privacy', 'privacy'), pg('legal-notice', 'imprint'), pg('terms', 'terms'), pg('contact', 'contact')))),
@@ -280,8 +280,29 @@ function viewArticle(id) {
 }
 function viewShop() {
   const ps = act(D.products).sort(byOrder);
-  return [pageHead(T('nav.shop'), '', T('nav.shop')), h('section', { class: 'sec' }, ps.length ? h('div', { class: 'tcards grid-line' }, ps.map(p => A(p.link || (D.org.shopUrl || '/shop'), { class: 'pc' }, h('div', { class: 'im' }, p.image && safeUrl(p.image) ? h('img', { src: safeUrl(p.image), alt: p.name, loading: 'lazy' }) : initials(p.name)), h('div', { class: 'in' }, p.name, h('b', {}, p.price || ''))))) : h('div', { class: 'wrap empty', style: { color: '#6b7280' } }, T('shopEmpty')),
+  return [pageHead(T('nav.shop'), '', T('nav.shop')), h('section', { class: 'sec' }, ps.length ? h('div', { class: 'tcards grid-line' }, ps.map(p => A('/product/' + p.id, { class: 'pc' }, h('div', { class: 'im' }, (p.image || p.viewFront) && safeUrl(p.image || p.viewFront) ? h('img', { src: safeUrl(p.image || p.viewFront), alt: p.name, loading: 'lazy' }) : initials(p.name)), h('div', { class: 'in' }, p.name, h('b', {}, p.price || ''))))) : h('div', { class: 'wrap empty', style: { color: '#6b7280' } }, T('shopEmpty')),
     D.org.shopUrl && safeUrl(D.org.shopUrl) ? h('div', { class: 'wrap', style: { padding: '24px' } }, A(D.org.shopUrl, { class: 'more' }, T('nav.shop'))) : null)];
+}
+let spinTimer = null;
+function viewProduct(id) {
+  const p = D.products.find(x => x.id === id && x.active !== false); if (!p) return view404();
+  const names = { front: 'Front', back: 'Back', left: 'Left', right: 'Right', top: 'Top', bottom: 'Bottom' };
+  let views = [['front', 'viewFront'], ['back', 'viewBack'], ['left', 'viewLeft'], ['right', 'viewRight'], ['top', 'viewTop'], ['bottom', 'viewBottom']].filter(([, f]) => p[f] && safeUrl(p[f])).map(([k, f]) => ({ k, src: safeUrl(p[f]) }));
+  if (!views.length && p.image && safeUrl(p.image)) views = [{ k: 'front', src: safeUrl(p.image) }];
+  let cur = 0; const stage = h('div', { class: 'pv-stage', role: 'img', 'aria-label': p.name }), bar = h('div', { class: 'pv-bar' }), thumbs = h('div', { class: 'pv-thumbs' });
+  const imgs = views.map(v => h('img', { src: v.src, alt: p.name + ' – ' + v.k, loading: 'lazy' })); stage.append(...imgs);
+  const show = i => { cur = (i + views.length) % views.length; imgs.forEach((im, k) => im.classList.toggle('on', k === cur)); [...bar.querySelectorAll('button[data-i]')].forEach(b => b.classList.toggle('on', +b.dataset.i === cur)); [...thumbs.children].forEach((t, k) => t.classList.toggle('on', k === cur)); };
+  const stop = () => { clearInterval(spinTimer); spinTimer = null; spin.classList.remove('on'); };
+  const spin = h('button', { class: 'spin', onclick: () => { if (spinTimer) return stop(); spin.classList.add('on'); spinTimer = setInterval(() => show(cur + 1), 1100); } }, '360° spin');
+  views.forEach((v, i) => { bar.append(h('button', { 'data-i': i, onclick: () => { stop(); show(i); } }, names[v.k])); thumbs.append(h('button', { 'aria-label': names[v.k], onclick: () => { stop(); show(i); } }, h('img', { src: v.src, alt: '' }))); });
+  if (views.length > 1) bar.append(spin);
+  let x0 = null; stage.addEventListener('touchstart', e => x0 = e.touches[0].clientX, { passive: true }); stage.addEventListener('touchend', e => { if (x0 == null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) { stop(); show(cur + (dx < 0 ? 1 : -1)); } x0 = null; });
+  const buy = p.link && safeUrl(p.link) ? A(p.link, { class: 'cta2' }, T('buy')) : (D.org.shopUrl && safeUrl(D.org.shopUrl) ? A(D.org.shopUrl, { class: 'cta2' }, T('nav.shop')) : null);
+  const more = act(D.products).sort(byOrder).filter(x => x.id !== p.id).slice(0, 4);
+  const box = h('div', { class: 'pv' }, h('div', { class: 'pv-media' }, views.length ? [stage, bar, thumbs.children.length > 1 ? thumbs : null] : h('div', { class: 'pv-empty' }, h('b', {}, initials(p.name)), h('span', {}, T('shopEmpty')))),
+    h('div', { class: 'pv-info' }, h('div', { class: 'role', style: { color: 'var(--mute)', textTransform: 'uppercase', fontSize: '12px', letterSpacing: '.1em', fontWeight: 700 } }, p.kind || ''), h('h1', {}, p.name), h('div', { class: 'price' }, p.price || ''), h('p', {}, TR(p, 'description')), buy));
+  if (views.length) show(0); if (views.length > 1) { spin.classList.add('on'); spinTimer = setInterval(() => show(cur + 1), 1400); }
+  return [pageHead(T('nav.shop'), '', p.name), box, more.length ? h('section', { class: 'sec' }, sectionHead(T('fromShop'), T('allProducts'), '/shop'), h('div', { class: 'tcards grid-line' }, more.map(x => A('/product/' + x.id, { class: 'pc' }, h('div', { class: 'im' }, (x.image || x.viewFront) && safeUrl(x.image || x.viewFront) ? h('img', { src: safeUrl(x.image || x.viewFront), alt: x.name, loading: 'lazy' }) : initials(x.name)), h('div', { class: 'in' }, x.name, h('b', {}, x.price || '')))))) : null];
 }
 function viewPage(slug) {
   const p = D.pages.find(x => x.slug === slug); if (!p) return view404();
@@ -297,10 +318,11 @@ function render() {
   let v, title = '';
   if (p === '/') v = viewHome(); else if (p === '/teams') { v = viewTeams(); title = T('nav.teams'); } else if (seg[0] === 'team') { v = viewTeam(seg[1]); title = (D.teams.find(t => slugOf(t) === seg[1]) || {}).name || ''; }
   else if (p === '/creators') { v = viewCreators(); title = T('nav.creators'); } else if (p === '/news') { v = viewNews(); title = T('nav.news'); } else if (seg[0] === 'news') { v = viewArticle(seg[1]); title = (D.news.find(n => n.id === seg[1]) || {}).title || ''; }
+  else if (seg[0] === 'product') { v = viewProduct(seg[1]); title = (D.products.find(x => x.id === seg[1]) || {}).name || ''; }
   else if (p === '/shop') { v = viewShop(); title = T('nav.shop'); } else if (p === '/about' || p === '/partners') { v = viewPage(seg[0]); title = T('nav.' + seg[0]); } else if (seg[0] === 'page') { v = viewPage(seg[1]); title = seg[1]; }
   else { v = view404(); title = '404'; }
   document.title = (title ? title + ' · ' : '') + o.name + ' Esports';
-  const old = $('#app')._hero; if (old && old._stop) old._stop();
+  clearInterval(spinTimer); spinTimer = null; const old = $('#app')._hero; if (old && old._stop) old._stop();
   const main = h('main', {}, v);
   $('#app')._hero = main.querySelector('.hero');
   $('#app').replaceChildren(header(), main, newsletter(), footer(), buildDrawer(), buildSearch());

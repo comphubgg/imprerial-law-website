@@ -179,3 +179,14 @@ select.lang{background:transparent;color:#fff;border:1px solid var(--dl);padding
  footer.ft .cols{grid-template-columns:1fr 1fr}footer.ft .cols>div:first-child{grid-column:1/-1}
 }
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition:none!important}.marq .track{animation:none}}
+
+/* Produktseite (Bild-Ansichten) */
+.pv{display:grid;grid-template-columns:1.15fr 1fr;gap:0;max-width:1440px;margin:0 auto;border-bottom:1px solid var(--ld)}
+.pv-media{background:linear-gradient(180deg,#eceef2,#d9dde4);position:relative;min-height:520px;display:flex;flex-direction:column}
+.pv-stage{position:relative;flex:1;min-height:520px}.pv-stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .45s}.pv-stage img.on{opacity:1}
+.pv-bar{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;padding:12px}.pv-bar button{background:#fff;border:1px solid #cfd3da;border-radius:999px;padding:7px 14px;font:700 11px Inter;letter-spacing:.07em;text-transform:uppercase}.pv-bar button.on,.pv-bar button:hover{background:#0b0b0d;color:#fff;border-color:#0b0b0d}
+.pv-thumbs{display:flex;gap:6px;justify-content:center;padding:0 12px 14px}.pv-thumbs button{width:58px;height:58px;border:2px solid transparent;background:#fff;padding:0;border-radius:6px;overflow:hidden}.pv-thumbs button.on{border-color:var(--link)}.pv-thumbs img{width:100%;height:100%;object-fit:cover}
+.pv-empty{flex:1;display:grid;place-content:center;text-align:center;gap:8px;color:#8a93a3}.pv-empty b{font:90px var(--disp)}
+.pv-info{padding:48px clamp(24px,4vw,64px)}.pv-info h1{font-size:clamp(40px,5vw,72px);margin:8px 0 10px}.pv-info .price{font:700 24px Inter;margin-bottom:18px}.pv-info p{color:#444;max-width:52ch;margin-bottom:24px;white-space:pre-line}
+.cta2{display:inline-block;background:var(--link);color:#fff;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:13px;padding:16px 34px}
+@media(max-width:1000px){.pv{grid-template-columns:1fr}.pv-media,.pv-stage{min-height:420px}}

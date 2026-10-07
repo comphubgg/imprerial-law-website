@@ -5,7 +5,7 @@
 **X (160 Zeichen):**
 `Fortnite Esports. Pro · Academy · Creators. Fearless. Elevated. 🏆 Business: business@[domain]`
 
-**X (Variante kurz):** `VLX | Fortnite Org 🖤 Pro • Academy • Creators | #VALIOUXGG`
+**X (Variante kurz):** `VLX | Fortnite Org 🖤 Pro • Academy • Creators | #VLXWIN`
 
 **Twitch (About):**
 `VALIOUX ist eine Fortnite-Esports-Organisation. Hier läuft unser Pro-Team, unsere Creators und eigene Shows live. Follow, Sub, Hype. Business: business@[domain]`
@@ -18,10 +18,11 @@
 **Discord-Server-Beschreibung:** `Offizieller VALIOUX-Server: Pro-Team, Academy, Creators, Turniere, Community. Regeln lesen, Rolle holen, mitmachen.`
 
 ## Hashtags
-- **Marke:** `#VALIOUX` `#VLX` `#VALIOUXGG` `#FearlessElevated`
+- **Haupt-Hashtag:** `#VLXWIN` (Marke + Sieg – kommt in jede Bio, jeden Sieg-Post, aufs Jersey und in den Website-Footer)
+- **Marke:** `#VALIOUX` `#VLX` `#FearlessElevated`
 - **Team:** `#VLXPro` `#VLXAcademy` `#VLXCreators`
 - **Fortnite:** `#Fortnite` `#FNCS` `#FortniteEsports` `#FortniteCompetitive`
-- **Aktion:** `#VLXWin` (Siege) · `#VLXLive` (Streams) · `#VLXWeekly` (Show) · `#VLXMatchday`
+- **Aktion:** `#VLXWIN` (Siege, Hauptzeichen) · `#VLXLive` (Streams) · `#VLXWeekly` (Show) · `#VLXMatchday`
 - Pro Post: 1 Marken-Tag + 1–2 Themen-Tags, nicht mehr als 3.
 
 ## Launch-Plan (7 Tage)
@@ -49,7 +50,7 @@ Meet the roster 👇
 ```
 
 ## Post-Vorlagen
-- **Sieg:** `GG. [Team] holt [Platz] bei [Turnier]. 🏆 Danke an alle, die mitgefiebert haben. #VLXWin #VALIOUX`
+- **Sieg:** `GG. [Team] holt [Platz] bei [Turnier]. 🏆 Danke an alle, die mitgefiebert haben. #VLXWIN #VALIOUX`
 - **Niederlage:** `Nicht unser Tag. Wir lernen, trainieren, kommen stärker zurück. Danke für den Support. #VALIOUX`
 - **Matchday:** `MATCHDAY 🖤 [Team] vs. [Gegner] · [Uhrzeit] · Live: twitch.tv/[kanal] #VLXMatchday`
 - **Roster-Move:** `Welcome to VALIOUX, [Handle]. 🖤 [Rolle] · [Land]. #VLXPro`

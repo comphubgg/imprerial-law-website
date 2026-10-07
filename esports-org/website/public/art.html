@@ -1,0 +1,20 @@
+<!doctype html><html><head><meta charset="utf-8"><script type="importmap">{"imports":{"three":"/vendor/three/three.module.js"}}</script>
+<style>html,body{margin:0;background:transparent}#stage{position:relative;overflow:hidden}#bg,#txt,#v{position:absolute;inset:0}
+#txt{display:flex;flex-direction:column;justify-content:space-between;padding:6% 7%;color:#fff;font-family:Anton,Impact,sans-serif;text-transform:uppercase}
+.big{font-size:23vw;line-height:.82;transform:skewX(-9deg);color:transparent;-webkit-text-stroke:2px rgba(255,255,255,.55);white-space:nowrap}.sm{font:600 14px Inter,system-ui,sans-serif;letter-spacing:.3em;opacity:.8}.nm{font-size:44px;letter-spacing:.04em;transform:skewX(-9deg)}</style></head>
+<body><div id="stage"><div id="bg"></div><div id="txt"></div><div id="v"></div></div>
+<script type="module">
+import { mountKit, loadFonts, DEFAULT_KITS } from '/kit3d.js';
+await loadFonts();
+const q = new URLSearchParams(location.search), W = +q.get('w') || 1000, H = +q.get('h') || 1000, mode = q.get('mode') || 'product';
+const kit = { ...DEFAULT_KITS[q.get('kit') || 'pro'], kind: q.get('kind') || 'jersey' }; if (q.get('sponsor')) kit.sponsor = q.get('sponsor');
+const st = document.getElementById('stage'); st.style.width = W + 'px'; st.style.height = H + 'px'; document.getElementById('v').style.cssText = 'position:absolute;inset:0';
+if (mode === 'team') {
+  const a = kit.accent || '#2f6bff'; const bg = document.getElementById('bg');
+  bg.style.background = `radial-gradient(80% 55% at 70% 28%, ${a}66, transparent 70%), repeating-linear-gradient(115deg, transparent 0 46px, rgba(255,255,255,.05) 46px 48px), linear-gradient(170deg, #0b0c10, ${kit.secondary} 55%, #05060a)`;
+  const t = document.getElementById('txt'); t.innerHTML = `<div class="big">${q.get('title') || 'FORTNITE'}</div><div><div class="nm">${q.get('org') || 'VALIOUX'}</div><div class="sm">${q.get('sub') || ''}</div></div>`; t.querySelector('.big').style.fontSize = (q.get('fs') || 0.23 * W) + 'px';
+}
+if (q.get('nojersey')) { const m = document.createElement('div'); m.style.cssText = `position:absolute;left:0;right:0;top:34%;text-align:center;font:italic 400 ${W*.42}px Anton,Impact,sans-serif;transform:skewX(-9deg);background:linear-gradient(180deg,#fff,${kit.accent});-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 40px ${kit.accent}aa);line-height:1`; m.textContent = q.get('mark') || 'VLX'; document.getElementById('v').append(m); window.ready = true; } else
+window.viewer = await mountKit(document.getElementById('v'), kit, { preserve: true, autoRotate: false, fit: +q.get('fit') || .8, yaw: +(q.get('yaw') ?? .3), pitch: +(q.get('pitch') ?? .08) });
+if (!window.ready) window.ready = true;
+</script></body></html>

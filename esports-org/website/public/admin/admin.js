@@ -19,8 +19,11 @@ const SCHEMA = {
     ['title', 'Headline (English, GROSS)', 'text', T(0, { required: 1 })], ['subtitle', 'Unterzeile (English)', 'text', T()], ['image', 'Hintergrundbild (1920×900 empfohlen, optional)', 'image'],
     ['style', 'Hintergrund ohne Bild', 'select', { options: [['night', 'Nacht (dunkelblau)'], ['steel', 'Stahl (silber)'], ['light', 'Hell (weiß)']] }],
     ['cta', 'Button-Text (English)', 'text', T()], ['link', 'Button-Link (z. B. /teams oder https://…)', 'text'], ['order', 'Reihenfolge (1, 2, 3 …)', 'text'], ['active', 'Anzeigen', 'check']] },
-  products: { label: 'Shop-Produkte', title: 'name', img: 'image', sub: p => `${p.price || ''} · Reihenfolge ${p.order || '-'}`, fields: [
-    ['name', 'Produktname', 'text', { required: 1 }], ['price', 'Preis (z. B. €74.99)', 'text'], ['image', 'Produktbild', 'image'], ['link', 'Link zum Produkt (Shop-URL)', 'text'], ['order', 'Reihenfolge (das erste ist die große Kachel)', 'text'], ['active', 'Anzeigen', 'check']] },
+  products: { label: 'Shop-Produkte', title: 'name', img: 'image', sub: p => `${p.kind || ''} · ${p.price || ''} · Reihenfolge ${p.order || '-'}`, fields: [
+    ['name', 'Produktname', 'text', { required: 1 }], ['kind', 'Art', 'select', { options: [['jersey', 'Jersey'], ['jacket', 'Tracksuit Jacket'], ['jogger', 'Joggers'], ['hoodie', 'Hoodie'], ['tee', 'T-Shirt'], ['cap', 'Cap'], ['bag', 'Bag'], ['flag', 'Flag'], ['scarf', 'Scarf'], ['other', 'Sonstiges']] }],
+    ['price', 'Preis (z. B. €74.99)', 'text'], ['description', 'Beschreibung (English)', 'textarea', T()], ['image', 'Hauptbild (Karte; falls leer: Front-Ansicht)', 'image'],
+    ['viewFront', 'Ansicht: Vorne', 'image'], ['viewBack', 'Ansicht: Hinten', 'image'], ['viewLeft', 'Ansicht: Links', 'image'], ['viewRight', 'Ansicht: Rechts', 'image'], ['viewTop', 'Ansicht: Oben', 'image'], ['viewBottom', 'Ansicht: Unten', 'image'],
+    ['link', 'Kauf-Link (Shopify/Shop-URL)', 'text'], ['order', 'Reihenfolge (das erste ist die große Kachel)', 'text'], ['active', 'Anzeigen', 'check']] },
   games: { label: 'Spiele', title: 'name', sub: g => g.slug, fields: [
     ['name', 'Name', 'text', { required: 1 }], ['slug', 'Slug (URL-Kürzel)', 'text'], ['active', 'Auf der Website anzeigen', 'check']] },
   teams: { label: 'Teams', title: 'name', img: 'image', sub: t => `${tierName(t.tier)} · ${nameOf('games', t.gameId)} · /team/${t.slug || ''}`, fields: [
@@ -100,7 +103,7 @@ function viewOrg() {
   const o = DB.org;
   const defs = [['name', 'Organisationsname', 'text', { required: 1 }], ['tagline', 'Tagline (English)', 'text', { tr: 1 }], ['description', 'Description (English)', 'textarea', { tr: 1 }],
     ['theme', 'Farbwelt (Saison-Theme)', 'theme'], ['logo', 'Logo (Standard)', 'image'], ['themeLogo', 'Spezial-Logo nur für die gewählte Farbwelt (optional)', 'image'],
-    ['promoText', 'Promo-Leiste oben (leer = ausblenden)', 'text', { tr: 1 }], ['promoLink', 'Promo-Link (z. B. /shop)', 'text'], ['hashtag', 'Hashtag im Footer (z. B. #VLX)', 'text'], ['footerText', 'Footer-Text (English)', 'textarea', { tr: 1 }],
+    ['mark', 'Kurzzeichen (z. B. VLX)', 'text'], ['promoText', 'Promo-Leiste oben (leer = ausblenden)', 'text', { tr: 1 }], ['promoLink', 'Promo-Link (z. B. /shop)', 'text'], ['hashtag', 'Hashtag im Footer (z. B. #VLX)', 'text'], ['footerText', 'Footer-Text (English)', 'textarea', { tr: 1 }],
     ['navLinks', 'Zusätzliche Menü-Links (eine Zeile pro Link: Label|https://…)', 'textarea'], ['twitchChannel', 'Haupt-Twitch-Kanal', 'text', { hint: 'Nur der Kanalname' }],
     ['contactEmail', 'Kontakt-E-Mail', 'text'], ['shopUrl', 'Externer Shop-Link (Shopify o. ä., optional)', 'text'], ['socials', 'Social-Media der Organisation', 'socials', { keys: ORGSOC }],
     ['newsletter', 'Newsletter-Anmeldung anzeigen', 'check']];
