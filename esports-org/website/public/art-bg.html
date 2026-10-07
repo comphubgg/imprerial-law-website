@@ -1,0 +1,39 @@
+<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;background:#000}canvas{display:block}</style></head><body><canvas id="c"></canvas><script>
+// Atmosphärische Hintergrundbilder (Himmel, Sturm, Berge, Lichtstrahlen) – komplett selbst erzeugt, ohne fremde Artworks.
+const q = new URLSearchParams(location.search), W = +q.get('w') || 1600, H = +q.get('h') || 900, seed = +q.get('seed') || 1, pal = q.get('pal') || 'storm';
+const P = {
+  storm:  { top: '#04050b', mid: '#16206a', low: '#2f4bd0', glow: '#6f93ff', cloud: [90, 120, 255], ground: '#04050a', gx: .72, gy: .34 },
+  steel:  { top: '#0b0f16', mid: '#3a4a60', low: '#7f95b0', glow: '#bfe3ff', cloud: [200, 220, 240], ground: '#07090d', gx: .3, gy: .3 },
+  dusk:   { top: '#07040d', mid: '#2a1450', low: '#7a3dd0', glow: '#c08bff', cloud: [170, 120, 255], ground: '#05030a', gx: .66, gy: .38 },
+  gold:   { top: '#060504', mid: '#2a2010', low: '#7a5a1a', glow: '#ffd37a', cloud: [255, 200, 110], ground: '#050403', gx: .7, gy: .36 },
+  ice:    { top: '#04080f', mid: '#10304f', low: '#2f7fc0', glow: '#a9e4ff', cloud: [150, 210, 255], ground: '#04070c', gx: .5, gy: .3 },
+}[pal];
+let s = seed * 9301 + 49297; const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647;
+const hash = (x, y) => { let h = (x * 374761393 + y * 668265263 + seed * 1013) | 0; h = Math.imul(h ^ (h >>> 13), 1274126177); return ((h ^ (h >>> 16)) >>> 0) / 4294967295; };
+const vn = (x, y) => { const xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi, u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf); const a = hash(xi, yi), b = hash(xi + 1, yi), c = hash(xi, yi + 1), d = hash(xi + 1, yi + 1); return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v; };
+const fbm = (x, y, o = 5) => { let a = .5, f = 1, t = 0; for (let i = 0; i < o; i++) { t += a * vn(x * f, y * f); f *= 2.05; a *= .5; } return t; };
+const c = document.getElementById('c'); c.width = W; c.height = H; const g = c.getContext('2d');
+// Himmel
+let gr = g.createLinearGradient(0, 0, 0, H); gr.addColorStop(0, P.top); gr.addColorStop(.55, P.mid); gr.addColorStop(.85, P.low); gr.addColorStop(1, P.mid); g.fillStyle = gr; g.fillRect(0, 0, W, H);
+// Glow
+const gx = P.gx * W, gy = P.gy * H; gr = g.createRadialGradient(gx, gy, 0, gx, gy, W * .55); gr.addColorStop(0, P.glow + 'cc'); gr.addColorStop(.25, P.glow + '55'); gr.addColorStop(1, '#00000000'); g.fillStyle = gr; g.fillRect(0, 0, W, H);
+// Lichtstrahlen
+g.save(); g.globalCompositeOperation = 'lighter'; for (let i = 0; i < 26; i++) { const a = -Math.PI * .1 + rnd() * Math.PI * 1.2, w = .01 + rnd() * .05, L = W * 1.4; g.fillStyle = P.glow + (Math.floor(8 + rnd() * 18)).toString(16).padStart(2, '0'); g.beginPath(); g.moveTo(gx, gy); g.lineTo(gx + Math.cos(a - w) * L, gy + Math.sin(a - w) * L); g.lineTo(gx + Math.cos(a + w) * L, gy + Math.sin(a + w) * L); g.closePath(); g.fill(); } g.restore();
+// Wolken (Pixel-Rauschen, halbe Auflösung)
+function clouds(scale, y0, y1, alpha, off) { const w = W >> 1, h = H >> 1, cv = document.createElement('canvas'); cv.width = w; cv.height = h; const cg = cv.getContext('2d'), im = cg.createImageData(w, h);
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) { const ny = y / h; const band = Math.max(0, Math.min(1, (ny - y0) / (y1 - y0))) * Math.max(0, Math.min(1, (1 - ny + (1 - y1) * 0 + 0.0) * 0 + 1)); const m = Math.sin(Math.PI * Math.min(1, Math.max(0, (ny - y0) / (y1 - y0)))); const n = fbm(x / w * scale + off, y / h * scale * .55 + off * 2.1, 6), d = Math.max(0, Math.min(1, (n - .42) * 3.2)) * m * alpha; const i = (y * w + x) * 4; im.data[i] = P.cloud[0]; im.data[i + 1] = P.cloud[1]; im.data[i + 2] = P.cloud[2]; im.data[i + 3] = d * 255; }
+  cg.putImageData(im, 0, 0); g.imageSmoothingQuality = 'high'; g.drawImage(cv, 0, 0, W, H); }
+clouds(3.2, .05, .75, .55, seed * 3.1); clouds(5.5, .2, .9, .38, seed * 7.7 + 5);
+// Dunkle Sturmwolken oben
+gr = g.createLinearGradient(0, 0, 0, H * .5); gr.addColorStop(0, P.top + 'dd'); gr.addColorStop(1, '#00000000'); g.fillStyle = gr; g.fillRect(0, 0, W, H * .5);
+// Berge/Landschaft (3 Ebenen, jeweils dunkler)
+function ridge(base, amp, color, rough, off) { g.fillStyle = color; g.beginPath(); g.moveTo(0, H); for (let x = 0; x <= W; x += 6) { const t = x / W; const y = H * base - (fbm(t * rough + off, off * 1.3, 5) - .35) * H * amp; g.lineTo(x, y); } g.lineTo(W, H); g.closePath(); g.fill(); }
+ridge(.78, .5, P.mid + 'aa', 4, seed * 2.3); ridge(.86, .42, P.low.length ? '#0a0e1caa' : '#000', 6, seed * 5.9 + 2); ridge(.94, .3, P.ground, 8, seed * 9.1 + 4);
+gr = g.createLinearGradient(0, H * .7, 0, H); gr.addColorStop(0, '#00000000'); gr.addColorStop(1, P.ground + 'ee'); g.fillStyle = gr; g.fillRect(0, H * .7, W, H * .3);
+// Funken
+g.save(); g.globalCompositeOperation = 'lighter'; for (let i = 0; i < 90; i++) { const x = rnd() * W, y = rnd() * H, r = .6 + rnd() * 2.2; g.fillStyle = P.glow + (Math.floor(50 + rnd() * 160)).toString(16).padStart(2, '0'); g.beginPath(); g.arc(x, y, r, 0, 7); g.fill(); } g.restore();
+// Vignette + Korn
+gr = g.createRadialGradient(W / 2, H / 2, H * .2, W / 2, H / 2, W * .75); gr.addColorStop(0, '#00000000'); gr.addColorStop(1, '#000000bb'); g.fillStyle = gr; g.fillRect(0, 0, W, H);
+const im = g.getImageData(0, 0, W, H), d = im.data; for (let i = 0; i < d.length; i += 4) { const n = (Math.random() - .5) * 14; d[i] += n; d[i + 1] += n; d[i + 2] += n; } g.putImageData(im, 0, 0);
+window.ready = true;
+</script></body></html>

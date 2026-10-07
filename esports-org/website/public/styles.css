@@ -115,7 +115,7 @@ header.top .bar{display:flex;align-items:center;gap:24px;height:62px;padding:0 2
 .tcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));max-width:1440px;margin:0 auto}
 .tcard{background:#fff;display:block}
 .tcard .im{aspect-ratio:3/4;background:linear-gradient(160deg,#0b0b0d,#1b2030) center/cover;display:grid;place-content:center;color:#fff;font:34px var(--disp);text-align:center;padding:16px;position:relative;overflow:hidden}
-.tcard .im::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 70% 20%,rgba(255,255,255,.18),transparent 60%)}
+.tcard .im::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.15) 0%,rgba(0,0,0,.55) 55%,rgba(0,0,0,.92) 100%)}
 .tcard .im img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .tcard .nm{padding:14px 16px 18px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
 .tcard:hover .nm{color:var(--link)}
@@ -190,3 +190,30 @@ select.lang{background:transparent;color:#fff;border:1px solid var(--dl);padding
 .pv-info{padding:48px clamp(24px,4vw,64px)}.pv-info h1{font-size:clamp(40px,5vw,72px);margin:8px 0 10px}.pv-info .price{font:700 24px Inter;margin-bottom:18px}.pv-info p{color:#444;max-width:52ch;margin-bottom:24px;white-space:pre-line}
 .cta2{display:inline-block;background:var(--link);color:#fff;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:13px;padding:16px 34px}
 @media(max-width:1000px){.pv{grid-template-columns:1fr}.pv-media,.pv-stage{min-height:420px}}
+
+/* Team-Karten & Team-Seite mit Bild + großer Wortmarke */
+.tcard .im{background-color:#0b0b0d;background-size:cover;background-position:center;place-content:end center;text-align:center}
+.tcard .wmk{position:relative;z-index:2;width:100%;padding:0 10px 22px;color:#fff;-webkit-mask-image:linear-gradient(180deg,#000 62%,rgba(0,0,0,.5));mask-image:linear-gradient(180deg,#000 62%,rgba(0,0,0,.5))}
+.tcard .wmk span{display:block;font:italic 400 clamp(34px,3.6vw,52px)/.95 var(--disp);transform:skewX(-9deg);text-transform:uppercase;letter-spacing:.01em}
+.tcard .wmk small{display:block;font:italic 400 18px var(--disp);letter-spacing:.34em;margin-top:6px;opacity:.9;transform:skewX(-9deg)}
+.thero{position:relative;min-height:min(78vh,720px);display:flex;align-items:flex-end;background:#0b0b0d center/cover;color:#fff;overflow:hidden}
+.thero::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,.35) 40%,rgba(0,0,0,.94) 100%)}
+.thero .wrap{position:relative;width:100%;padding-bottom:36px}
+.thero .wm{text-align:center;margin:0 auto 34px;-webkit-mask-image:linear-gradient(180deg,#000 55%,rgba(0,0,0,.45));mask-image:linear-gradient(180deg,#000 55%,rgba(0,0,0,.45))}
+.thero .wm span{display:block;font:italic 400 clamp(64px,13vw,190px)/.9 var(--disp);transform:skewX(-9deg);text-transform:uppercase}
+.thero .wm small{display:block;font:italic 400 clamp(22px,3.4vw,44px) var(--disp);letter-spacing:.42em;transform:skewX(-9deg);margin-top:8px;opacity:.95}
+.thero .cap h1{font-size:clamp(34px,4.6vw,60px);margin-bottom:10px}.thero .cap p{color:#d6dbe5;max-width:70ch}
+/* Spieler-Karten im Big-Org-Stil */
+.pcard .im{position:relative;background:linear-gradient(135deg,#f3f4f6 0 34%,#fff 34%);display:block;font-size:0;overflow:hidden}
+.pcard .im .band{position:absolute;left:-12%;top:-5%;width:70%;height:115%;background:var(--link);transform:skewX(-18deg)}
+.pcard .im .wm{position:absolute;inset:6% -8% auto auto;display:grid;gap:0;transform:skewX(-14deg);text-align:right}
+.pcard .im .wm span{font:italic 400 clamp(38px,4.6vw,70px)/.88 var(--disp);color:rgba(255,255,255,.88);letter-spacing:.01em;white-space:nowrap}
+.pcard .im .wm span:nth-child(2){color:transparent;-webkit-text-stroke:2px rgba(255,255,255,.75)}
+.pcard .im img{position:relative;z-index:2;width:100%;height:100%;object-fit:cover;object-position:top}
+.pcard .im .sil{position:absolute;z-index:2;left:50%;bottom:-3%;width:58%;transform:translateX(-50%);color:#1b1e26;opacity:.9}.pcard .im .sil svg{width:100%;height:auto;fill:currentColor}
+@media(max-width:600px){
+ .tcards,.roster{grid-template-columns:repeat(2,1fr)}
+ .tcard .wmk span{font-size:30px}.tcard .wmk small{font-size:13px;letter-spacing:.26em}
+ .pcard .nm{font-size:11px;padding:10px 10px 4px;flex-direction:column;align-items:flex-start;gap:2px}.pcard .rl,.pcard p,.pcard .sc{padding-left:10px;padding-right:10px}.pcard p{font-size:12px}
+ .tcards .pc .in{padding:10px 12px 14px}
+}

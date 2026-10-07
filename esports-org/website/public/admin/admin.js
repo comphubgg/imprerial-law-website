@@ -28,7 +28,7 @@ const SCHEMA = {
     ['name', 'Name', 'text', { required: 1 }], ['slug', 'Slug (URL-Kürzel)', 'text'], ['active', 'Auf der Website anzeigen', 'check']] },
   teams: { label: 'Teams', title: 'name', img: 'image', sub: t => `${tierName(t.tier)} · ${nameOf('games', t.gameId)} · /team/${t.slug || ''}`, fields: [
     ['name', 'Teamname', 'text', T(0, { required: 1 })], ['slug', 'Slug (URL, z. B. fortnite)', 'text', { required: 1 }], ['gameId', 'Spiel', 'ref:games'], ['tier', 'Stufe', 'select', { options: [['pro', 'Pro'], ['academy', 'Academy'], ['talent', 'Talent']] }],
-    ['image', 'Team-Bild (3:4 Hochformat, Karte + Kopfbild)', 'image'], ['description', 'Beschreibung (English)', 'textarea', T()], ['order', 'Reihenfolge', 'text'], ['active', 'Anzeigen', 'check']] },
+    ['image', 'Hintergrundbild (Querformat; Karte + Team-Seite)', 'image'], ['wordmark', 'Große Schrift auf dem Bild (z. B. FORTNITE)', 'text', T()], ['subtitle', 'Zusatz unter der Schrift (z. B. ACADEMY)', 'text'], ['description', 'Beschreibung (English)', 'textarea', T()], ['order', 'Reihenfolge', 'text'], ['active', 'Anzeigen', 'check']] },
   players: { label: 'Spieler', title: 'handle', img: 'photo', sub: p => [p.role, nameOf('teams', p.teamId)].filter(Boolean).join(' · '), fields: [
     ['handle', 'Spielername / Handle', 'text', { required: 1 }], ['firstName', 'Vorname', 'text'], ['lastName', 'Nachname', 'text'], ['role', 'Rolle', 'text'], ['country', 'Land (2 Buchstaben, z. B. DE)', 'text'],
     ['teamId', 'Team', 'ref:teams'], ['photo', 'Foto (Hochformat 4:5)', 'image'], ['bio', 'Kurzbio (English)', 'textarea', T()], ['socials', 'Socials', 'socials'], ['active', 'Anzeigen', 'check']] },

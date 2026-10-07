@@ -49,21 +49,25 @@
       "name": "Fortnite",
       "slug": "fortnite",
       "tier": "pro",
-      "image": "/assets/teams/team-fortnite.png",
+      "image": "/assets/bg/team-fortnite.jpg",
       "description": "Our Fortnite Pro roster competing in FNCS and major tournaments.",
       "order": 1,
-      "active": true
+      "active": true,
+      "wordmark": "FORTNITE",
+      "subtitle": ""
     },
     {
       "id": "t-acad",
       "gameId": "g-fn",
-      "name": "Academy",
+      "name": "Fortnite Academy",
       "slug": "academy",
       "tier": "academy",
-      "image": "/assets/teams/team-academy.png",
+      "image": "/assets/bg/team-academy.jpg",
       "description": "The next generation – talent with a plan.",
       "order": 2,
-      "active": true
+      "active": true,
+      "wordmark": "FORTNITE",
+      "subtitle": "ACADEMY"
     }
   ],
   "players": [
@@ -188,7 +192,7 @@
       "id": "sl1",
       "title": "WELCOME TO VALIOUX",
       "subtitle": "FEARLESS. ELEVATED.",
-      "image": "",
+      "image": "/assets/bg/hero-1.jpg",
       "style": "night",
       "cta": "Meet the team",
       "link": "/teams",
@@ -197,10 +201,10 @@
     },
     {
       "id": "sl2",
-      "title": "NEW JERSEY",
+      "title": "NEW KIT",
       "subtitle": "COMING SOON",
-      "image": "",
-      "style": "steel",
+      "image": "/assets/bg/hero-2.jpg",
+      "style": "night",
       "cta": "",
       "link": "",
       "order": 2,
@@ -210,8 +214,8 @@
       "id": "sl3",
       "title": "JOIN THE ACADEMY",
       "subtitle": "APPLY NOW",
-      "image": "",
-      "style": "light",
+      "image": "/assets/bg/hero-3.jpg",
+      "style": "night",
       "cta": "Apply",
       "link": "/page/academy-apply",
       "order": 3,
@@ -381,21 +385,21 @@
       "body": "The journey begins. Follow us on all channels and never miss a moment.\n\nMore news soon.",
       "body_de": "Die Reise beginnt. Folge uns auf allen Kanälen und verpasse nichts.",
       "date": "2026-10-07",
-      "image": ""
+      "image": "/assets/bg/news-1.jpg"
     },
     {
       "id": "n2",
       "title": "Roster announcement coming soon",
       "body": "We are finalising our Fortnite roster. Stay tuned.",
       "date": "2026-10-06",
-      "image": ""
+      "image": "/assets/bg/news-2.jpg"
     },
     {
       "id": "n3",
       "title": "Academy tryouts open",
       "body": "Think you have what it takes? Apply for our Academy.",
       "date": "2026-10-05",
-      "image": ""
+      "image": "/assets/bg/news-3.jpg"
     }
   ],
   "matches": [

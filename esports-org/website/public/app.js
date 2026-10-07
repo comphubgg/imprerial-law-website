@@ -201,7 +201,8 @@ function teamsSection() {
   const ts = teamsList(); if (!ts.length) return null;
   return h('section', { class: 'sec' }, sectionHead(T('teams'), T('viewTeams'), '/teams'), h('div', { class: 'tcards grid-line' }, ts.map(teamCard)));
 }
-const teamCard = t => A('/team/' + slugOf(t), { class: 'tcard' }, h('div', { class: 'im' }, t.image && safeUrl(t.image) ? h('img', { src: safeUrl(t.image), alt: t.name, loading: 'lazy' }) : (t.name || '').toUpperCase()), h('div', { class: 'nm' }, TR(t, 'name') || t.name));
+const bgStyle = u => (u && safeUrl(u)) ? { backgroundImage: `url("${safeUrl(u)}")` } : {};
+const teamCard = t => A('/team/' + slugOf(t), { class: 'tcard' }, h('div', { class: 'im', style: bgStyle(t.image) }, h('div', { class: 'wmk' }, h('span', {}, (TR(t, 'wordmark') || t.name || '').toUpperCase()), t.subtitle ? h('small', {}, t.subtitle) : null)), h('div', { class: 'nm' }, TR(t, 'name') || t.name));
 const newsCard = n => A('/news/' + n.id, { class: 'nc' }, h('div', { class: 'im' }, n.image && safeUrl(n.image) ? h('img', { src: safeUrl(n.image), alt: '', loading: 'lazy' }) : null), h('h3', {}, TR(n, 'title')), h('time', {}, fmtDate(n.date)));
 const sortedNews = () => [...D.news].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
 function newsSection() {
@@ -245,13 +246,20 @@ function prose(body) {
   }
   return box;
 }
+const SILH = 'M12 2a5 5 0 1 1 0 10 5 5 0 0 1 0-10zM2 22c0-5.5 4.5-9 10-9s10 3.5 10 9z';
 function playerCard(p) {
   const name = p.firstName || p.lastName ? [p.firstName, p.handle ? `"${p.handle}"` : '', p.lastName].filter(Boolean).join(' ') : (p.realName ? `${p.realName} "${p.handle}"` : p.handle);
-  return h('article', { class: 'pcard' }, h('div', { class: 'im' }, p.photo && safeUrl(p.photo) ? h('img', { src: safeUrl(p.photo), alt: p.handle, loading: 'lazy' }) : initials(p.handle)),
+  const wm = (D.org.hashtag || D.org.mark || D.org.name || '').replace('#', '').toUpperCase();
+  return h('article', { class: 'pcard' }, h('div', { class: 'im' }, h('div', { class: 'band' }), h('div', { class: 'wm', 'aria-hidden': 'true' }, [0, 1, 2].map(() => h('span', {}, wm))),
+      p.photo && safeUrl(p.photo) ? h('img', { src: safeUrl(p.photo), alt: p.handle, loading: 'lazy' }) : h('div', { class: 'sil', 'aria-hidden': 'true' }, svgEl(SILH))),
     h('div', { class: 'nm' }, h('span', {}, name), h('span', {}, flag(p.country))), p.role ? h('div', { class: 'rl' }, p.role) : null, TR(p, 'bio') ? h('p', {}, TR(p, 'bio')) : null, h('div', { class: 'sc' }, ['instagram', 'youtube', 'tiktok', 'x', 'twitch'].map(k => socUrl(k, (p.socials || {})[k]) ? h('a', { href: socUrl(k, p.socials[k]), target: '_blank', rel: 'noopener noreferrer', 'aria-label': SOCNAME[k] }, socIcon(k)) : null)));
 }
 function viewHome() {
   return [heroSlider(), marquee(), shopSection(), matchesSection(), teamsSection(), newsSection()];
+}
+function teamHero(t) {
+  return h('section', { class: 'thero', style: bgStyle(t.image) }, h('div', { class: 'wrap' }, h('div', { class: 'wm', 'aria-hidden': 'true' }, h('span', {}, (TR(t, 'wordmark') || t.name || '').toUpperCase()), t.subtitle ? h('small', {}, t.subtitle) : null),
+    h('div', { class: 'cap' }, h('div', { class: 'crumb' }, A('/', {}, T('nav.home')), ' / ', A('/teams', {}, T('nav.teams'))), h('h1', {}, TR(t, 'name') || t.name), TR(t, 'description') ? h('p', {}, TR(t, 'description')) : null)));
 }
 function viewTeams() { return [pageHead(T('nav.teams'), '', T('nav.teams')), h('section', { class: 'sec' }, h('div', { class: 'tcards grid-line' }, teamsList().map(teamCard)))]; }
 function viewTeam(slug) {
@@ -259,7 +267,7 @@ function viewTeam(slug) {
   const ps = act(D.players).filter(p => p.teamId === t.id), ach = (D.achievements || []).filter(a => a.teamId === t.id).sort((a, b) => (b.year || '').localeCompare(a.year || ''));
   const scroller = h('div', { class: 'ach' }, ach.map(a => h('div', {}, h('div', { class: 'top' }, h('span', { class: 'badge' + (/^1/.test(a.placement) ? ' first' : '') }, String(a.placement || '').toUpperCase()), h('span', {}, a.year)), h('div', { class: 'lg' }, a.logo && safeUrl(a.logo) ? h('img', { src: safeUrl(a.logo), alt: '' }) : '🏆'), h('b', {}, TR(a, 'title')))));
   const rs = (D.matches || []).filter(m => m.teamId === t.id && m.status === 'finished').sort((a, b) => new Date(b.datetime) - new Date(a.datetime)).slice(0, 6);
-  return [pageHead(TR(t, 'name') || t.name, TR(t, 'description'), t.name, t.image),
+  return [teamHero(t),
     h('section', { class: 'sec' }, sectionHead(T('roster')), ps.length ? h('div', { class: 'roster grid-line' }, ps.map(playerCard)) : h('div', { class: 'wrap empty', style: { color: '#6b7280' } }, T('rosterEmpty'))),
     ach.length ? h('section', { class: 'sec' }, sectionHead(T('achievements')), h('div', { class: 'hl' }, h('button', { 'aria-label': 'Previous', onclick: () => scroller.scrollBy({ left: -440, behavior: 'smooth' }) }, ico('left')), h('button', { 'aria-label': 'Next', onclick: () => scroller.scrollBy({ left: 440, behavior: 'smooth' }) }, ico('right'))), scroller) : null,
     rs.length ? h('section', { class: 'mr' }, h('div', { class: 'cols', style: { gridTemplateColumns: '1fr' } }, h('div', { class: 'col', style: { minHeight: 0 } }, h('h2', {}, T('teamResults')), rs.map(m => h('div', { class: 'rrow' }, h('div', { class: 'l' }, h('b', {}, `${teamName(t)} ${T('vs')} ${m.opponent}`), h('span', {}, [m.event, fmtDate(m.datetime)].filter(Boolean).join(' · '))), h('div', { class: 'sc' }, h('span', { class: m.result === 'win' ? 'w' : m.result === 'loss' ? 'x' : '' }, `${m.scoreHome}:${m.scoreAway}`)))))) ) : null];
