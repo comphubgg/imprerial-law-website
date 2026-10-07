@@ -4,6 +4,7 @@
 @font-face{font-family:Inter;font-weight:600;src:url(/fonts/inter-600.woff2) format("woff2")}
 @font-face{font-family:Inter;font-weight:700;src:url(/fonts/inter-700.woff2) format("woff2")}
 :root{--accent:#E4EAF2;--accent2:#8FB8FF;--grad:linear-gradient(180deg,#FFFFFF,#AEB6C2);--on:#0A0B0E;--link:#1E50FF;--disp:Anton,"Arial Narrow",Impact,sans-serif;--body:Inter,system-ui,sans-serif;--s:1}
+html{color-scheme:dark}
 *{box-sizing:border-box;margin:0}html,body{background:transparent;overflow:hidden;font-family:var(--body);color:#fff}
 body.solid{background:#07080b}
 #stage{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;transform:scale(var(--s));overflow:hidden}

@@ -1,0 +1,41 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Overlay Widgets</title>
+<link rel="stylesheet" href="/overlay/overlay.css">
+<style>
+:root{color-scheme:dark;--bg:#07080b;--panel:#10131a;--line:#232833;--mute:#9aa3b2}
+html,body{overflow:auto!important;background:var(--bg)!important;height:auto}body{padding:18px;max-width:1200px;margin:0 auto}
+h1{font:400 44px var(--disp);text-transform:uppercase;letter-spacing:.02em;margin:0 0 6px}p.lead{color:var(--mute);margin:0 0 18px;max-width:70ch}
+.bar{display:flex;gap:18px;flex-wrap:wrap;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;position:sticky;top:0;z-index:5;margin-bottom:18px}
+.bar label{font:700 11px Inter;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);display:block;margin-bottom:6px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}.chip{width:30px;height:30px;border-radius:50%;border:2px solid transparent;cursor:pointer;padding:0}.chip.on{border-color:#fff;box-shadow:0 0 0 2px var(--bg)}
+.st{background:#171b24;color:#fff;border:1px solid var(--line);border-radius:8px;padding:7px 12px;font:700 12px Inter;cursor:pointer}.st.on{background:#fff;color:#000}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,360px),1fr));gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;display:grid;gap:10px;min-width:0}
+.card h3{font:400 24px var(--disp);text-transform:uppercase;margin:0}.card small{color:var(--mute)}
+.pv{position:relative;overflow:hidden;border-radius:8px;background:repeating-conic-gradient(#171b24 0 25%,#12151c 0 50%) 0 0/20px 20px;height:var(--ph)}
+.pv iframe{position:absolute;left:0;top:0;border:0;transform-origin:0 0;background:transparent}
+.url{display:flex;gap:6px}.url input{flex:1;min-width:0;background:#0b0d13;color:#cfd6e4;border:1px solid var(--line);border-radius:8px;padding:8px 10px;font:12px ui-monospace,monospace}
+.url button{background:#fff;color:#000;border:0;border-radius:8px;padding:0 12px;font:700 11px Inter;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.sz{display:flex;gap:6px;align-items:center;color:var(--mute);font-size:12px}.sz input{width:70px;background:#0b0d13;color:#fff;border:1px solid var(--line);border-radius:6px;padding:4px 6px}
+</style></head><body>
+<h1>Overlay Widgets</h1><p class="lead">Jedes Teil ist eine eigene Browser-Quelle für OBS, Streamlabs & Co. Wähle Farbe und Stil, kopiere die Adresse, setze sie als Browser-Quelle ein und stelle dort Breite und Höhe wie angegeben ein.</p>
+<div class="bar"><div><label>Farbe</label><div class="chips" id="colors"></div></div><div><label>Stil</label><div class="chips" id="styles"></div></div></div>
+<div class="grid" id="grid"></div>
+<script>
+const WID = [['cam','Webcam-Rahmen','Nur der Rahmen um deine Kamera. ?ratio=16:9|4:3|1:1|9:16, ?nick=NAME zeigt ein Namensschild.',640,360,5],['chat','Chat-Rahmen','Nur der Rahmen für den Chat. ?title=0 blendet die Überschrift aus.',420,720,5],
+['social-bar','Social-Leiste (nacheinander)','Zeigt X, Twitch, YouTube, Instagram, TikTok, Discord einzeln nacheinander. ?only=x,twitch,tiktok wählt aus.',800,200,4],['partner-bar','Partner-Leiste (nacheinander)','Zeigt deine Partner/Sponsoren einzeln nacheinander.',800,200,4],
+['discord-bar','Discord-Hinweis','Community-Hinweis mit Discord-Link.',800,200,4],['chat-cta','Chat-Aufruf','„Drop a #VLXWIN when we win“ u. Ä. ?lines=Text1|Text2|Text3',800,200,4],['follower-goal','Follower-Ziel','?current=47&goal=100&label=Follower goal',800,200,4],['info-card','Info / nächster Stream','?lines=NEXT STREAM|TOMORROW · 7 PM CET',800,200,4],
+['hashtag','Hashtag','Nur dein Hashtag.',500,140,4],['logo-bug','Logo + Name','Kleines Logo für die Ecke.',500,140,4],['nameplate','Namensschild','?nick=NAME&tag=VLX',520,100,1],['countdown','Countdown','?minutes=10',500,140,4],['alert','Alert-Vorlage','?type=follow|sub|raid&user=NAME',1000,300,1]];
+const COL = {platin:'#E4EAF2',blue:'#2F6BFF',ice:'#7FD0FF',gold:'#F2C14E',red:'#FF3B4E',purple:'#9B5CFF',pink:'#FF4FA8',green:'#2FE27A',orange:'#FF8A2B'};
+let color = 'platin', style = 1; const grid = document.getElementById('grid');
+const cc = document.getElementById('colors'), sc = document.getElementById('styles');
+Object.entries(COL).forEach(([k,v]) => { const b = document.createElement('button'); b.className = 'chip' + (k===color?' on':''); b.style.background = v; b.title = k; b.onclick = () => { color = k; [...cc.children].forEach(x => x.classList.toggle('on', x === b)); draw(); }; cc.append(b); });
+[1,2,3,4,5].forEach(n => { const b = document.createElement('button'); b.className = 'st' + (n===style?' on':''); b.textContent = n; b.onclick = () => { style = n; [...sc.children].forEach(x => x.classList.toggle('on', x === b)); draw(); }; sc.append(b); });
+function draw() { grid.replaceChildren(); WID.forEach(([id, title, desc, w, h, ns]) => { const card = document.createElement('div'); card.className = 'card'; const st = Math.min(style, ns);
+  const pv = document.createElement('div'); pv.className = 'pv'; const ph = Math.min(260, Math.max(90, h)); pv.style.setProperty('--ph', ph + 'px'); const f = document.createElement('iframe'); f.width = w; f.height = h; f.loading = 'lazy';
+  const q = () => `color=${color}&style=${st}`; f.src = `/overlay/widgets/${id}.html?${q()}&nick=PLAYER`; requestAnimationFrame(() => { const sc2 = Math.min(pv.clientWidth / w, ph / h, 1); f.style.transform = `scale(${sc2})`; f.style.left = ((pv.clientWidth - w * sc2) / 2) + 'px'; });
+  pv.append(f); const url = `${location.origin}/overlay/widgets/${id}.html?color=${color}&style=${st}`; const row = document.createElement('div'); row.className = 'url'; const inp = document.createElement('input'); inp.readOnly = true; inp.value = url; const btn = document.createElement('button'); btn.textContent = 'Kopieren';
+  btn.onclick = () => { try { navigator.clipboard.writeText(url).then(() => { btn.textContent = 'Kopiert'; setTimeout(() => btn.textContent = 'Kopieren', 1200); }, () => inp.select()); } catch { inp.select(); } }; row.append(inp, btn);
+  const h3 = document.createElement('h3'); h3.textContent = title; const d = document.createElement('small'); d.textContent = desc; const sz = document.createElement('div'); sz.className = 'sz'; sz.textContent = `Browser-Quelle: ${w} × ${h} px (frei änderbar mit &width= &height=)`;
+  card.append(h3, d, pv, sz, row); grid.append(card); }); }
+draw();
+</script></body></html>
