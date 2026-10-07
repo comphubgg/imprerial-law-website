@@ -64,3 +64,10 @@ html,body{background:transparent!important}
 .sgrid{display:grid;grid-template-columns:repeat(var(--cols),auto);align-items:center;justify-content:center}
 .si{display:flex;align-items:center;gap:.28em;font-family:var(--disp);text-transform:uppercase;letter-spacing:.03em;line-height:1}
 .si svg{width:1.05em;height:1.05em;fill:var(--accent);flex:0 0 auto}.s4 .si svg{fill:var(--on)}.si img{width:auto;max-width:100%;object-fit:contain}
+
+/* Slider-Rahmen: transparent dunkel, dünne Fortschrittslinie oben (läuft pro Seite von links nach rechts), schlanke Kante links, optional hauchdünner Rand */
+.s1 .pn.spn,.s2 .pn.spn,.s3 .pn.spn,.s4 .pn.spn,.s5 .pn.spn{clip-path:none;border:0;border-radius:0;background:rgba(6,8,12,var(--bga,.62));backdrop-filter:blur(6px);box-shadow:none}
+.pn.fr1::after{content:"";position:absolute;inset:0;border:1px solid var(--frm);pointer-events:none}
+.spn-t{position:absolute;left:0;right:0;top:0;height:max(2px,calc(var(--h)*.025));background:rgba(255,255,255,.14)}
+.spn-f{position:absolute;left:0;right:0;top:0;height:max(2px,calc(var(--h)*.025));background:var(--ln);transform-origin:0 50%;transform:scaleX(0);z-index:2}
+.spn-l{position:absolute;left:0;top:0;bottom:0;width:max(3px,calc(var(--h)*.03));background:var(--ln);z-index:2}
