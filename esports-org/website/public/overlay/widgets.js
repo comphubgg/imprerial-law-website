@@ -33,7 +33,7 @@
       const text = (s, b, ic) => { const c = el('div', 'pg-t'); if (ic) { const i = svg(ic); i.style.cssText = `width:${big * .9}px;height:${big * .9}px;fill:var(--accent);flex:0 0 auto`; i.classList.add('it'); c.append(i); } const t = el('div'); const a = el('small', 'it', s), z = el('b', 'it', b); a.style.fontSize = sm + 'px'; z.style.fontSize = big + 'px'; t.append(a, z); c.append(t); return c; };
       const MK = ['M12 2l9 5v10l-9 5-9-5V7z', 'M13 2L4 14h7l-1 8 9-12h-7z', 'M12 2a10 10 0 100 20 10 10 0 000-20zm0 5a5 5 0 110 10 5 5 0 010-10z', 'M3 4l9 8-9 8V4zm9 0l9 8-9 8V4z'];
       const mark4 = i => { const NS = 'http://www.w3.org/2000/svg', sv = document.createElementNS(NS, 'svg'), pa = document.createElementNS(NS, 'path'); sv.setAttribute('viewBox', '0 0 24 24'); pa.setAttribute('d', MK[i % 4]); pa.setAttribute('fill-rule', 'evenodd'); sv.append(pa); return sv; };
-      const offer = Q.get('offer') || 'USE CODE VLX · 5% OFF';
+      const offer = Q.get('offer') || 'USE CODE VALIOUX · 5% OFF';
       const P = {
         logo() { const i = new Image(); i.src = logo; i.className = 'it'; i.style.cssText = `height:${h * .62}px;width:auto;max-width:${w * .8}px;object-fit:contain`; return [i]; },
         socials() { const g = el('div', 'sgrid'); g.style.cssText = `--cols:${cols};font-size:${fs}px;gap:${h * .06}px ${w * .035}px`; soc.forEach(s => { const a = el('div', 'si it'); a.append(svg(s.k), el('span', '', s.text)); g.append(a); }); return [g]; },
@@ -42,7 +42,7 @@
         discord() { return [text('JOIN OUR COMMUNITY', 'DISCORD', 'discord')]; },
         cmd() { return [text('TYPE IN CHAT', Q.get('cmd') || '!orgdc')]; },
         invite() { const d = socials.find(s => s.k === 'discord') || {}; return [text(Q.get('invitelabel') || 'INVITE LINK', Q.get('invite') || (d.ph ? 'discord.gg/yourinvite' : d.text))]; },
-        creator() { return [text('SUPPORT US WITH CREATOR CODE', Q.get('code') || 'VLX')]; },
+        creator() { return [text('SUPPORT US WITH CREATOR CODE', Q.get('code') || 'VALIOUX')]; },
         website() { return [text('VISIT OUR WEBSITE', Q.get('site') || 'valioux.com')]; },
         shop() { return [text('GO TO OUR STORE', Q.get('shop') || 'shop.valioux.com')]; },
         hashtag() { return [text('USE', hashtag)]; },
