@@ -39,7 +39,8 @@
       "weihnachten": "/assets/brand/glow_red.jpg",
       "gold": "/assets/brand/glow_gold.jpg",
       "fruehling": "/assets/brand/glow_cyan.jpg",
-      "pride": "/assets/brand/glow_blue.jpg"
+      "pride": "/assets/brand/glow_blue.jpg",
+      "rosa": "/assets/brand/glow_pink.jpg"
     }
   },
   "games": [
@@ -236,10 +237,11 @@
       "name": "Pro Jersey",
       "kind": "jersey",
       "price": "€74.99",
-      "description": "Product description – edit in the admin panel.",
-      "image": "",
-      "viewFront": "",
-      "viewBack": "",
+      "description": "Black and blue Fortnite Pro jersey with raglan sleeves, side panels and metallic print. Flat design draft.",
+      "description_de": "",
+      "image": "/assets/jersey/pro-front.png",
+      "viewFront": "/assets/jersey/pro-front.png",
+      "viewBack": "/assets/jersey/pro-back.png",
       "viewLeft": "",
       "viewRight": "",
       "viewTop": "",
@@ -250,13 +252,14 @@
     },
     {
       "id": "pr2",
-      "name": "Academy Jersey",
+      "name": "Main Jersey",
       "kind": "jersey",
       "price": "€74.99",
-      "description": "Product description – edit in the admin panel.",
-      "image": "",
-      "viewFront": "",
-      "viewBack": "",
+      "description": "Black and silver organisation jersey. Flat design draft.",
+      "description_de": "",
+      "image": "/assets/jersey/main-front.png",
+      "viewFront": "/assets/jersey/main-front.png",
+      "viewBack": "/assets/jersey/main-back.png",
       "viewLeft": "",
       "viewRight": "",
       "viewTop": "",
@@ -267,19 +270,74 @@
     },
     {
       "id": "pr3",
-      "name": "Creator Jersey",
+      "name": "Academy Jersey",
       "kind": "jersey",
       "price": "€74.99",
-      "description": "Product description – edit in the admin panel.",
-      "image": "",
-      "viewFront": "",
-      "viewBack": "",
+      "description": "Steel and sky blue Academy jersey. Flat design draft.",
+      "description_de": "",
+      "image": "/assets/jersey/academy-front.png",
+      "viewFront": "/assets/jersey/academy-front.png",
+      "viewBack": "/assets/jersey/academy-back.png",
       "viewLeft": "",
       "viewRight": "",
       "viewTop": "",
       "viewBottom": "",
       "link": "",
       "order": 3,
+      "active": true
+    },
+    {
+      "id": "pr4",
+      "name": "Creator Jersey",
+      "kind": "jersey",
+      "price": "€74.99",
+      "description": "Black and gold creator jersey with metallic gold print. Flat design draft.",
+      "description_de": "",
+      "image": "/assets/jersey/creator-front.png",
+      "viewFront": "/assets/jersey/creator-front.png",
+      "viewBack": "/assets/jersey/creator-back.png",
+      "viewLeft": "",
+      "viewRight": "",
+      "viewTop": "",
+      "viewBottom": "",
+      "link": "",
+      "order": 4,
+      "active": true
+    },
+    {
+      "id": "pr5",
+      "name": "Winter Edition Jersey",
+      "kind": "jersey",
+      "price": "€74.99",
+      "description": "Limited winter edition in black and red. Flat design draft.",
+      "description_de": "",
+      "image": "/assets/jersey/christmas-front.png",
+      "viewFront": "/assets/jersey/christmas-front.png",
+      "viewBack": "/assets/jersey/christmas-back.png",
+      "viewLeft": "",
+      "viewRight": "",
+      "viewTop": "",
+      "viewBottom": "",
+      "link": "",
+      "order": 5,
+      "active": true
+    },
+    {
+      "id": "pr6",
+      "name": "Action Edition Jersey",
+      "kind": "jersey",
+      "price": "€74.99",
+      "description": "Limited action edition in black and pink. Flat design draft.",
+      "description_de": "",
+      "image": "/assets/jersey/rosa-front.png",
+      "viewFront": "/assets/jersey/rosa-front.png",
+      "viewBack": "/assets/jersey/rosa-back.png",
+      "viewLeft": "",
+      "viewRight": "",
+      "viewTop": "",
+      "viewBottom": "",
+      "link": "",
+      "order": 6,
       "active": true
     },
     {
@@ -296,7 +354,7 @@
       "viewTop": "",
       "viewBottom": "",
       "link": "",
-      "order": 4,
+      "order": 7,
       "active": true
     },
     {
@@ -313,7 +371,7 @@
       "viewTop": "",
       "viewBottom": "",
       "link": "",
-      "order": 5,
+      "order": 8,
       "active": true
     },
     {
@@ -330,7 +388,7 @@
       "viewTop": "",
       "viewBottom": "",
       "link": "",
-      "order": 6,
+      "order": 9,
       "active": true
     },
     {
@@ -347,7 +405,7 @@
       "viewTop": "",
       "viewBottom": "",
       "link": "",
-      "order": 7,
+      "order": 10,
       "active": true
     },
     {
@@ -364,7 +422,7 @@
       "viewTop": "",
       "viewBottom": "",
       "link": "",
-      "order": 8,
+      "order": 11,
       "active": true
     },
     {
@@ -381,7 +439,7 @@
       "viewTop": "",
       "viewBottom": "",
       "link": "",
-      "order": 9,
+      "order": 12,
       "active": true
     }
   ],

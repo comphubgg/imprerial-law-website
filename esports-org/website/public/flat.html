@@ -1,0 +1,48 @@
+<!doctype html><html><head><meta charset="utf-8"><script type="importmap">{"imports":{"three":"/vendor/three/three.module.js"}}</script>
+<style>html,body{margin:0;background:transparent}canvas{display:block}</style></head><body><canvas id="c"></canvas>
+<script type="module">
+// Flache Jersey-Entwürfe (Vorder- und Rückseite) für Hersteller/Tech-Pack. Parameter: ?kit=pro&scale=14
+import { loadFonts, flatTools as F } from '/kit3d.js';
+const KITS = {
+  main:      { name: 'VLX Main · Black / Silver', primary: '#0b0c10', secondary: '#14161c', side: '#1b1e26', accent: '#C9D2E0', trim: '#E4EAF2', collar: '#C9D2E0', pattern: 'smoke', patternColor: '#1c1f28', metalTrim: true, number: 7, playerName: 'PLAYER', sponsor: 'VALIOUX' },
+  pro:       { name: 'Fortnite Pro · Black / Blue', primary: '#0b0c10', secondary: '#12151d', side: '#1c4fd8', accent: '#2f6bff', trim: '#E4EAF2', collar: '#2f6bff', pattern: 'smoke', patternColor: '#1b1f2a', metalTrim: true, number: 7, playerName: 'PLAYER', sponsor: 'VALIOUX' },
+  academy:   { name: 'Academy · Steel / Sky', primary: '#aab6c6', secondary: '#7b8aa0', side: '#16181d', accent: '#5fb4ff', trim: '#ffffff', ink: '#14171d', collar: '#5fb4ff', pattern: 'stripes', metalTrim: false, number: 17, playerName: 'TALENT', sponsor: 'VALIOUX' },
+  creator:   { name: 'Creator · Black / Gold', primary: '#0a0a0c', secondary: '#15151a', side: '#15151a', accent: '#d9a636', trim: '#f2c14e', collar: '#d9a636', pattern: 'smoke', patternColor: '#202026', metalTrim: true, number: 1, playerName: 'CREATOR', sponsor: 'VALIOUX' },
+  christmas: { name: 'Winter Edition · Black / Red', primary: '#0b0b0d', secondary: '#1a0a0e', side: '#c8102e', accent: '#c8102e', trim: '#ffe9c7', collar: '#c8102e', pattern: 'smoke', patternColor: '#2a0f15', metalTrim: true, number: 7, playerName: 'PLAYER', sponsor: 'VALIOUX' },
+  rosa:      { name: 'Action Edition · Black / Pink', primary: '#0b0b0d', secondary: '#160a12', side: '#ff3d9a', accent: '#ff3d9a', trim: '#ffd0e8', collar: '#ff3d9a', pattern: 'smoke', patternColor: '#241020', metalTrim: true, number: 7, playerName: 'PLAYER', sponsor: 'VALIOUX' },
+};
+window.KITS = KITS;
+const q = new URLSearchParams(location.search), id = q.get('kit') || 'pro', kit = { ...KITS[id] }, S = +q.get('scale') || 14;
+await loadFonts();
+const light = (() => { const h = (kit.ink || kit.trim).replace('#', ''); const r = parseInt(h.slice(0, 2), 16), g = parseInt(h.slice(2, 4), 16), b = parseInt(h.slice(4, 6), 16); return (.299 * r + .587 * g + .114 * b) / 255 > .5; })();
+kit._logoImg = await new Promise(r => { const i = new Image(); i.onload = () => r(i); i.onerror = () => r(null); i.src = light ? '/assets/brand/logo-white.png' : '/assets/brand/logo-black.png'; });
+const polyOf = outline => { const out = []; outline.forEach(s => s.pts.forEach(p => { const l = out[out.length - 1]; if (!l || Math.hypot(l[0] - p[0], l[1] - p[1]) > 1e-6) out.push(p); })); return out; };
+function jersey(back) {
+  const outline = F.jerseyOutline(back ? F.NECK_BACK : F.NECK_FRONT, 'short'), poly = polyOf(outline);
+  let minX = 1e9, maxX = -1e9, minY = 1e9, maxY = -1e9; poly.forEach(([x, y]) => { minX = Math.min(minX, x); maxX = Math.max(maxX, x); minY = Math.min(minY, y); maxY = Math.max(maxY, y); });
+  const box = { minX, maxX, minY, maxY, W: maxX - minX, Hh: maxY - minY }, w = Math.round(box.W * S), h = Math.round(box.Hh * S);
+  const tex = document.createElement('canvas'); tex.width = 2048; tex.height = Math.round(2048 * box.Hh / box.W); (back ? F.drawJerseyBack : F.drawJerseyFront)(tex, box, kit, 'color');
+  const c = document.createElement('canvas'); c.width = w + 80; c.height = h + 90; const g = c.getContext('2d'); g.translate(40, 20);
+  const P = ([x, y]) => [(x - minX) * S, (maxY - y) * S], path = pts => { g.beginPath(); pts.forEach((p, i) => { const [a, b] = P(p); i ? g.lineTo(a, b) : g.moveTo(a, b); }); g.closePath(); };
+  // Schatten
+  g.save(); g.shadowColor = 'rgba(0,0,0,.55)'; g.shadowBlur = 28; g.shadowOffsetY = 14; path(poly); g.fillStyle = kit.primary; g.fill(); g.restore();
+  g.save(); path(poly); g.clip(); g.drawImage(tex, 0, 0, w, h);
+  // Innenseite am Halsausschnitt (Rückseite sichtbar)
+  if (!back) { const nf = F.NECK_FRONT, nb = F.NECK_BACK; g.beginPath(); nf.forEach((p, i) => { const [a, b] = P(p); i ? g.lineTo(a, b) : g.moveTo(a, b); }); nb.slice().reverse().forEach(p => { const [a, b] = P(p); g.lineTo(a, b); }); g.closePath(); const gr = g.createLinearGradient(0, P([0, 34])[1], 0, P([0, 26])[1]); gr.addColorStop(0, F.mixHex(kit.primary, '#000000', .55)); gr.addColorStop(1, F.mixHex(kit.primary, '#000000', .8)); g.fillStyle = gr; g.fill(); }
+  // Licht/Schatten für Stoffwirkung
+  let gr = g.createLinearGradient(0, 0, w, 0); gr.addColorStop(0, 'rgba(0,0,0,.34)'); gr.addColorStop(.16, 'rgba(0,0,0,0)'); gr.addColorStop(.5, 'rgba(255,255,255,.05)'); gr.addColorStop(.84, 'rgba(0,0,0,0)'); gr.addColorStop(1, 'rgba(0,0,0,.34)'); g.fillStyle = gr; g.fillRect(0, 0, w, h);
+  gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, 'rgba(255,255,255,.07)'); gr.addColorStop(.5, 'rgba(0,0,0,0)'); gr.addColorStop(1, 'rgba(0,0,0,.18)'); g.fillStyle = gr; g.fillRect(0, 0, w, h);
+  // sanfte Faltenlinien
+  g.globalAlpha = .1; for (let i = 0; i < 9; i++) { const x0 = (.22 + i * .07 + (i % 2) * .01) * w, gx = g.createLinearGradient(x0 - 22, 0, x0 + 22, 0); gx.addColorStop(0, 'rgba(0,0,0,0)'); gx.addColorStop(.5, i % 2 ? 'rgba(0,0,0,.9)' : 'rgba(255,255,255,.7)'); gx.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gx; g.fillRect(x0 - 22, h * .3, 44, h * .66); } g.globalAlpha = 1;
+  // Nähte
+  g.lineJoin = 'round'; outline.forEach(s => { if (!s.seam) return; g.beginPath(); s.pts.forEach((p, i) => { const [a, b] = P(p); i ? g.lineTo(a, b) : g.moveTo(a, b); }); g.strokeStyle = 'rgba(0,0,0,.4)'; g.lineWidth = 2.2; g.stroke(); g.setLineDash([6, 5]); g.strokeStyle = 'rgba(255,255,255,.2)'; g.lineWidth = 1; g.stroke(); g.setLineDash([]); });
+  g.restore();
+  // Kragen
+  const neck = back ? F.NECK_BACK : F.NECK_FRONT; g.save(); g.beginPath(); neck.forEach((p, i) => { const [a, b] = P(p); i ? g.lineTo(a, b) : g.moveTo(a, b); }); g.lineCap = 'round'; g.lineWidth = 2.6 * S; g.strokeStyle = 'rgba(0,0,0,.45)'; g.stroke(); g.lineWidth = 2.2 * S; g.strokeStyle = kit.collar; g.stroke(); g.lineWidth = .5 * S; g.strokeStyle = 'rgba(255,255,255,.35)'; g.translate(0, -.5 * S); g.stroke(); g.restore();
+  return c;
+}
+const a = jersey(false), b = jersey(true), gap = 60, out = document.getElementById('c'); out.width = a.width + b.width + gap; out.height = Math.max(a.height, b.height) + 60; const g = out.getContext('2d');
+g.drawImage(a, 0, 0); g.drawImage(b, a.width + gap, 0);
+g.font = '600 26px Inter, Arial'; g.fillStyle = 'rgba(255,255,255,.7)'; g.textAlign = 'center'; g.fillText('FRONT', a.width / 2, out.height - 14); g.fillText('BACK', a.width + gap + b.width / 2, out.height - 14);
+window.splitX = a.width; window.ready = true;
+</script></body></html>

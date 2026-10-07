@@ -337,3 +337,6 @@ export async function mountViewer(el, kit, opts = {}) {
   const hint = document.createElement('div'); hint.className = 'hint'; hint.textContent = labels.drag || 'Drag to rotate · scroll to zoom'; el.append(hint, bar);
   el.addEventListener('pointerdown', () => { auto.classList.remove('on'); }, true); return { ...v, kit };
 }
+
+// Werkzeuge für flache Entwürfe (flat.html)
+export const flatTools = { drawJerseyFront, drawJerseyBack, jerseyOutline, NECK_FRONT, NECK_BACK, mixHex };

@@ -13,6 +13,8 @@ Für helle Hintergründe: `logos/VLX_logo_black_transparent.png` (schwarz, trans
 | `logos/VLX_glow_cyan.png` | Cyan | Frühling |
 | `logos/VLX_glow_red.png` | Rot | Weihnachten |
 | `logos/VLX_glow_gold.png`, `VLX_glow_orange.png` | Gold, Orange | Premium / Jubiläum |
+| `logos/VLX_glow_pink.png` | Pink | Aktions-Farbwelt „Rosa“ (z. B. Awareness-Aktionen) |
+| `logos/VLX_logo_white_on_black.png` | Weiß auf Schwarz (flach) | Vorlage für Druck/Stick, nicht transparent |
 | `logos/VLX_banner_ice.png` | Eis, breit | Banner (X, Twitch, YouTube, LinkedIn, Facebook) |
 
 Die Website wechselt die Farbwelt im Admin-Panel; das passende Art-Bild für die Farbwelt (Avatar, Link-Seite) trägst du dort unter „Organisation“ ein. Das Basis-Logo bleibt gleich.
