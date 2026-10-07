@@ -23,7 +23,7 @@
 
     slider() {
       const gp = (k, d) => (Q.get(k) != null ? +Q.get(k) : d), pd = { logo: 3.2, socials: 5, discord: 3, cmd: 3.2, invite: 3.6, hashtag: 2.8, cta: 3, follow: 2.8, partners: 3.5 }, scale = gp('dur', 1);
-      const real = sponsors.filter(s => !/^PARTNER \d/i.test(s.name)); let order = (Q.get('pages') || ('logo,socials,' + (real.length ? 'partners,' : '') + 'discord,cmd,invite,hashtag,cta')).split(',').map(s => s.trim()).filter(Boolean);
+      const fake = (Q.get('sponsors') || '').split('|').filter(Boolean).map(n => ({ name: n })); const real = fake.length ? fake : sponsors.filter(s => !/^PARTNER \d/i.test(s.name)); let order = (Q.get('pages') || ('logo,socials,' + (real.length ? 'partners,' : '') + 'discord,cmd,hashtag,cta')).split(',').map(s => s.trim()).filter(Boolean);
       const cols = w / h >= 5 ? 4 : 2, rows = cols === 4 ? 1 : 2, fs = Math.min(w * .92 / (cols * 6.2), h * (rows === 1 ? .3 : .2)), big = Math.min(h * .42, w * .1), sm = Math.max(11, big * .3);
       const keys = ['x', 'youtube', 'tiktok', 'twitch']; const soc = keys.map(k => socials.find(s => s.k === k));
       const ct = el('div', 'ct'), pn = el('div', 'pn spn'); pn.append(ct); root.append(pn); ct.style.cssText = 'position:absolute;inset:0';
@@ -38,6 +38,9 @@
         discord() { return [text('JOIN OUR COMMUNITY', 'DISCORD', 'discord')]; },
         cmd() { return [text('TYPE IN CHAT', Q.get('cmd') || '!orgdc')]; },
         invite() { const d = socials.find(s => s.k === 'discord') || {}; return [text(Q.get('invitelabel') || 'INVITE LINK', Q.get('invite') || (d.ph ? 'discord.gg/yourinvite' : d.text))]; },
+        creator() { return [text('SUPPORT US · CREATOR CODE', Q.get('code') || 'VLX')]; },
+        website() { return [text('VISIT OUR WEBSITE', Q.get('site') || 'valioux.com')]; },
+        shop() { return [text('GO TO OUR STORE', Q.get('shop') || 'shop.valioux.com')]; },
         hashtag() { return [text('USE', hashtag)]; },
         cta() { return [text('DROP A ' + hashtag, 'WHEN WE WIN')]; },
         follow() { return [text('LIKE WHAT YOU SEE?', 'FOLLOW US')]; },
