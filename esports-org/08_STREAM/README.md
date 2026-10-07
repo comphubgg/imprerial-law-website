@@ -34,6 +34,7 @@ URL-Schema: `/overlay/widgets/NAME.html?color=blue&style=2&width=800&height=200`
 
 | Widget | Standardgröße | Besonderheiten |
 |---|---|---|
+| `slider` **Slider** (mehrere Seiten) | `size=narrow` 800×100 · `medium` 800×200 · `tall` 600×300 | Logo → Socials (X, YouTube, TikTok, Twitch) → Discord → Chat-Befehl → Invite-Link → Hashtag → Aufruf. `pages=logo,socials,discord,cmd,invite,hashtag,cta,follow,partners`, `cmd=!orgdc`, `invite=discord.gg/DEINLINK`, `dur=1.2` (langsamer). Partner-Seite erscheint automatisch erst bei echten Partnern |
 | `cam` Kamerarahmen | 640×360 | `ratio=16:9\|4:3\|1:1\|9:16`, `nick=NAME` (Namensschild) |
 | `chat` Chat-Rahmen | 420×720 | `title=0` ohne Überschrift |
 | `social-bar` Follow-Leiste | 800×200 | zeigt X, Twitch, YouTube … **nacheinander**; `only=x,twitch,tiktok`, `dur=3` (Sekunden je Eintrag) |

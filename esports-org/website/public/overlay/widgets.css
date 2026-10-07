@@ -54,3 +54,13 @@ html,body{background:transparent!important}
 .alertbox{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border:3px solid var(--accent);border-radius:12px;background:linear-gradient(90deg,rgba(8,9,13,.95),rgba(14,17,26,.95));box-shadow:0 0 50px color-mix(in srgb,var(--accent) 45%,transparent);animation:alertw 6s ease-in-out infinite}
 .alertbox small{font:700 calc(var(--h)*.075) var(--body);letter-spacing:.4em;color:var(--accent);text-transform:uppercase}.alertbox b{font:italic 400 calc(var(--h)*.3)/1.05 var(--disp);text-transform:uppercase;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:400}
 @keyframes alertw{0%{transform:translateY(-120%);opacity:0}12%,80%{transform:none;opacity:1}95%,100%{transform:translateY(-120%);opacity:0}}
+
+/* Slider (mehrere Seiten nacheinander) */
+.pg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;white-space:nowrap}
+.pg-t{display:flex;align-items:center;gap:calc(var(--h)*.12)}
+.pg-t small{display:block;font-family:var(--body);font-weight:700;letter-spacing:.34em;text-transform:uppercase;opacity:.7;margin-bottom:.15em}
+.pg-t b{display:block;font-family:var(--disp);font-weight:400;text-transform:uppercase;font-style:italic;letter-spacing:.02em;line-height:1}
+.s4 .pg-t svg{fill:var(--on)!important}
+.sgrid{display:grid;grid-template-columns:repeat(var(--cols),auto);align-items:center;justify-content:center}
+.si{display:flex;align-items:center;gap:.28em;font-family:var(--disp);text-transform:uppercase;letter-spacing:.03em;line-height:1}
+.si svg{width:1.05em;height:1.05em;fill:var(--accent);flex:0 0 auto}.s4 .si svg{fill:var(--on)}.si img{width:auto;max-width:100%;object-fit:contain}

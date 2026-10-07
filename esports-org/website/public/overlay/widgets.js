@@ -1,7 +1,8 @@
 // Baukasten: jedes Widget ist eine eigene Seite (/overlay/widgets/NAME.html). Parameter: width, height, color, style, text-Optionen je Widget.
 (async function () {
   const { el, svg, init, freezeTime, fonts, $ } = OV, Q = window.Q, name = document.body.dataset.widget, stage = $('#stage');
-  const DEF = { cam: [640, 360], chat: [420, 720], 'social-bar': [800, 200], 'partner-bar': [800, 200], 'discord-bar': [800, 200], 'chat-cta': [800, 200], 'follower-goal': [800, 200], 'info-card': [800, 200], hashtag: [500, 140], 'logo-bug': [500, 140], nameplate: [520, 100], countdown: [500, 140], alert: [1000, 300] };
+  const SIZES = { narrow: [800, 100], medium: [800, 200], tall: [600, 300] };
+  const DEF = { slider: [800, 200], cam: [640, 360], chat: [420, 720], 'social-bar': [800, 200], 'partner-bar': [800, 200], 'discord-bar': [800, 200], 'chat-cta': [800, 200], 'follower-goal': [800, 200], 'info-card': [800, 200], hashtag: [500, 140], 'logo-bug': [500, 140], nameplate: [520, 100], countdown: [500, 140], alert: [1000, 300] };
   const PAL = { platin: '#E4EAF2', blue: '#2F6BFF', ice: '#7FD0FF', gold: '#F2C14E', red: '#FF3B4E', purple: '#9B5CFF', pink: '#FF4FA8', green: '#2FE27A', orange: '#FF8A2B', white: '#FFFFFF' };
   const hexRgb = h => { h = h.replace('#', ''); if (h.length === 3) h = [...h].map(c => c + c).join(''); return [0, 2, 4].map(i => parseInt(h.slice(i, i + 2), 16)); }, toHex = a => '#' + a.map(v => Math.max(0, Math.min(255, Math.round(v))).toString(16).padStart(2, '0')).join('');
   const mix = (a, b, t) => toHex(a.map((v, i) => v + (b[i] - v) * t)), lum = ([r, g, b]) => (.299 * r + .587 * g + .114 * b) / 255;
@@ -9,7 +10,7 @@
     if (!hx) return; const c = hexRgb(hx), light = toHex(c.map(v => v + (255 - v) * .45)), dark = toHex(c.map(v => v * .72)); r.setProperty('--accent', hx); r.setProperty('--accent2', light); r.setProperty('--grad', `linear-gradient(180deg,${light},${hx} 55%,${dark})`); r.setProperty('--on', lum(c) > .55 ? '#0A0B0E' : '#FFFFFF'); }
   const C = await init(); await fonts(); const { o, logo, socials, sponsors, hashtag, mark } = C;
   color(Q.get('color') || '');
-  const [dw, dh] = DEF[name] || [800, 200]; const ratio = Q.get('ratio'); let w = +Q.get('width') || dw, h = +Q.get('height') || dh; if (name === 'cam' && ratio && !Q.get('height')) { const [a, b] = ratio.split(':').map(Number); if (a && b) h = Math.round(w * b / a); }
+  const [dw, dh] = (name === 'slider' && SIZES[Q.get('size')]) || DEF[name] || [800, 200]; const ratio = Q.get('ratio'); let w = +Q.get('width') || dw, h = +Q.get('height') || dh; if (name === 'cam' && ratio && !Q.get('height')) { const [a, b] = ratio.split(':').map(Number); if (a && b) h = Math.round(w * b / a); }
   stage.style.width = w + 'px'; stage.style.height = h + 'px'; stage.style.setProperty('--h', h + 'px'); document.documentElement.style.setProperty('--s', Math.min(1, innerWidth / w, innerHeight / h));
   const style = Math.max(1, Math.min(5, +Q.get('style') || 1)); const root = el('div', 'wd s' + style); stage.append(root);
   function slideshow(nodes, dur) { const n = nodes.length, total = n * dur, e = Math.min(.04, .4 / n); let css = ''; nodes.forEach((nd, i) => { const a = i / n, b = (i + 1) / n, f = x => (x * 100).toFixed(3) + '%';
@@ -19,6 +20,32 @@
   const slideIcon = (k, small, big) => { const s = el('div'); s.append(svg(k)); const t = el('div'); t.append(el('small', '', small), el('b', '', big)); s.append(t); return s; };
   const handleOf = s => s.text;
   const B = {
+
+    slider() {
+      const gp = (k, d) => (Q.get(k) != null ? +Q.get(k) : d), pd = { logo: 3.2, socials: 5, discord: 3, cmd: 3.2, invite: 3.6, hashtag: 2.8, cta: 3, follow: 2.8, partners: 3.5 }, scale = gp('dur', 1);
+      const real = sponsors.filter(s => !/^PARTNER \d/i.test(s.name)); let order = (Q.get('pages') || ('logo,socials,' + (real.length ? 'partners,' : '') + 'discord,cmd,invite,hashtag,cta')).split(',').map(s => s.trim()).filter(Boolean);
+      const cols = w / h >= 5 ? 4 : 2, rows = cols === 4 ? 1 : 2, fs = Math.min(w * .92 / (cols * 6.2), h * (rows === 1 ? .3 : .2)), big = Math.min(h * .42, w * .1), sm = Math.max(11, big * .3);
+      const keys = ['x', 'youtube', 'tiktok', 'twitch']; const soc = keys.map(k => socials.find(s => s.k === k));
+      const ct = el('div', 'ct'), pn = el('div', 'pn'); pn.append(ct); root.append(pn); ct.style.cssText = 'position:absolute;inset:0';
+      const text = (s, b, ic) => { const c = el('div', 'pg-t'); if (ic) { const i = svg(ic); i.style.cssText = `width:${big * .9}px;height:${big * .9}px;fill:var(--accent);flex:0 0 auto`; i.classList.add('it'); c.append(i); } const t = el('div'); const a = el('small', 'it', s), z = el('b', 'it', b); a.style.fontSize = sm + 'px'; z.style.fontSize = big + 'px'; t.append(a, z); c.append(t); return c; };
+      const P = {
+        logo() { const i = new Image(); i.src = logo; i.className = 'it'; i.style.cssText = `height:${h * .62}px;width:auto;max-width:${w * .8}px;object-fit:contain`; return [i]; },
+        socials() { const g = el('div', 'sgrid'); g.style.cssText = `--cols:${cols};font-size:${fs}px;gap:${h * .06}px ${w * .035}px`; soc.forEach(s => { const a = el('div', 'si it'); a.append(svg(s.k), el('span', '', s.text)); g.append(a); }); return [g]; },
+        partners() { const g = el('div', 'sgrid'); g.style.cssText = `--cols:${Math.min(real.length, cols)};font-size:${fs}px;gap:${h * .06}px ${w * .04}px`; real.slice(0, 4).forEach(p => { const a = el('div', 'si it'); if (p.logo) { const i = new Image(); i.src = p.logo; i.style.height = fs * 1.6 + 'px'; a.append(i); } else a.append(el('span', '', p.name)); g.append(a); }); return [g]; },
+        discord() { return [text('JOIN OUR COMMUNITY', 'DISCORD', 'discord')]; },
+        cmd() { return [text('TYPE IN CHAT', Q.get('cmd') || '!orgdc')]; },
+        invite() { const d = socials.find(s => s.k === 'discord') || {}; return [text(Q.get('invitelabel') || 'INVITE LINK', Q.get('invite') || (d.ph ? 'discord.gg/yourinvite' : d.text))]; },
+        hashtag() { return [text('USE', hashtag)]; },
+        cta() { return [text('DROP A ' + hashtag, 'WHEN WE WIN')]; },
+        follow() { return [text('LIKE WHAT YOU SEE?', 'FOLLOW US')]; },
+      };
+      order = order.filter(k => P[k]); const dur = order.map(k => (pd[k] || 3) * scale), T = dur.reduce((a, b) => a + b, 0); let css = '', t0 = 0, n = 0; const pct = x => (x / T * 100).toFixed(3) + '%', IN = .55, OUT = .45;
+      order.forEach((k, i) => { const items = P[k](); const pg = el('div', 'pg'); items.forEach(it => pg.append(it)); ct.append(pg); const a = t0, b = t0 + dur[i];
+        css += `@keyframes pg${i}{0%{opacity:0;transform:translateX(60px)}${pct(a)}{opacity:0;transform:translateX(60px)}${pct(a + IN)}{opacity:1;transform:none}${pct(b - OUT)}{opacity:1;transform:none}${pct(b)}{opacity:0;transform:translateX(-60px)}100%{opacity:0;transform:translateX(-60px)}}`; pg.style.animation = `pg${i} ${T}s linear infinite`;
+        pg.querySelectorAll('.it').forEach((it, j) => { const d0 = a + .15 + j * .14, nm = `it${n++}`; css += `@keyframes ${nm}{0%{opacity:0;transform:translateY(16px) scale(.92)}${pct(d0)}{opacity:0;transform:translateY(16px) scale(.92)}${pct(d0 + .45)}{opacity:1;transform:none}${pct(Math.max(d0 + .45, b - OUT))}{opacity:1;transform:none}${pct(b - .1)}{opacity:0;transform:translateY(-10px)}100%{opacity:0}}`; it.style.animation = `${nm} ${T}s linear infinite`; });
+        t0 = b; });
+      const st = el('style'); st.textContent = css; document.head.append(st); window.__loop = T;
+    },
     'social-bar'() { const keys = (Q.get('only') || '').split(',').filter(Boolean); const list = socials.filter(s => !keys.length || keys.includes(s.k)); panel(Q.get('label') || 'FOLLOW US', list.map(s => slideIcon(s.k, 'on ' + OV.NAMES[s.k], handleOf(s))), +Q.get('dur') || 3); },
     'partner-bar'() { const list = sponsors.length ? sponsors : [{ name: 'PARTNER' }]; panel(Q.get('label') || 'POWERED BY', list.map(p => { const s = el('div'); if (p.logo) { const i = new Image(); i.src = p.logo; s.append(i); } else { const t = el('div'); t.append(el('small', '', p.tier || 'Partner'), el('b', '', p.name)); s.append(t); } return s; }), +Q.get('dur') || 3); },
     'discord-bar'() { const d = socials.find(s => s.k === 'discord'); const s = slideIcon('discord', Q.get('sub') || 'JOIN THE COMMUNITY', d.text); s.classList.add('pulse'); panel(Q.get('label') || 'DISCORD', [s]); },
