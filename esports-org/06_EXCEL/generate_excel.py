@@ -204,6 +204,11 @@ for a, b, r, lab, f, fmt in kp:
     da[f"{a}{r+1}"] = lab; da[f"{b}{r+1}"] = f; da[f"{b}{r+1}"].number_format = fmt
     da[f"{a}{r+1}"].font = Font(color=MID, size=10); da[f"{b}{r+1}"].font = Font(bold=True, size=14); da[f"{b}{r+1}"].alignment = Alignment(horizontal="right")
     for cc in (a, b): da[f"{cc}{r+1}"].border = Border(bottom=thin)
+import os
+_logo = os.path.join(os.path.dirname(__file__), "..", "01_BRAND", "logo-main.png")
+if os.path.exists(_logo):
+    from openpyxl.drawing.image import Image as XImage
+    _im = XImage(_logo); _im.height = 52; _im.width = int(52 * 1248 / 649); da.add_image(_im, "E1")
 da["B13"] = "Tabs: Roster · Preisgeld-Split · Budget & Cashflow · Gründungskosten · Sponsoren · Investoren · Verträge · Turniere · Equipment · Tryouts · Content-Kalender · Reisekosten"
 da["B13"].font = Font(italic=True, size=9, color=MID)
 

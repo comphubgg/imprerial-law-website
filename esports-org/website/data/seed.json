@@ -32,7 +32,15 @@
       "facebook": "",
       "linkedin": ""
     },
-    "mark": "VLX"
+    "mark": "VLX",
+    "themeArt": {
+      "platin": "/assets/brand/glow_silver.jpg",
+      "winter": "/assets/brand/glow_ice.jpg",
+      "weihnachten": "/assets/brand/glow_red.jpg",
+      "gold": "/assets/brand/glow_gold.jpg",
+      "fruehling": "/assets/brand/glow_cyan.jpg",
+      "pride": "/assets/brand/glow_blue.jpg"
+    }
   },
   "games": [
     {

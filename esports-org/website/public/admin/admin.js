@@ -102,13 +102,13 @@ function makeForm(defs, data, onSave, onCancel, extra) {
 function viewOrg() {
   const o = DB.org;
   const defs = [['name', 'Organisationsname', 'text', { required: 1 }], ['tagline', 'Tagline (English)', 'text', { tr: 1 }], ['description', 'Description (English)', 'textarea', { tr: 1 }],
-    ['theme', 'Farbwelt (Saison-Theme)', 'theme'], ['logo', 'Logo (Standard)', 'image'], ['themeLogo', 'Spezial-Logo nur für die gewählte Farbwelt (optional)', 'image'],
+    ['theme', 'Farbwelt (Saison-Theme)', 'theme'], ['logo', 'Logo (Standard, transparent, hell)', 'image'], ['themeLogo', 'Spezial-Logo nur für die gewählte Farbwelt (optional)', 'image'], ['themeArtImg', 'Avatar/Art-Bild für die gewählte Farbwelt (quadratisch, z. B. leuchtendes Logo)', 'image'],
     ['mark', 'Kurzzeichen (z. B. VLX)', 'text'], ['promoText', 'Promo-Leiste oben (leer = ausblenden)', 'text', { tr: 1 }], ['promoLink', 'Promo-Link (z. B. /shop)', 'text'], ['hashtag', 'Hashtag im Footer (z. B. #VLX)', 'text'], ['footerText', 'Footer-Text (English)', 'textarea', { tr: 1 }],
     ['navLinks', 'Zusätzliche Menü-Links (eine Zeile pro Link: Label|https://…)', 'textarea'], ['twitchChannel', 'Haupt-Twitch-Kanal', 'text', { hint: 'Nur der Kanalname' }],
     ['contactEmail', 'Kontakt-E-Mail', 'text'], ['shopUrl', 'Externer Shop-Link (Shopify o. ä., optional)', 'text'], ['socials', 'Social-Media der Organisation', 'socials', { keys: ORGSOC }],
     ['newsletter', 'Newsletter-Anmeldung anzeigen', 'check']];
-  const f = makeForm(defs, { ...o, themeLogo: (o.themeLogos || {})[o.theme] || '' }, async out => {
-    out.themeLogos = { ...(o.themeLogos || {}), [out.theme]: out.themeLogo || '' }; delete out.themeLogo;
+  const f = makeForm(defs, { ...o, themeLogo: (o.themeLogos || {})[o.theme] || '', themeArtImg: (o.themeArt || {})[o.theme] || '' }, async out => {
+    out.themeLogos = { ...(o.themeLogos || {}), [out.theme]: out.themeLogo || '' }; delete out.themeLogo; out.themeArt = { ...(o.themeArt || {}), [out.theme]: out.themeArtImg || '' }; delete out.themeArtImg;
     await api('org', 'PUT', out); await refresh(); toast('Gespeichert'); });
   return [h('h1', {}, 'Organisation'), h('p', { class: 'sub' }, 'Name, Farbwelt, Logo, Promo-Leiste, Menü und Socials der gesamten Seite.'), f];
 }

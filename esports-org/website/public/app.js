@@ -317,10 +317,11 @@ function viewPage(slug) {
   const extra = slug === 'partners' ? h('section', { class: 'sec' }, h('div', { class: 'tcards grid-line' }, act(D.sponsors).sort(byOrder).map(s => h('div', { class: 'tcard' }, h('div', { class: 'im', style: { background: '#fff', color: '#111', aspectRatio: '16/9' } }, s.logo && safeUrl(s.logo) ? h('img', { src: safeUrl(s.logo), alt: s.name, style: { objectFit: 'contain', padding: '24px' } }) : s.name), h('div', { class: 'nm' }, s.url ? A(s.url, {}, s.name) : s.name, s.tier ? h('div', { style: { color: '#6b7280', fontWeight: 400 } }, s.tier) : null))))) : null;
   return [pageHead(TR(p, 'title'), '', TR(p, 'title')), prose(TR(p, 'body')), extra];
 }
+const artImg = o => (o.themeArt || {})[o.theme] || null;
 function viewLinks() { // Link-in-Bio-Seite (/links): für X, Instagram, TikTok, Twitch-Panels
   const o = D.org, items = [...Object.keys(SOCNAME).map(k => [k, SOCNAME[k], socUrl(k, (o.socials || {})[k])]).filter(x => x[2]).map(([k, n, u]) => ({ icon: k, label: n, url: u })),
     ...(hasShop() ? [{ label: T('nav.shop'), url: '/shop' }] : []), { label: T('nav.teams'), url: '/teams' }, { label: T('nav.news'), url: '/news' }];
-  return h('div', { class: 'linkhub noise' }, h('img', { src: logoImg(o), alt: o.name }), h('h1', {}, o.name), h('p', { class: 'ht' }, o.hashtag || ''), TR(o, 'tagline') ? h('p', { class: 'tg' }, TR(o, 'tagline')) : null,
+  return h('div', { class: 'linkhub noise' }, artImg(o) ? h('img', { class: 'av', src: artImg(o), alt: o.name }) : h('img', { src: logoImg(o), alt: o.name }), h('h1', {}, o.name), h('p', { class: 'ht' }, o.hashtag || ''), TR(o, 'tagline') ? h('p', { class: 'tg' }, TR(o, 'tagline')) : null,
     h('div', { class: 'lk' }, items.map(i => A(i.url, { class: 'lkb' }, i.icon ? socIcon(i.icon) : null, h('span', {}, i.label)))), h('div', { class: 'lng' }, langSelect()));
 }
 function view404() { return [pageHead('404', T('notFound')), h('div', { class: 'prose' }, A('/', { class: 'more' }, T('backHome')))]; }

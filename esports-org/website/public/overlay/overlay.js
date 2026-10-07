@@ -12,7 +12,7 @@
     const logo = (o.themeLogos || {})[o.theme] || o.logo || '/logo.png'; const socials = ['x', 'twitch', 'youtube', 'instagram', 'tiktok', 'discord'].map(k => ({ k, ...handle(k, (o.socials || {})[k], o) }));
     const sponsors = (D.sponsors || []).slice().sort((a, b) => (+a.order || 99) - (+b.order || 99)).slice(0, 5);
     const sc = () => { const f = Math.min(innerWidth / 1920, innerHeight / 1080); document.documentElement.style.setProperty('--s', f); }; sc(); addEventListener('resize', sc);
-    document.documentElement.lang = 'en'; return { D, o, logo, socials, sponsors, hashtag: (o.hashtag || '#VLX').toUpperCase(), mark: o.mark || 'VLX' };
+    document.documentElement.lang = 'en'; const art = (o.themeArt || {})[o.theme] || null; return { D, o, logo, art, socials, sponsors, hashtag: (o.hashtag || '#VLX').toUpperCase(), mark: o.mark || 'VLX' };
   }
   function bg() { const b = el('div', 'bg'); b.append(el('div', 'grid')); for (let i = 0; i < 3; i++) { const s = el('div', 'streak'); s.style.animationDelay = (-i * 3.3333).toFixed(3) + 's'; s.style.opacity = (.9 - i * .2); b.append(s); } let seed = 7; const r = () => (seed = (seed * 16807) % 2147483647) / 2147483647; for (let i = 0; i < 46; i++) { const d = el('div', 'dot'); d.style.left = (r() * 100) + '%'; d.style.top = (60 + r() * 50) + '%'; const dur = [10, 5, 10, 2.5][i % 4]; d.style.animationDuration = dur + 's'; d.style.animationDelay = (-r() * dur).toFixed(2) + 's'; d.style.width = d.style.height = (3 + r() * 6) + 'px'; b.append(d); } return b; }
   function socRow(list, cls) { const row = el('div', cls || 'socbar'); list.forEach(s => { const a = el('div', 'soc' + (s.ph ? ' ph' : '')); a.append(svg(s.k), el('span', '', s.text)); row.append(a); }); return row; }
