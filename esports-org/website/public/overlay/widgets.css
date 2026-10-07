@@ -71,3 +71,5 @@ html,body{background:transparent!important}
 .spn-t{position:absolute;left:0;right:0;top:0;height:max(2px,calc(var(--h)*.025));background:rgba(255,255,255,.14)}
 .spn-f{position:absolute;left:0;right:0;top:0;height:max(2px,calc(var(--h)*.025));background:var(--ln);transform-origin:0 50%;transform:scaleX(0);z-index:2}
 .spn-l{position:absolute;left:0;top:0;bottom:0;width:max(3px,calc(var(--h)*.03));background:var(--ln);z-index:2}
+
+.pg-t>div:not(:only-child),.pg-t>div:last-child{text-align:center}

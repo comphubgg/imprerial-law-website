@@ -22,8 +22,8 @@
   const B = {
 
     slider() {
-      const gp = (k, d) => (Q.get(k) != null ? +Q.get(k) : d), pd = { logo: 3.2, socials: 5, discord: 3, cmd: 3.2, invite: 3.6, hashtag: 2.8, cta: 3, follow: 2.8, partners: 3.5 }, scale = gp('dur', 1);
-      const fake = (Q.get('sponsors') || '').split('|').filter(Boolean).map(n => ({ name: n })); const real = fake.length ? fake : sponsors.filter(s => !/^PARTNER \d/i.test(s.name)); let order = (Q.get('pages') || ('logo,socials,' + (real.length ? 'partners,' : '') + 'discord,cmd,hashtag,cta')).split(',').map(s => s.trim()).filter(Boolean);
+      const gp = (k, d) => (Q.get(k) != null ? +Q.get(k) : d), pd = { logo: 6, socials: 9, discord: 6, cmd: 6.5, invite: 6, hashtag: 5.5, cta: 6, follow: 5.5, partners: 7, creator: 7, website: 7, shop: 7, sp: 7 }, scale = gp('dur', 1);
+      const fake = (Q.get('sponsors') || '').split('|').filter(Boolean).map(n => ({ name: n })); const real = fake.length ? fake : sponsors.filter(s => !/^PARTNER \d/i.test(s.name)); let order = (Q.get('pages') || ('logo,socials,' + (real.length ? ['partners'].concat(real.slice(0, 4).map((_, i) => 'sp' + i)).join(',') + ',' : '') + 'discord,cmd,hashtag,cta')).split(',').map(s => s.trim()).filter(Boolean);
       const cols = w / h >= 5 ? 4 : 2, rows = cols === 4 ? 1 : 2, fs = Math.min(w * .92 / (cols * 6.2), h * (rows === 1 ? .3 : .2)), big = Math.min(h * .42, w * .1), sm = Math.max(11, big * .3);
       const keys = ['x', 'youtube', 'tiktok', 'twitch']; const soc = keys.map(k => socials.find(s => s.k === k));
       const ct = el('div', 'ct'), pn = el('div', 'pn spn'); pn.append(ct); root.append(pn); ct.style.cssText = 'position:absolute;inset:0';
@@ -31,14 +31,18 @@
       pn.style.setProperty('--ln', LN[lnk] || LN.silver); pn.style.setProperty('--bga', bga); if (frm !== 'none') pn.style.setProperty('--frm', frm === 'gold' ? 'rgba(232,194,100,.6)' : frm === 'silver' ? 'rgba(200,210,225,.55)' : 'rgba(255,255,255,.4)'); pn.classList.add('fr' + (frm !== 'none' ? 1 : 0));
       const side = el('i', 'spn-l'), trk = el('i', 'spn-t'); pn.append(side, trk);
       const text = (s, b, ic) => { const c = el('div', 'pg-t'); if (ic) { const i = svg(ic); i.style.cssText = `width:${big * .9}px;height:${big * .9}px;fill:var(--accent);flex:0 0 auto`; i.classList.add('it'); c.append(i); } const t = el('div'); const a = el('small', 'it', s), z = el('b', 'it', b); a.style.fontSize = sm + 'px'; z.style.fontSize = big + 'px'; t.append(a, z); c.append(t); return c; };
+      const MK = ['M12 2l9 5v10l-9 5-9-5V7z', 'M13 2L4 14h7l-1 8 9-12h-7z', 'M12 2a10 10 0 100 20 10 10 0 000-20zm0 5a5 5 0 110 10 5 5 0 010-10z', 'M3 4l9 8-9 8V4zm9 0l9 8-9 8V4z'];
+      const mark4 = i => { const NS = 'http://www.w3.org/2000/svg', sv = document.createElementNS(NS, 'svg'), pa = document.createElementNS(NS, 'path'); sv.setAttribute('viewBox', '0 0 24 24'); pa.setAttribute('d', MK[i % 4]); pa.setAttribute('fill-rule', 'evenodd'); sv.append(pa); return sv; };
+      const offer = Q.get('offer') || 'USE CODE VLX · 5% OFF';
       const P = {
         logo() { const i = new Image(); i.src = logo; i.className = 'it'; i.style.cssText = `height:${h * .62}px;width:auto;max-width:${w * .8}px;object-fit:contain`; return [i]; },
         socials() { const g = el('div', 'sgrid'); g.style.cssText = `--cols:${cols};font-size:${fs}px;gap:${h * .06}px ${w * .035}px`; soc.forEach(s => { const a = el('div', 'si it'); a.append(svg(s.k), el('span', '', s.text)); g.append(a); }); return [g]; },
-        partners() { const g = el('div', 'sgrid'); g.style.cssText = `--cols:${Math.min(real.length, cols)};font-size:${fs}px;gap:${h * .06}px ${w * .04}px`; real.slice(0, 4).forEach(p => { const a = el('div', 'si it'); if (p.logo) { const i = new Image(); i.src = p.logo; i.style.height = fs * 1.6 + 'px'; a.append(i); } else a.append(el('span', '', p.name)); g.append(a); }); return [g]; },
+        partners() { const g = el('div', 'sgrid'); g.style.cssText = `--cols:${Math.min(real.length, cols)};font-size:${fs * (cols === 4 ? .66 : .78)}px;gap:${h * .06}px ${w * .04}px`; real.slice(0, 4).forEach(p => { const a = el('div', 'si it'); if (p.logo) { const i = new Image(); i.src = p.logo; i.style.height = fs * 1.6 + 'px'; a.append(i); } else a.append(mark4(real.indexOf(p)), el('span', '', p.name)); g.append(a); }); const c = el('div'); c.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:' + h * .05 + 'px'; const lb = el('small', 'it', Q.get('ptitle') || 'OUR PARTNERS'); lb.style.cssText = `font:700 ${sm}px var(--body);letter-spacing:.34em;opacity:.7`; c.append(lb, g); return [c]; },
+        ...Object.fromEntries(real.slice(0, 4).map((p, i) => ['sp' + i, () => { const c = text(offer, p.name, null); const ic = p.logo ? Object.assign(new Image(), { src: p.logo }) : mark4(i); ic.style.cssText = `height:${big * .9}px;width:${big * .9}px;object-fit:contain;fill:var(--accent);flex:0 0 auto`; ic.classList.add('it'); c.prepend(ic); return [c]; }])),
         discord() { return [text('JOIN OUR COMMUNITY', 'DISCORD', 'discord')]; },
         cmd() { return [text('TYPE IN CHAT', Q.get('cmd') || '!orgdc')]; },
         invite() { const d = socials.find(s => s.k === 'discord') || {}; return [text(Q.get('invitelabel') || 'INVITE LINK', Q.get('invite') || (d.ph ? 'discord.gg/yourinvite' : d.text))]; },
-        creator() { return [text('SUPPORT US · CREATOR CODE', Q.get('code') || 'VLX')]; },
+        creator() { return [text('SUPPORT US WITH CREATOR CODE', Q.get('code') || 'VLX')]; },
         website() { return [text('VISIT OUR WEBSITE', Q.get('site') || 'valioux.com')]; },
         shop() { return [text('GO TO OUR STORE', Q.get('shop') || 'shop.valioux.com')]; },
         hashtag() { return [text('USE', hashtag)]; },
