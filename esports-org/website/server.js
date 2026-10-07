@@ -5,6 +5,10 @@ const PORT = process.env.PORT || 3000;
 const ROOT = __dirname, PUB = path.join(ROOT, 'public'), UPL = path.join(ROOT, 'uploads');
 const DB_FILE = path.join(ROOT, 'data', 'db.json'), SEED = path.join(ROOT, 'data', 'seed.json');
 let ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+if (!ADMIN_PASSWORD && process.env.npm_lifecycle_event === 'dev') {
+  ADMIN_PASSWORD = 'admin'; // nur für `npm run dev` (lokal)
+  console.log('\n[dev] Admin-Passwort: admin  (nur lokal; für Live ADMIN_PASSWORD setzen)\n');
+}
 if (!ADMIN_PASSWORD) {
   ADMIN_PASSWORD = crypto.randomBytes(9).toString('base64url');
   console.log(`\n[!] ADMIN_PASSWORD nicht gesetzt. Temporäres Passwort: ${ADMIN_PASSWORD}\n    Setze es dauerhaft: ADMIN_PASSWORD=... node server.js\n`);

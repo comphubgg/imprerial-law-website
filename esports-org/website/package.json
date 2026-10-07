@@ -1,2 +1,13 @@
-{ "name": "viridian-esports-site", "version": "1.0.0", "private": true, "type": "commonjs",
-  "scripts": { "start": "node server.js" }, "engines": { "node": ">=18" } }
+{
+  "name": "viridian-esports-site",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "dev": "node --watch server.js",
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

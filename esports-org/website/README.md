@@ -1,5 +1,12 @@
 # Website + Admin-Panel
 
+**Lokal starten (Entwicklung):**
+```
+cd esports-org/website
+npm run dev
+```
+Dann im Browser: http://localhost:3000 (Seite) und http://localhost:3000/admin/ (Passwort lokal: `admin`). Anderer Port: `PORT=4000 npm run dev`. Änderungen am Server starten ihn automatisch neu. Es ist keine Installation nötig (`npm install` wird nicht gebraucht), nur Node ≥ 18.
+
 Start (Node ≥ 18, keine Installation nötig):
 ```
 cd esports-org/website
