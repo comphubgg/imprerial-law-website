@@ -9,19 +9,23 @@ if (!ADMIN_PASSWORD) {
   ADMIN_PASSWORD = crypto.randomBytes(9).toString('base64url');
   console.log(`\n[!] ADMIN_PASSWORD nicht gesetzt. Temporäres Passwort: ${ADMIN_PASSWORD}\n    Setze es dauerhaft: ADMIN_PASSWORD=... node server.js\n`);
 }
-const COLLECTIONS = ['games', 'teams', 'players', 'creators', 'shows', 'news', 'matches', 'sponsors'];
+const COLLECTIONS = ['games', 'teams', 'players', 'creators', 'shows', 'news', 'matches', 'sponsors', 'slides', 'products', 'achievements', 'pages'];
 const MIME = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.svg': 'image/svg+xml',
-  '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.gif': 'image/gif', '.json': 'application/json', '.ico': 'image/x-icon' };
+  '.woff2': 'font/woff2', '.txt': 'text/plain', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.gif': 'image/gif', '.json': 'application/json', '.ico': 'image/x-icon' };
 
 function load() {
   if (!fs.existsSync(DB_FILE)) fs.copyFileSync(SEED, DB_FILE);
-  return JSON.parse(fs.readFileSync(DB_FILE, 'utf8'));
+  const d = JSON.parse(fs.readFileSync(DB_FILE, 'utf8')), seed = JSON.parse(fs.readFileSync(SEED, 'utf8'));
+  // Migration: fehlende Sammlungen/Org-Felder aus dem Seed ergänzen (bestehende Daten bleiben unangetastet)
+  for (const k of Object.keys(seed)) { if (k === 'org') d.org = { ...seed.org, ...d.org }; else if (d[k] === undefined) d[k] = seed[k]; }
+  if (!d.subscribers) d.subscribers = [];
+  return d;
 }
 let db = load();
 function save() { const t = DB_FILE + '.tmp'; fs.writeFileSync(t, JSON.stringify(db, null, 2)); fs.renameSync(t, DB_FILE); }
 
 // ---- Auth: Token im HttpOnly-Cookie, 12h gültig, Login-Rate-Limit
-const sessions = new Map(); const fails = new Map();
+const sessions = new Map(); const fails = new Map(); const subFails = new Map();
 const safeEq = (a, b) => { const x = crypto.createHash('sha256').update(String(a)).digest(), y = crypto.createHash('sha256').update(String(b)).digest(); return crypto.timingSafeEqual(x, y); };
 const cookie = req => Object.fromEntries((req.headers.cookie || '').split(';').map(c => c.trim().split('=')).filter(c => c[0]));
 const authed = req => { const t = cookie(req).vt; const s = t && sessions.get(t); if (s && s > Date.now()) return true; sessions.delete(t); return false; };
@@ -71,8 +75,18 @@ async function api(req, res, url) {
   if (parts[0] === 'logout') { sessions.delete(cookie(req).vt); return send(res, 200, { ok: true }, { 'Set-Cookie': 'vt=; Max-Age=0; Path=/' }); }
   if (parts[0] === 'me') return send(res, 200, { admin: authed(req) });
   if (parts[0] === 'data' && m === 'GET') {
-    const out = { ...db }; out.org = { ...db.org };
+    const out = { ...db }; delete out.subscribers; // E-Mail-Adressen nie öffentlich ausliefern
     return send(res, 200, out);
+  }
+  if (parts[0] === 'subscribe' && m === 'POST') {
+    const ip = req.socket.remoteAddress, f = subFails.get(ip) || { n: 0, t: Date.now() };
+    if (Date.now() - f.t > 3600e3) { f.n = 0; f.t = Date.now(); }
+    if (f.n >= 6) return send(res, 429, { error: 'Too many requests' });
+    subFails.set(ip, { n: f.n + 1, t: f.t });
+    const { email } = JSON.parse((await readBody(req, 2e3)) || '{}'); const e = String(email || '').trim().toLowerCase();
+    if (!/^[^\s@]{1,64}@[^\s@]{1,190}\.[^\s@]{2,}$/.test(e)) return send(res, 400, { error: 'Invalid email' });
+    if (!db.subscribers.some(x => x.email === e)) { db.subscribers.push({ id: newId(), email: e, date: new Date().toISOString().slice(0, 10) }); save(); }
+    return send(res, 200, { ok: true });
   }
   if (parts[0] === 'live' && m === 'GET') {
     const chans = [db.org.twitchChannel, ...db.creators.filter(c => c.active !== false).map(c => c.twitchChannel)].filter(Boolean).map(s => s.toLowerCase());
@@ -92,6 +106,11 @@ async function api(req, res, url) {
     const file = newId() + '-' + String(name || 'img').replace(/[^\w.-]/g, '_').slice(-40).replace(/\.[^.]*$/, '') + '.' + (mm[1] === 'jpeg' ? 'jpg' : mm[1]);
     fs.writeFileSync(path.join(UPL, file), buf); return send(res, 200, { url: '/uploads/' + file });
   }
+  if (parts[0] === 'subscribers') {
+    if (m === 'GET') return send(res, 200, db.subscribers);
+    if (m === 'DELETE' && parts[1]) { db.subscribers = db.subscribers.filter(x => x.id !== parts[1]); save(); return send(res, 200, { ok: true }); }
+  }
+  if (parts[0] === 'subscribers.csv' && m === 'GET') return send(res, 200, 'email,date\n' + db.subscribers.map(x => `${x.email},${x.date}`).join('\n'), { 'Content-Type': 'text/csv', 'Content-Disposition': 'attachment; filename=subscribers.csv' });
   if (parts[0] === 'backup' && m === 'GET') return send(res, 200, db, { 'Content-Disposition': 'attachment; filename=viridian-backup.json' });
   if (parts[0] === 'restore' && m === 'POST') { const j = JSON.parse(await readBody(req)); if (!j.org) return send(res, 400, { error: 'Ungültig' }); db = j; save(); return send(res, 200, { ok: true }); }
 
@@ -103,8 +122,8 @@ async function api(req, res, url) {
   if (m === 'DELETE') {
     list.splice(i, 1);
     // Verwaiste Verweise säubern: Spiel -> Teams -> Spieler/Matches
-    if (coll === 'games') { const t = db.teams.filter(t => t.gameId === id).map(t => t.id); db.teams = db.teams.filter(t => t.gameId !== id); db.players.forEach(p => { if (t.includes(p.teamId)) p.teamId = ''; }); db.matches = db.matches.filter(x => !t.includes(x.teamId)); }
-    if (coll === 'teams') { db.players.forEach(p => { if (p.teamId === id) p.teamId = ''; }); db.matches = db.matches.filter(x => x.teamId !== id); }
+    if (coll === 'games') { const t = db.teams.filter(t => t.gameId === id).map(t => t.id); db.teams = db.teams.filter(t => t.gameId !== id); db.players.forEach(p => { if (t.includes(p.teamId)) p.teamId = ''; }); db.matches = db.matches.filter(x => !t.includes(x.teamId)); db.achievements = db.achievements.filter(x => !t.includes(x.teamId)); }
+    if (coll === 'teams') { db.players.forEach(p => { if (p.teamId === id) p.teamId = ''; }); db.matches = db.matches.filter(x => x.teamId !== id); db.achievements = db.achievements.filter(x => x.teamId !== id); }
     save(); return send(res, 200, { ok: true });
   }
   send(res, 405, { error: 'Methode' });

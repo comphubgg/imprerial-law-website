@@ -57,3 +57,34 @@ window.setLang = l => { if (!window.LANGS[l]) return; window.LANG = l; try { loc
 window.T = k => (window.UI[window.LANG] && window.UI[window.LANG][k]) || window.UI.en[k] || k;
 // Inhaltsfeld in aktueller Sprache: obj.title_de -> sonst obj.title (Englisch)
 window.TR = (o, f) => (window.LANG !== 'en' && o && o[f + '_' + window.LANG]) || (o ? o[f] : '') || '';
+
+// ---- Erweiterung für das Shop-/Match-/Footer-Layout (fehlende Sprachen fallen auf Englisch zurück)
+(function (U) {
+  const add = (l, o) => Object.assign(U[l], o);
+  add('en', { 'nav.teams': 'Teams', 'nav.about': 'About', 'nav.allTeams': 'All teams', 'nav.allProducts': 'All products', 'nav.home': 'Home', 'search': 'Search', 'searchPh': 'Search teams, players, news…', 'noResults': 'No results',
+   'fromShop': 'From the shop', 'allProducts': 'All products', 'nextUp': 'Next up', 'results': 'Results', 'all': 'All', 'teams': 'Teams', 'viewTeams': 'View teams', 'latestNews': 'Latest news', 'viewAll': 'View all',
+   'nl.title': 'Subscribe to our newsletter', 'nl.text': 'New kit, roster news and subscriber-only offers, straight to your inbox.', 'nl.ph': 'Your email address', 'nl.btn': 'Subscribe', 'nl.ok': 'Thanks! You are subscribed.', 'nl.err': 'Please enter a valid email address.',
+   'watchLive': 'Watch live', 'vs': 'VS', 'inDays': 'in {d} days {h} hours', 'inHours': 'in {h} hours {m} min', 'inMin': 'in {m} min', 'liveNow': 'Live now', 'noUpcoming': 'No upcoming matches.', 'noResults2': 'No results yet.',
+   'roster': 'Roster', 'achievements': 'Achievements', 'teamResults': 'Results', 'f.shop': 'Shop', 'f.explore': 'Explore', 'f.partners': 'Partners', 'f.legal': 'Legal', 'privacy': 'Privacy policy', 'imprint': 'Legal notice', 'terms': 'Terms of service', 'contact': 'Contact information',
+   'notFound': 'Page not found', 'backHome': 'Back to home', 'shopEmpty': 'Shop coming soon.', 'buy': 'View product', 'creatorsPage': 'Creators', 'followUs': 'Follow us', 'menu': 'Menu', 'back': 'Back', 'external': 'opens external site', 'more': 'Read more' });
+  add('de', { 'nav.teams': 'Teams', 'nav.about': 'Über uns', 'nav.allTeams': 'Alle Teams', 'nav.allProducts': 'Alle Produkte', 'nav.home': 'Startseite', 'search': 'Suche', 'searchPh': 'Teams, Spieler, News suchen…', 'noResults': 'Keine Ergebnisse',
+   'fromShop': 'Aus dem Shop', 'allProducts': 'Alle Produkte', 'nextUp': 'Als Nächstes', 'results': 'Ergebnisse', 'all': 'Alle', 'teams': 'Teams', 'viewTeams': 'Teams ansehen', 'latestNews': 'Aktuelle News', 'viewAll': 'Alle ansehen',
+   'nl.title': 'Newsletter abonnieren', 'nl.text': 'Neues Kit, Roster-News und Abo-Angebote direkt ins Postfach.', 'nl.ph': 'Deine E-Mail-Adresse', 'nl.btn': 'Abonnieren', 'nl.ok': 'Danke! Du bist angemeldet.', 'nl.err': 'Bitte gib eine gültige E-Mail-Adresse ein.',
+   'watchLive': 'Live ansehen', 'inDays': 'in {d} Tagen {h} Std.', 'inHours': 'in {h} Std. {m} Min.', 'inMin': 'in {m} Min.', 'liveNow': 'Jetzt live', 'noUpcoming': 'Keine kommenden Matches.', 'noResults2': 'Noch keine Ergebnisse.',
+   'roster': 'Roster', 'achievements': 'Erfolge', 'teamResults': 'Ergebnisse', 'f.shop': 'Shop', 'f.explore': 'Entdecken', 'f.partners': 'Partner', 'f.legal': 'Rechtliches', 'privacy': 'Datenschutz', 'imprint': 'Impressum', 'terms': 'AGB', 'contact': 'Kontakt',
+   'notFound': 'Seite nicht gefunden', 'backHome': 'Zur Startseite', 'shopEmpty': 'Shop folgt bald.', 'buy': 'Produkt ansehen', 'followUs': 'Folge uns', 'menu': 'Menü', 'back': 'Zurück', 'more': 'Weiterlesen' });
+  add('es', { 'nav.teams': 'Equipos', 'nav.about': 'Nosotros', 'nav.allTeams': 'Todos los equipos', 'nav.allProducts': 'Todos los productos', 'nav.home': 'Inicio', 'search': 'Buscar', 'searchPh': 'Buscar equipos, jugadores, noticias…', 'noResults': 'Sin resultados',
+   'fromShop': 'De la tienda', 'allProducts': 'Todos los productos', 'nextUp': 'Próximo', 'results': 'Resultados', 'all': 'Todos', 'teams': 'Equipos', 'viewTeams': 'Ver equipos', 'latestNews': 'Últimas noticias', 'viewAll': 'Ver todo',
+   'nl.title': 'Suscríbete al boletín', 'nl.text': 'Nueva equipación, noticias del roster y ofertas para suscriptores en tu correo.', 'nl.ph': 'Tu correo electrónico', 'nl.btn': 'Suscribirse', 'nl.ok': '¡Gracias! Estás suscrito.', 'nl.err': 'Introduce un correo válido.',
+   'watchLive': 'Ver en directo', 'inDays': 'en {d} días {h} h', 'inHours': 'en {h} h {m} min', 'inMin': 'en {m} min', 'liveNow': 'En directo', 'noUpcoming': 'No hay próximos partidos.', 'noResults2': 'Aún no hay resultados.',
+   'roster': 'Plantilla', 'achievements': 'Logros', 'teamResults': 'Resultados', 'f.shop': 'Tienda', 'f.explore': 'Explorar', 'f.partners': 'Socios', 'f.legal': 'Legal', 'privacy': 'Privacidad', 'imprint': 'Aviso legal', 'terms': 'Términos', 'contact': 'Contacto',
+   'notFound': 'Página no encontrada', 'backHome': 'Volver al inicio', 'shopEmpty': 'Tienda próximamente.', 'buy': 'Ver producto', 'followUs': 'Síguenos', 'menu': 'Menú', 'back': 'Atrás', 'more': 'Leer más' });
+  add('fr', { 'nav.teams': 'Équipes', 'nav.about': 'À propos', 'nav.allTeams': 'Toutes les équipes', 'nav.allProducts': 'Tous les produits', 'nav.home': 'Accueil', 'search': 'Recherche', 'searchPh': 'Rechercher équipes, joueurs, actus…', 'noResults': 'Aucun résultat',
+   'fromShop': 'Depuis la boutique', 'allProducts': 'Tous les produits', 'nextUp': 'À venir', 'results': 'Résultats', 'all': 'Tous', 'teams': 'Équipes', 'viewTeams': 'Voir les équipes', 'latestNews': 'Dernières actus', 'viewAll': 'Tout voir',
+   'nl.title': 'Abonnez-vous à la newsletter', 'nl.text': 'Nouveau maillot, actus du roster et offres réservées aux abonnés dans votre boîte mail.', 'nl.ph': 'Votre adresse e-mail', 'nl.btn': "S'abonner", 'nl.ok': 'Merci ! Vous êtes abonné.', 'nl.err': 'Veuillez saisir une adresse valide.',
+   'watchLive': 'Regarder en direct', 'inDays': 'dans {d} jours {h} h', 'inHours': 'dans {h} h {m} min', 'inMin': 'dans {m} min', 'liveNow': 'En direct', 'noUpcoming': 'Aucun match à venir.', 'noResults2': 'Pas encore de résultats.',
+   'roster': 'Roster', 'achievements': 'Palmarès', 'teamResults': 'Résultats', 'f.shop': 'Boutique', 'f.explore': 'Explorer', 'f.partners': 'Partenaires', 'f.legal': 'Légal', 'privacy': 'Confidentialité', 'imprint': 'Mentions légales', 'terms': 'CGV', 'contact': 'Contact',
+   'notFound': 'Page introuvable', 'backHome': "Retour à l'accueil", 'shopEmpty': 'Boutique bientôt.', 'buy': 'Voir le produit', 'followUs': 'Suivez-nous', 'menu': 'Menu', 'back': 'Retour', 'more': 'Lire la suite' });
+})(window.UI);
+// Platzhalter {x} ersetzen
+window.TF = (k, vars) => window.T(k).replace(/\{(\w+)\}/g, (_, n) => (vars && vars[n] != null ? vars[n] : ''));

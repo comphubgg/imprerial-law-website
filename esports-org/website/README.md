@@ -9,8 +9,11 @@ ADMIN_PASSWORD="dein-starkes-passwort" node server.js
 - Ohne `ADMIN_PASSWORD` erzeugt der Server ein temporäres Passwort und zeigt es im Terminal.
 - Inhalte liegen in `data/db.json` (wird beim ersten Start aus `data/seed.json` erzeugt). **Backup:** im Admin-Panel unter „Backup".
 
+## Aufbau der Seite (Struktur wie bei großen Orgs)
+Promo-Leiste · Header mit Shop-/Teams-Dropdown, Suche, Sprachumschalter · Hero-Slider · Partner-Laufband · „From the shop" · „Next up" + „Results" · Team-Karten · Latest News · Newsletter · Footer. Unterseiten: /teams, /team/<slug> (Roster + Achievements + Results), /creators, /news, /news/<id>, /shop, /about, /partners, /page/<slug> (Legal).
+
 ## Im Admin-Panel änderbar
-Organisation (Name, Slogan, Beschreibung, Logo, Farbwelt/Saison-Theme, Socials, Twitch-Kanal, Kontakt, Shop-Link, Bereiche an/aus) · Spiele (hinzufügen/löschen) · Teams (Pro/Academy/Talent) · Spieler inkl. Foto und allen Socials · Creators · Shows · News · Matches · Partner.
+Organisation (Name, Slogan, Logo, Farbwelt, Promo-Leiste, Menü-Links, Hashtag, Socials) · Hero-Slider · Shop-Produkte · Teams · Spieler (Foto, Name, Land, Socials) · Achievements · Matches (kommend = Next up, beendet = Results) · Creators · News · Partner · Shows · Seiten (About, Legal) · Spiele · Newsletter-Liste (CSV-Export) · Backup. Texte sind englisch, pro Feld optional übersetzbar (DE/ES/FR/IT/PT).
 Löschen eines Spiels entfernt dessen Teams und Matches (mit Warnung). Spieler bleiben ohne Team erhalten.
 
 ## Live-Anzeige auf Twitch

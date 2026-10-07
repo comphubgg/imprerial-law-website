@@ -2,28 +2,36 @@
   "org": {
     "name": "VALIOUX",
     "tagline": "FEARLESS. ELEVATED.",
+    "tagline_de": "FURCHTLOS. ERHABEN.",
     "description": "VALIOUX is a Fortnite esports organisation with a Pro team, an Academy and a network of content creators. We develop talent, win tournaments and bring our community closer to the action with live streams and original shows.",
+    "description_de": "VALIOUX ist eine Fortnite-Esports-Organisation mit Pro-Team, Academy und Content-Creators. Wir bauen Talente auf, gewinnen Turniere und bringen die Community mit Live-Streams und eigenen Shows näher an den Sport.",
+    "description_es": "VALIOUX es una organización de esports de Fortnite con equipo Pro, Academia y una red de creadores de contenido.",
+    "description_fr": "VALIOUX est une organisation esport Fortnite avec une équipe Pro, une Académie et un réseau de créateurs de contenu.",
+    "theme": "platin",
+    "themeLogos": {},
     "logo": "/logo.png",
-    "heroImage": "",
     "twitchChannel": "",
     "contactEmail": "business@example.com",
+    "promoText": "NEW DROP – JERSEY COMING SOON!",
+    "promoLink": "",
+    "hashtag": "#VLX",
+    "footerText": "Fortnite esports organisation with a Pro team, an Academy and creators.",
+    "navLinks": "",
+    "shopUrl": "",
+    "newsletter": true,
+    "showAcademy": true,
+    "showCreators": true,
+    "showShows": true,
     "socials": {
       "x": "",
       "twitch": "",
       "youtube": "",
       "instagram": "",
       "tiktok": "",
-      "discord": ""
-    },
-    "shopUrl": "",
-    "showAcademy": true,
-    "showCreators": true,
-    "showShows": true,
-    "theme": "platin",
-    "themeLogos": {},
-    "description_de": "VALIOUX ist eine Fortnite-Esports-Organisation mit Pro-Team, Academy und Content-Creators. Wir bauen Talente auf, gewinnen Turniere und bringen die Community mit Live-Streams und eigenen Shows näher an den Sport.",
-    "description_es": "VALIOUX es una organización de esports de Fortnite con equipo Pro, Academia y una red de creadores de contenido. Formamos talento, ganamos torneos y acercamos a nuestra comunidad con streams y shows propios.",
-    "description_fr": "VALIOUX est une organisation esport Fortnite avec une équipe Pro, une Académie et un réseau de créateurs de contenu. Nous formons des talents, remportons des tournois et rapprochons la communauté grâce à des lives et des émissions originales."
+      "discord": "",
+      "facebook": "",
+      "linkedin": ""
+    }
   },
   "games": [
     {
@@ -37,28 +45,39 @@
     {
       "id": "t-pro",
       "gameId": "g-fn",
-      "name": "VALIOUX Pro",
+      "name": "Fortnite",
+      "slug": "fortnite",
       "tier": "pro",
+      "image": "",
+      "description": "Our Fortnite Pro roster competing in FNCS and major tournaments.",
+      "order": 1,
       "active": true
     },
     {
       "id": "t-acad",
       "gameId": "g-fn",
-      "name": "VALIOUX Academy",
+      "name": "Academy",
+      "slug": "academy",
       "tier": "academy",
+      "image": "",
+      "description": "The next generation – talent with a plan.",
+      "order": 2,
       "active": true
     }
   ],
   "players": [
     {
       "id": "p1",
-      "handle": "Beispiel1",
+      "handle": "PlayerOne",
+      "firstName": "Alex",
+      "lastName": "Example",
       "realName": "",
       "role": "Fragger",
       "country": "DE",
       "teamId": "t-pro",
       "photo": "",
       "bio": "Placeholder – replace in the admin panel.",
+      "bio_de": "Platzhalter – im Admin-Panel ersetzen.",
       "socials": {
         "x": "",
         "twitch": "",
@@ -66,18 +85,20 @@
         "instagram": "",
         "tiktok": ""
       },
-      "active": true,
-      "bio_de": "Platzhalter – im Admin-Panel ersetzen."
+      "active": true
     },
     {
       "id": "p2",
-      "handle": "Beispiel2",
+      "handle": "PlayerTwo",
+      "firstName": "Sam",
+      "lastName": "Sample",
       "realName": "",
       "role": "IGL",
       "country": "DE",
       "teamId": "t-pro",
       "photo": "",
       "bio": "Placeholder – replace in the admin panel.",
+      "bio_de": "Platzhalter – im Admin-Panel ersetzen.",
       "socials": {
         "x": "",
         "twitch": "",
@@ -85,18 +106,20 @@
         "instagram": "",
         "tiktok": ""
       },
-      "active": true,
-      "bio_de": "Platzhalter – im Admin-Panel ersetzen."
+      "active": true
     },
     {
       "id": "p3",
-      "handle": "Beispiel3",
+      "handle": "PlayerThree",
+      "firstName": "Chris",
+      "lastName": "Demo",
       "realName": "",
-      "role": "Talent",
-      "country": "DE",
-      "teamId": "t-acad",
+      "role": "Support",
+      "country": "FR",
+      "teamId": "t-pro",
       "photo": "",
       "bio": "Placeholder – replace in the admin panel.",
+      "bio_de": "Platzhalter – im Admin-Panel ersetzen.",
       "socials": {
         "x": "",
         "twitch": "",
@@ -104,18 +127,39 @@
         "instagram": "",
         "tiktok": ""
       },
-      "active": true,
-      "bio_de": "Platzhalter – im Admin-Panel ersetzen."
+      "active": true
+    },
+    {
+      "id": "p4",
+      "handle": "TalentOne",
+      "firstName": "Jamie",
+      "lastName": "Talent",
+      "realName": "",
+      "role": "Talent",
+      "country": "ES",
+      "teamId": "t-acad",
+      "photo": "",
+      "bio": "Placeholder – replace in the admin panel.",
+      "bio_de": "Platzhalter – im Admin-Panel ersetzen.",
+      "socials": {
+        "x": "",
+        "twitch": "",
+        "youtube": "",
+        "instagram": "",
+        "tiktok": ""
+      },
+      "active": true
     }
   ],
   "creators": [
     {
       "id": "c1",
-      "handle": "CreatorBeispiel",
+      "handle": "CreatorExample",
       "platform": "twitch",
       "twitchChannel": "",
       "photo": "",
       "bio": "Placeholder creator.",
+      "bio_de": "Platzhalter-Creator.",
       "socials": {
         "x": "",
         "twitch": "",
@@ -123,8 +167,7 @@
         "instagram": "",
         "tiktok": ""
       },
-      "active": true,
-      "bio_de": "Platzhalter-Creator."
+      "active": true
     }
   ],
   "shows": [
@@ -132,25 +175,307 @@
       "id": "s1",
       "title": "VALIOUX Weekly",
       "description": "The weekly recap: highlights, clips and interviews.",
+      "description_de": "Der wöchentliche Rückblick: Highlights, Clips, Interviews.",
       "schedule": "Sundays 7 PM CET",
       "link": "",
       "image": "",
-      "active": true,
-      "description_de": "Der wöchentliche Rückblick: Highlights, Clips, Interviews.",
-      "schedule_de": "Sonntags 19:00 Uhr"
+      "active": true
+    }
+  ],
+  "slides": [
+    {
+      "id": "sl1",
+      "title": "WELCOME TO VALIOUX",
+      "subtitle": "FEARLESS. ELEVATED.",
+      "image": "",
+      "style": "night",
+      "cta": "Meet the team",
+      "link": "/teams",
+      "order": 1,
+      "active": true
+    },
+    {
+      "id": "sl2",
+      "title": "NEW JERSEY",
+      "subtitle": "COMING SOON",
+      "image": "",
+      "style": "steel",
+      "cta": "",
+      "link": "",
+      "order": 2,
+      "active": true
+    },
+    {
+      "id": "sl3",
+      "title": "JOIN THE ACADEMY",
+      "subtitle": "APPLY NOW",
+      "image": "",
+      "style": "light",
+      "cta": "Apply",
+      "link": "/page/academy-apply",
+      "order": 3,
+      "active": true
+    }
+  ],
+  "products": [
+    {
+      "id": "pr1",
+      "name": "VLX Jersey",
+      "price": "€74.99",
+      "image": "",
+      "link": "",
+      "order": 1,
+      "active": true
+    },
+    {
+      "id": "pr2",
+      "name": "VLX Jacket",
+      "price": "€59.99",
+      "image": "",
+      "link": "",
+      "order": 2,
+      "active": true
+    },
+    {
+      "id": "pr3",
+      "name": "VLX Jogger",
+      "price": "€49.99",
+      "image": "",
+      "link": "",
+      "order": 3,
+      "active": true
+    },
+    {
+      "id": "pr4",
+      "name": "VLX Bag",
+      "price": "€24.99",
+      "image": "",
+      "link": "",
+      "order": 4,
+      "active": true
+    },
+    {
+      "id": "pr5",
+      "name": "VLX Flag",
+      "price": "€24.99",
+      "image": "",
+      "link": "",
+      "order": 5,
+      "active": true
     }
   ],
   "news": [
     {
       "id": "n1",
       "title": "Welcome to VALIOUX",
-      "body": "The journey begins. Follow us on all channels and never miss a moment.",
-      "date": "2026-10-07",
-      "image": "",
       "title_de": "Willkommen bei VALIOUX",
-      "body_de": "Die Reise beginnt. Folge uns auf allen Kanälen und verpasse nichts."
+      "body": "The journey begins. Follow us on all channels and never miss a moment.\n\nMore news soon.",
+      "body_de": "Die Reise beginnt. Folge uns auf allen Kanälen und verpasse nichts.",
+      "date": "2026-10-07",
+      "image": ""
+    },
+    {
+      "id": "n2",
+      "title": "Roster announcement coming soon",
+      "body": "We are finalising our Fortnite roster. Stay tuned.",
+      "date": "2026-10-06",
+      "image": ""
+    },
+    {
+      "id": "n3",
+      "title": "Academy tryouts open",
+      "body": "Think you have what it takes? Apply for our Academy.",
+      "date": "2026-10-05",
+      "image": ""
     }
   ],
-  "matches": [],
-  "sponsors": []
+  "matches": [
+    {
+      "id": "m1",
+      "teamId": "t-pro",
+      "status": "upcoming",
+      "datetime": "2026-10-14T18:00",
+      "opponent": "Example Opponent",
+      "opponentLogo": "",
+      "event": "Example Cup · Round 1",
+      "scoreHome": "",
+      "scoreAway": "",
+      "streamLink": "",
+      "result": "",
+      "score": "",
+      "date": "2026-10-14"
+    },
+    {
+      "id": "m2",
+      "teamId": "t-pro",
+      "status": "upcoming",
+      "datetime": "2026-10-18T19:30",
+      "opponent": "Sample Team",
+      "opponentLogo": "",
+      "event": "Example League · Week 3",
+      "scoreHome": "",
+      "scoreAway": "",
+      "streamLink": "",
+      "result": "",
+      "score": "",
+      "date": "2026-10-18"
+    },
+    {
+      "id": "m3",
+      "teamId": "t-pro",
+      "status": "finished",
+      "datetime": "2026-10-03T18:00",
+      "opponent": "Demo Esports",
+      "opponentLogo": "",
+      "event": "Example Cup · Final",
+      "scoreHome": "2",
+      "scoreAway": "1",
+      "streamLink": "",
+      "result": "win",
+      "score": "2-1",
+      "date": "2026-10-03"
+    },
+    {
+      "id": "m4",
+      "teamId": "t-pro",
+      "status": "finished",
+      "datetime": "2026-10-01T18:00",
+      "opponent": "Placeholder Gaming",
+      "opponentLogo": "",
+      "event": "Example League · Week 2",
+      "scoreHome": "0",
+      "scoreAway": "2",
+      "streamLink": "",
+      "result": "loss",
+      "score": "0-2",
+      "date": "2026-10-01"
+    }
+  ],
+  "achievements": [
+    {
+      "id": "a1",
+      "teamId": "t-pro",
+      "placement": "1st",
+      "year": "2026",
+      "title": "Example Tournament Winner",
+      "logo": ""
+    },
+    {
+      "id": "a2",
+      "teamId": "t-pro",
+      "placement": "3rd",
+      "year": "2026",
+      "title": "Example Major Europe",
+      "logo": ""
+    }
+  ],
+  "sponsors": [
+    {
+      "id": "sp1",
+      "name": "PARTNER 1",
+      "url": "",
+      "logo": "",
+      "tier": "Partner",
+      "order": 1
+    },
+    {
+      "id": "sp2",
+      "name": "PARTNER 2",
+      "url": "",
+      "logo": "",
+      "tier": "Partner",
+      "order": 2
+    },
+    {
+      "id": "sp3",
+      "name": "PARTNER 3",
+      "url": "",
+      "logo": "",
+      "tier": "Partner",
+      "order": 3
+    },
+    {
+      "id": "sp4",
+      "name": "PARTNER 4",
+      "url": "",
+      "logo": "",
+      "tier": "Partner",
+      "order": 4
+    },
+    {
+      "id": "sp5",
+      "name": "PARTNER 5",
+      "url": "",
+      "logo": "",
+      "tier": "Partner",
+      "order": 5
+    },
+    {
+      "id": "sp6",
+      "name": "PARTNER 6",
+      "url": "",
+      "logo": "",
+      "tier": "Partner",
+      "order": 6
+    }
+  ],
+  "pages": [
+    {
+      "id": "pg-about",
+      "slug": "about",
+      "title": "About",
+      "title_de": "Über uns",
+      "body": "## Who we are\nVALIOUX is a Fortnite esports organisation with a Pro team, an Academy and a creator network.\n\n## Our mission\nDevelop talent, win titles and inspire the community.\n\n## Values\n- Fearless – we lead from the front\n- Elevated – we work at the top level\n- Together – team before ego",
+      "body_de": "## Wer wir sind\nVALIOUX ist eine Fortnite-Esports-Organisation mit Pro-Team, Academy und Creator-Netzwerk."
+    },
+    {
+      "id": "pg-partners",
+      "slug": "partners",
+      "title": "Partners",
+      "title_de": "Partner",
+      "body": "Interested in partnering with us? Reach out via the contact page.",
+      "body_de": "Interesse an einer Partnerschaft? Schreib uns über die Kontaktseite."
+    },
+    {
+      "id": "pg-academy",
+      "slug": "academy-apply",
+      "title": "Academy Application",
+      "title_de": "Academy-Bewerbung",
+      "body": "Send us your Epic name, rank/PR, availability and a link to your best gameplay to the contact e-mail address.",
+      "body_de": "Sende uns Epic-Name, Rang/PR, Verfügbarkeit und einen Link zu deinem besten Gameplay an die Kontakt-E-Mail."
+    },
+    {
+      "id": "pg-contact",
+      "slug": "contact",
+      "title": "Contact Information",
+      "title_de": "Kontakt",
+      "body": "Business & partnerships: [business@example.com]\nPress: [press@example.com]",
+      "body_de": ""
+    },
+    {
+      "id": "pg-privacy",
+      "slug": "privacy",
+      "title": "Privacy Policy",
+      "title_de": "Datenschutz",
+      "body": "PLACEHOLDER – replace with a lawyer-reviewed privacy policy before going live.",
+      "body_de": ""
+    },
+    {
+      "id": "pg-imprint",
+      "slug": "legal-notice",
+      "title": "Legal Notice",
+      "title_de": "Impressum",
+      "body": "PLACEHOLDER – company name, address, representative, register number, VAT ID.",
+      "body_de": ""
+    },
+    {
+      "id": "pg-terms",
+      "slug": "terms",
+      "title": "Terms of Service",
+      "title_de": "AGB",
+      "body": "PLACEHOLDER – terms of service.",
+      "body_de": ""
+    }
+  ],
+  "subscribers": []
 }
