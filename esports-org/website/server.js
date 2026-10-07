@@ -1,4 +1,4 @@
-// VIRIDIAN – Website + Admin-Backend. Keine Abhängigkeiten, Node >= 18.
+// VALIOUX – Website + Admin-Backend. Keine Abhängigkeiten, Node >= 18.
 const http = require('http'), fs = require('fs'), path = require('path'), crypto = require('crypto');
 
 const PORT = process.env.PORT || 3000;
@@ -126,4 +126,4 @@ http.createServer(async (req, res) => {
     }
     send(res, 200, fs.readFileSync(f), { 'Content-Type': MIME[path.extname(f).toLowerCase()] || 'application/octet-stream', 'Cache-Control': base === UPL ? 'public,max-age=86400' : 'no-cache' });
   } catch (e) { console.error(e); send(res, 500, { error: 'Serverfehler' }); }
-}).listen(PORT, () => console.log(`VIRIDIAN läuft auf http://localhost:${PORT}  (Admin: /admin/)`));
+}).listen(PORT, () => console.log(`VALIOUX läuft auf http://localhost:${PORT}  (Admin: /admin/)`));

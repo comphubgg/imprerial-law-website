@@ -1,38 +1,144 @@
 {
   "org": {
-    "name": "VIRIDIAN",
-    "tagline": "GROW. WIN. REPEAT.",
-    "description": "VIRIDIAN ist eine Fortnite-Esports-Organisation mit Pro-Team, Academy und Content-Creators. Wir bauen Talente auf, gewinnen Turniere und bringen die Community mit Live-Streams und eigenen Shows näher an den Sport.",
-    "accent": "#14E27A",
-    "accent2": "#C6FF3D",
-    "logo": "/logo.svg",
+    "name": "VALIOUX",
+    "tagline": "FEARLESS. ELEVATED.",
+    "description": "VALIOUX ist eine Fortnite-Esports-Organisation mit Pro-Team, Academy und Content-Creators. Wir bauen Talente auf, gewinnen Turniere und bringen die Community mit Live-Streams und eigenen Shows näher an den Sport.",
+    "logo": "/logo.png",
     "heroImage": "",
     "twitchChannel": "",
     "contactEmail": "business@example.com",
-    "socials": { "x": "", "twitch": "", "youtube": "", "instagram": "", "tiktok": "", "discord": "" },
+    "socials": {
+      "x": "",
+      "twitch": "",
+      "youtube": "",
+      "instagram": "",
+      "tiktok": "",
+      "discord": ""
+    },
     "shopUrl": "",
     "showAcademy": true,
     "showCreators": true,
-    "showShows": true
+    "showShows": true,
+    "theme": "platin",
+    "themeLogos": {}
   },
-  "games": [ { "id": "g-fn", "name": "Fortnite", "slug": "fortnite", "active": true } ],
+  "games": [
+    {
+      "id": "g-fn",
+      "name": "Fortnite",
+      "slug": "fortnite",
+      "active": true
+    }
+  ],
   "teams": [
-    { "id": "t-pro", "gameId": "g-fn", "name": "VIRIDIAN Pro", "tier": "pro", "active": true },
-    { "id": "t-acad", "gameId": "g-fn", "name": "VIRIDIAN Academy", "tier": "academy", "active": true }
+    {
+      "id": "t-pro",
+      "gameId": "g-fn",
+      "name": "VALIOUX Pro",
+      "tier": "pro",
+      "active": true
+    },
+    {
+      "id": "t-acad",
+      "gameId": "g-fn",
+      "name": "VALIOUX Academy",
+      "tier": "academy",
+      "active": true
+    }
   ],
   "players": [
-    { "id": "p1", "handle": "Beispiel1", "realName": "", "role": "Fragger", "country": "DE", "teamId": "t-pro", "photo": "", "bio": "Platzhalter – im Admin-Panel ersetzen.", "socials": { "x": "", "twitch": "", "youtube": "", "instagram": "", "tiktok": "" }, "active": true },
-    { "id": "p2", "handle": "Beispiel2", "realName": "", "role": "IGL", "country": "DE", "teamId": "t-pro", "photo": "", "bio": "Platzhalter – im Admin-Panel ersetzen.", "socials": { "x": "", "twitch": "", "youtube": "", "instagram": "", "tiktok": "" }, "active": true },
-    { "id": "p3", "handle": "Beispiel3", "realName": "", "role": "Talent", "country": "DE", "teamId": "t-acad", "photo": "", "bio": "Platzhalter – im Admin-Panel ersetzen.", "socials": { "x": "", "twitch": "", "youtube": "", "instagram": "", "tiktok": "" }, "active": true }
+    {
+      "id": "p1",
+      "handle": "Beispiel1",
+      "realName": "",
+      "role": "Fragger",
+      "country": "DE",
+      "teamId": "t-pro",
+      "photo": "",
+      "bio": "Platzhalter – im Admin-Panel ersetzen.",
+      "socials": {
+        "x": "",
+        "twitch": "",
+        "youtube": "",
+        "instagram": "",
+        "tiktok": ""
+      },
+      "active": true
+    },
+    {
+      "id": "p2",
+      "handle": "Beispiel2",
+      "realName": "",
+      "role": "IGL",
+      "country": "DE",
+      "teamId": "t-pro",
+      "photo": "",
+      "bio": "Platzhalter – im Admin-Panel ersetzen.",
+      "socials": {
+        "x": "",
+        "twitch": "",
+        "youtube": "",
+        "instagram": "",
+        "tiktok": ""
+      },
+      "active": true
+    },
+    {
+      "id": "p3",
+      "handle": "Beispiel3",
+      "realName": "",
+      "role": "Talent",
+      "country": "DE",
+      "teamId": "t-acad",
+      "photo": "",
+      "bio": "Platzhalter – im Admin-Panel ersetzen.",
+      "socials": {
+        "x": "",
+        "twitch": "",
+        "youtube": "",
+        "instagram": "",
+        "tiktok": ""
+      },
+      "active": true
+    }
   ],
   "creators": [
-    { "id": "c1", "handle": "CreatorBeispiel", "platform": "twitch", "twitchChannel": "", "photo": "", "bio": "Platzhalter-Creator.", "socials": { "x": "", "twitch": "", "youtube": "", "instagram": "", "tiktok": "" }, "active": true }
+    {
+      "id": "c1",
+      "handle": "CreatorBeispiel",
+      "platform": "twitch",
+      "twitchChannel": "",
+      "photo": "",
+      "bio": "Platzhalter-Creator.",
+      "socials": {
+        "x": "",
+        "twitch": "",
+        "youtube": "",
+        "instagram": "",
+        "tiktok": ""
+      },
+      "active": true
+    }
   ],
   "shows": [
-    { "id": "s1", "title": "VIRIDIAN Weekly", "description": "Der wöchentliche Rückblick: Highlights, Clips, Interviews.", "schedule": "Sonntags 19:00", "link": "", "image": "", "active": true }
+    {
+      "id": "s1",
+      "title": "VALIOUX Weekly",
+      "description": "Der wöchentliche Rückblick: Highlights, Clips, Interviews.",
+      "schedule": "Sonntags 19:00",
+      "link": "",
+      "image": "",
+      "active": true
+    }
   ],
   "news": [
-    { "id": "n1", "title": "Willkommen bei VIRIDIAN", "body": "Die Reise beginnt. Folge uns auf allen Kanälen und verpasse nichts.", "date": "2026-10-07", "image": "" }
+    {
+      "id": "n1",
+      "title": "Willkommen bei VALIOUX",
+      "body": "Die Reise beginnt. Folge uns auf allen Kanälen und verpasse nichts.",
+      "date": "2026-10-07",
+      "image": ""
+    }
   ],
   "matches": [],
   "sponsors": []

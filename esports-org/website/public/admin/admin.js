@@ -41,7 +41,7 @@ function showLogin() {
   const pw = h('input', { type: 'password', placeholder: 'Passwort', autofocus: true, style: 'width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--text);margin:14px 0' });
   const go = async () => { try { await api('login', 'POST', { password: pw.value }); start(); } catch (e) { toast(e.message, 1); } };
   pw.addEventListener('keydown', e => e.key === 'Enter' && go());
-  $('#app').replaceChildren(h('div', { class: 'login' }, h('img', { src: '/logo.svg', alt: '' }), h('h1', {}, 'Admin'), pw, h('button', { class: 'btn', onclick: go }, 'Einloggen')));
+  $('#app').replaceChildren(h('div', { class: 'login' }, h('img', { src: '/logo.png', alt: '' }), h('h1', {}, 'Admin'), pw, h('button', { class: 'btn', onclick: go }, 'Einloggen')));
 }
 
 function field(def, val, form) {
@@ -55,11 +55,12 @@ function field(def, val, form) {
   wrap.append(h('label', {}, label));
   if (type === 'textarea') el = h('textarea', { value: val || '' });
   else if (type === 'select') { el = h('select', {}, opt.options.map(([v, l]) => h('option', { value: v }, l))); el.value = val || opt.options[0][0]; }
+  else if (type === 'theme') { el = h('select', {}, Object.entries(window.THEMES).map(([k, t]) => h('option', { value: k }, t.name))); el.value = val || 'platin'; wrap.append(h('div', { class: 'hint' }, 'Ändert Farben der ganzen Website – z. B. Weihnachten, Winter, Pride.')); }
   else if (type.startsWith('ref:')) { const c = type.slice(4); el = h('select', {}, h('option', { value: '' }, '– keine –'), DB[c].map(i => h('option', { value: i.id }, i.name || i.handle))); el.value = val || ''; }
   else if (type === 'image') {
-    let cur = val || ''; const pv = h('img', { src: cur || '/logo.svg', alt: '' }); const fi = h('input', { type: 'file', accept: 'image/png,image/jpeg,image/webp,image/gif' });
+    let cur = val || ''; const pv = h('img', { src: cur || '/logo.png', alt: '' }); const fi = h('input', { type: 'file', accept: 'image/png,image/jpeg,image/webp,image/gif' });
     fi.onchange = () => { const f = fi.files[0]; if (!f) return; if (f.size > 5e6) return toast('Max 5 MB', 1); const r = new FileReader(); r.onload = async () => { try { const j = await api('upload', 'POST', { name: f.name, dataUrl: r.result }); cur = j.url; pv.src = cur; toast('Bild hochgeladen'); } catch (e) { toast(e.message, 1); } }; r.readAsDataURL(f); };
-    wrap.append(h('div', { class: 'imgf' }, pv, fi, h('button', { type: 'button', class: 'btn ghost sm', onclick: () => { cur = ''; pv.src = '/logo.svg'; } }, 'Entfernen')), h('div', { class: 'hint' }, 'PNG, JPG, WEBP oder GIF, max. 5 MB'));
+    wrap.append(h('div', { class: 'imgf' }, pv, fi, h('button', { type: 'button', class: 'btn ghost sm', onclick: () => { cur = ''; pv.src = '/logo.png'; } }, 'Entfernen')), h('div', { class: 'hint' }, 'PNG, JPG, WEBP oder GIF, max. 5 MB'));
     form.get[key] = () => cur; return wrap;
   } else el = h('input', { type: type === 'date' ? 'date' : 'text', value: val || '', required: opt.required ? true : null });
   wrap.append(el); if (opt.hint) wrap.append(h('div', { class: 'hint' }, opt.hint)); form.get[key] = () => el.value; return wrap;
@@ -75,12 +76,11 @@ function makeForm(defs, data, onSave, onCancel, extra) {
 function viewOrg() {
   const o = DB.org;
   const defs = [['name', 'Organisationsname', 'text', { required: 1 }], ['tagline', 'Claim / Slogan', 'text'], ['description', 'Beschreibung', 'textarea'],
-    ['logo', 'Logo', 'image'], ['twitchChannel', 'Haupt-Twitch-Kanal (Live-Player im Hero)', 'text', { hint: 'Nur der Kanalname, z. B. viridian' }],
-    ['accent', 'Hauptfarbe (Hex)', 'text', { hint: 'z. B. #14E27A – ändert die ganze Website' }], ['accent2', 'Zweitfarbe (Hex)', 'text'],
+    ['theme', 'Farbwelt (Saison-Theme)', 'theme'], ['logo', 'Logo (Standard)', 'image'], ['themeLogo', 'Spezial-Logo nur für die gewählte Farbwelt (optional)', 'image'], ['twitchChannel', 'Haupt-Twitch-Kanal (Live-Player im Hero)', 'text', { hint: 'Nur der Kanalname, z. B. viridian' }],
     ['contactEmail', 'Kontakt-E-Mail', 'text'], ['shopUrl', 'Shop-Link', 'text'], ['socials', 'Social-Media der Organisation', 'socials'],
     ['showAcademy', 'Academy-Bereich anzeigen', 'check'], ['showCreators', 'Creators-Bereich anzeigen', 'check'], ['showShows', 'Shows-Bereich anzeigen', 'check']];
-  const f = makeForm(defs, o, async out => {
-    if (!/^#[0-9a-f]{6}$/i.test(out.accent) || !/^#[0-9a-f]{6}$/i.test(out.accent2)) throw new Error('Farben als Hex, z. B. #14E27A');
+  const f = makeForm(defs, { ...o, themeLogo: (o.themeLogos || {})[o.theme] || '' }, async out => {
+    out.themeLogos = { ...(o.themeLogos || {}), [out.theme]: out.themeLogo || '' }; delete out.themeLogo;
     out.socials.discord = dc2.value.trim(); await api('org', 'PUT', out); await refresh(); toast('Gespeichert'); });
   const dc2 = h('input', { type: 'text', value: o.socials.discord || '', placeholder: 'Invite-Link' });
   f.insertBefore(h('div', { class: 'f' }, h('label', {}, 'Discord-Einladungslink'), dc2), f.querySelector('.bar'));
@@ -115,7 +115,7 @@ function viewBackup() {
 function render() {
   const nav = [['org', 'Organisation'], ...Object.entries(SCHEMA).map(([k, v]) => [k, v.label]), ['backup', 'Backup']];
   const main = h('main', {}, ...(view === 'org' ? viewOrg() : view === 'backup' ? viewBackup() : viewList(view)));
-  $('#app').replaceChildren(h('div', { class: 'layout' }, h('aside', {}, h('div', { class: 'logo' }, h('img', { src: '/logo.svg', alt: '' }), 'ADMIN'),
+  $('#app').replaceChildren(h('div', { class: 'layout' }, h('aside', {}, h('div', { class: 'logo' }, h('img', { src: '/logo.png', alt: '' }), 'ADMIN'),
     ...nav.map(([k, l]) => h('button', { class: 't' + (k === view ? ' on' : ''), onclick: () => { view = k; render(); } }, l)), h('div', { class: 'sep' }),
     h('button', { class: 't', onclick: () => open('/', '_blank') }, 'Website ansehen ↗'), h('button', { class: 't', onclick: async () => { await api('logout'); showLogin(); } }, 'Logout')), main));
 }

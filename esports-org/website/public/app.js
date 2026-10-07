@@ -31,7 +31,7 @@ function hero() {
   if (ch && (isLive || !LIVE.enabled)) {
     box = h('div', { class: 'stream' }, h('iframe', { src: `https://player.twitch.tv/?channel=${ch}&parent=${location.hostname}&muted=true`, allowfullscreen: 'true', title: 'Twitch' }));
   } else {
-    box = h('div', { class: 'stream' }, h('div', { class: 'off' }, h('img', { src: o.logo || '/logo.svg', alt: '' }),
+    box = h('div', { class: 'stream' }, h('div', { class: 'off' }, h('img', { src: o.logoActive || '/logo.png', alt: '' }),
       h('b', {}, ch ? 'Gerade offline' : 'Stream folgt bald'), h('span', {}, ch ? 'Sei dabei, sobald wir live gehen.' : 'Kanal im Admin-Panel hinterlegen.')));
   }
   const words = o.name.split(' ');
@@ -71,7 +71,7 @@ function rosterSection(tier, id, title, accent, sub) {
 
 function creators() {
   const cs = D.creators.filter(c => c.active !== false);
-  return section('creators', 'Content', 'Creators', 'Streams, Clips und Community – die Gesichter hinter VIRIDIAN.',
+  return section('creators', 'Content', 'Creators', 'Streams, Clips und Community – die Gesichter hinter VALIOUX.',
     cs.length ? h('div', { class: 'cards' }, cs.map(c => {
       const ch = chan(c.twitchChannel), live = ch && LIVE.live[ch.toLowerCase()];
       return h('article', { class: 'card' }, live ? h('span', { class: 'badge live' }, 'Live') : null, photo(c.photo, c.handle),
@@ -120,9 +120,8 @@ function about() {
 function build() {
   const o = D.org;
   document.title = `${o.name} Esports`;
-  document.documentElement.style.setProperty('--accent', o.accent || '#14E27A');
-  document.documentElement.style.setProperty('--accent2', o.accent2 || '#C6FF3D');
-  $('#brandName').textContent = o.name; $('#brandLogo').src = o.logo || '/logo.svg';
+  applyTheme(o.theme); const logo = (o.themeLogos || {})[o.theme] || o.logo || '/logo.png'; o.logoActive = logo;
+  $('#brandName').textContent = o.name; $('#brandLogo').src = logo;
   const links = [['#roster', 'Roster'], o.showAcademy && ['#academy', 'Academy'], o.showCreators && ['#creators', 'Creators'], o.showShows && ['#shows', 'Shows'], ['#news', 'News'], D.sponsors.length && ['#partners', 'Partner']].filter(Boolean);
   const menu = $('#menu'); menu.replaceChildren(...links.map(([hr, t]) => h('a', { href: hr, onclick: () => menu.classList.remove('open') }, t)));
   if (o.shopUrl && safeUrl(o.shopUrl)) menu.append(h('a', { href: safeUrl(o.shopUrl), target: '_blank', rel: 'noopener' }, 'Shop'));
